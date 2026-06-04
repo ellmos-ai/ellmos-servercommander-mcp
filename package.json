@@ -1,6 +1,6 @@
 {
   "name": "ellmos-servercommander-mcp",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Alpha MCP server for server operations: deploy dry-runs, mail status, log analysis, and health checks.",
   "type": "commonjs",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "ellmos-servercommander": "bin/ellmos-servercommander.js"
   },
   "files": [
+    "assets/",
     "bin/",
     "config/",
     "src/",
