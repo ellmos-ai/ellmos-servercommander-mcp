@@ -4,6 +4,7 @@ from threading import Thread
 import pytest
 
 from servercommander.config import ServerCommanderConfig
+from servercommander.i18n import normalize_locale
 from servercommander.server import ServerCommanderRegistry
 
 
@@ -23,6 +24,20 @@ async def test_registry_lists_expected_tools():
         "sc_logs_analyze",
         "sc_health_check",
     }
+
+
+def test_tool_descriptions_are_localized():
+    registry = ServerCommanderRegistry(ServerCommanderConfig(language="de"))
+
+    tools = {tool.name: tool for tool in registry.list_tools()}
+
+    assert tools["sc_health_check"].description.startswith("Prüft HTTP-Endpunkte")
+
+
+def test_locale_normalization_and_fallback():
+    assert normalize_locale("de-DE") == "de"
+    assert normalize_locale("ja_JP") == "ja"
+    assert normalize_locale("klingon") == "en"
 
 
 @pytest.mark.asyncio

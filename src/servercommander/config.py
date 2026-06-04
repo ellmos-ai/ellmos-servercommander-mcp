@@ -22,6 +22,7 @@ DEFAULT_CONFIG_PATHS = [
 @dataclass
 class ServerCommanderConfig:
     server_name: str = "ellmos-servercommander"
+    language: str = "en"
     deploy_profiles: dict[str, dict[str, Any]] = field(default_factory=dict)
     mail: dict[str, Any] = field(default_factory=dict)
     logs: dict[str, Any] = field(default_factory=dict)
@@ -45,7 +46,7 @@ def load_config(path: str | Path | None = None) -> ServerCommanderConfig:
                     break
 
     if path is None or not Path(path).exists():
-        return ServerCommanderConfig()
+        return ServerCommanderConfig(language=_env_language("en"))
 
     with open(path, "rb") as f:
         raw = tomllib.load(f)
@@ -53,9 +54,11 @@ def load_config(path: str | Path | None = None) -> ServerCommanderConfig:
     deploy = raw.get("deploy", {})
     profiles = deploy.get("profiles", {}) if isinstance(deploy, dict) else {}
     server = raw.get("server", {})
+    language = _env_language(server.get("language") or server.get("locale") or "en")
 
     return ServerCommanderConfig(
         server_name=server.get("name", "ellmos-servercommander"),
+        language=language,
         deploy_profiles=profiles if isinstance(profiles, dict) else {},
         mail=raw.get("mail", {}),
         logs=raw.get("logs", {}),
@@ -69,3 +72,7 @@ def resolve_env_value(value: Any) -> Any:
     if isinstance(value, str) and value.startswith("$") and len(value) > 1:
         return os.environ.get(value[1:], "")
     return value
+
+
+def _env_language(default: str) -> str:
+    return os.environ.get("SERVERCOMMANDER_LANG") or os.environ.get("SERVERCOMMANDER_LOCALE") or default

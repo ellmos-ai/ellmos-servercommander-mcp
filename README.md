@@ -1,15 +1,27 @@
 # ellmos-servercommander-mcp
 
-Alpha-MCP-Server für Server-Operationen: Deployment-Planung, Mail-Status, Log-Analyse und HTTP-Health-Checks.
+Alpha MCP server for server operations: deployment dry-runs, mail status, access-log analysis, and HTTP health checks.
+
+German README: [README_de.md](README_de.md)
 
 ## Status
 
-- Transport: stdio über das Python-MCP-SDK
-- Paketstatus: Alpha-Paket, GitHub-Repo unter `ellmos-ai` vorgesehen
-- Aktiver Kern: MCP-Tool-Liste, MCP-Tool-Dispatch, Config-Lader, `sc_logs_analyze`, `sc_health_check`
-- Sichere Alpha-Handler: `sc_deploy` erstellt lokale SHA256-Manifeste im Dry-run, `sc_mail_*` führt noch keine IMAP/SMTP-Aktionen aus
+- Transport: stdio via the Python MCP SDK
+- Package status: public alpha package under `ellmos-ai`
+- Current core: MCP tool listing, MCP tool dispatch, config loading, `sc_logs_analyze`, `sc_health_check`
+- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests in dry-run mode; `sc_mail_*` does not perform IMAP/SMTP operations yet
+- i18n: localized MCP tool descriptions for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
-## Installation für lokale Tests
+## Install
+
+The npm package contains a Node wrapper that starts the Python server. You still need Python 3.10+ and the Python package `mcp>=1.0.0`.
+
+```powershell
+npm install -g ellmos-servercommander-mcp@alpha
+ellmos-servercommander
+```
+
+For local development:
 
 ```powershell
 cd "C:\Users\User\OneDrive\.TOPICS\.AI\.MCP\ellmos-servercommander-mcp"
@@ -18,55 +30,51 @@ python -m pip install -e ".[dev]"
 python -m pytest -q
 ```
 
-Keine `.venv` im OneDrive-Ordner anlegen. Falls eine isolierte Umgebung gebraucht wird, außerhalb von OneDrive erstellen.
+Do not create a `.venv` inside a OneDrive-synced folder. If you need an isolated environment, create it outside OneDrive.
 
-## npm Alpha
-
-Das npm-Paket enthält einen Node-Wrapper, der den Python-Server startet. Voraussetzung bleibt Python 3.10+ mit installiertem Python-Paket `mcp>=1.0.0`.
-
-```powershell
-npm install -g ellmos-servercommander-mcp@alpha
-ellmos-servercommander
-```
-
-## Start
-
-```powershell
-ellmos-servercommander
-```
-
-Oder direkt aus dem Quellbaum:
+## Start From Source
 
 ```powershell
 $env:PYTHONPATH = "src"
 python -m servercommander.server
 ```
 
-## Konfiguration
+## Configuration
 
-Beispiel: [config/servercommander.example.toml](config/servercommander.example.toml)
+Example: [config/servercommander.example.toml](config/servercommander.example.toml)
 
-Standardpfade:
+Default paths:
 
 - `%USERPROFILE%\.servercommander\config.toml`
 - `%USERPROFILE%\.config\servercommander\config.toml`
-- Override per `SERVERCOMMANDER_CONFIG`
+- override with `SERVERCOMMANDER_CONFIG`
 
-Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_PASSWORD` oder `$SFTP_PASSWORD`.
+Language can be configured with `[server].language`, `SERVERCOMMANDER_LANG`, or `SERVERCOMMANDER_LOCALE`.
+
+```toml
+[server]
+name = "ellmos-servercommander"
+language = "en" # en, de, es, zh, ja, ru
+```
+
+Secrets should be referenced through environment variables, for example `$MAIL_PASSWORD` or `$SFTP_PASSWORD`.
 
 ## Tools
 
-- `sc_health_check`: prüft HTTP-Endpunkte und meldet Status-Code plus Latenz
-- `sc_logs_analyze`: analysiert Apache-/Nginx-Access-Logs aus Text oder Datei
-- `sc_deploy`: erstellt im Alpha-Modus einen Deployment-Plan mit lokalem SHA256-Manifest, führt aber noch keinen Upload aus
-- `sc_deploy_status`: zeigt konfigurierte Deploy-Profile und den noch fehlenden History-Status
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: liefern aktuell sichere Alpha-Statusantworten ohne IMAP/SMTP-Verbindung
+- `sc_health_check`: checks HTTP endpoints and reports status code plus latency
+- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file
+- `sc_deploy`: creates a deployment plan with a local SHA256 manifest, but does not upload yet
+- `sc_deploy_status`: shows configured deploy profiles and the current alpha history status
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses without IMAP/SMTP connections
 
-## Entwicklung
+## Development
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONDONTWRITEBYTECODE = "1"
 python -m pytest -q
+npm run smoke
+npm pack --dry-run
 ```
 
-Der nächste sinnvolle Schritt ist die Extraktion der echten SFTP-, IMAP/SMTP- und erweiterten Traffic-Module aus `.UMBRUCH` in credential-freie Adapter mit lokalen Tests.
+Next useful step: extract real SFTP, IMAP/SMTP, and extended traffic-analysis modules from `.UMBRUCH` into credential-free adapters with local tests.

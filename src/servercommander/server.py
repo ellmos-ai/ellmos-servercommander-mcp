@@ -15,6 +15,7 @@ from mcp.server.stdio import stdio_server
 from servercommander.config import ServerCommanderConfig, load_config
 from servercommander.deploy import sc_deploy, sc_deploy_status
 from servercommander.health import sc_health_check
+from servercommander.i18n import I18n
 from servercommander.logs import sc_logs_analyze
 from servercommander.mail import sc_mail_list, sc_mail_read, sc_mail_search, sc_mail_send
 from servercommander.tooling import ToolDefinition
@@ -31,9 +32,17 @@ class ServerCommanderRegistry:
         self.config = config
         self._tools = build_tools(config)
         self._handlers = {tool.name: tool.handler for tool in self._tools}
+        self.i18n = I18n(config.language)
 
     def list_tools(self) -> list[types.Tool]:
-        return [tool.as_mcp_tool() for tool in self._tools]
+        return [
+            types.Tool(
+                name=tool.name,
+                description=self.i18n.t(f"tool.{tool.name}", tool.description),
+                inputSchema=tool.input_schema,
+            )
+            for tool in self._tools
+        ]
 
     async def call_tool(self, name: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
         handler = self._handlers.get(name)

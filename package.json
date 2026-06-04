@@ -1,6 +1,6 @@
 {
   "name": "ellmos-servercommander-mcp",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "Alpha MCP server for server operations: deploy dry-runs, mail status, log analysis, and health checks.",
   "type": "commonjs",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "config/",
     "src/",
     "README.md",
+    "README_de.md",
     "KONZEPT.md",
     "pyproject.toml"
   ],
@@ -29,6 +30,7 @@
     "server",
     "deploy",
     "logs",
+    "i18n",
     "health-checks",
     "ellmos"
   ],
