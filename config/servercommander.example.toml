@@ -1,0 +1,38 @@
+# ellmos-servercommander-mcp — Konfiguration
+# Kopieren nach ~/.servercommander/config.toml und anpassen.
+
+[server]
+name = "ellmos-servercommander"
+
+# --- Deploy-Profile ---
+[deploy.profiles.example_site]
+host = "sftp.example.com"
+user = "deploy-user"
+remote_path = "/var/www/example"
+local_path = "./dist"
+protocol = "sftp"
+# password = "$SFTP_PASSWORD"    # Env-Variable referenzieren
+
+# [deploy.profiles.other]
+# host = "..."
+
+# --- Mail ---
+[mail]
+imap_host = "imap.example.com"
+imap_port = 993
+smtp_host = "smtp.example.com"
+smtp_port = 587
+username = "$MAIL_USER"
+password = "$MAIL_PASSWORD"
+cache_db = "~/.servercommander/mail_cache.db"
+
+# --- Log-Analyse ---
+[logs]
+default_format = "apache"   # apache | nginx
+
+# --- Health-Checks ---
+[health]
+timeout = 5
+endpoints = [
+    "https://example.com/health",
+]

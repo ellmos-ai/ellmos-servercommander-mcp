@@ -1,0 +1,46 @@
+{
+  "name": "ellmos-servercommander-mcp",
+  "version": "0.1.0-alpha.1",
+  "description": "Alpha MCP server for server operations: deploy dry-runs, mail status, log analysis, and health checks.",
+  "type": "commonjs",
+  "license": "MIT",
+  "author": "Lukas Geiger",
+  "homepage": "https://github.com/ellmos-ai/ellmos-servercommander-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ellmos-ai/ellmos-servercommander-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ellmos-ai/ellmos-servercommander-mcp/issues"
+  },
+  "bin": {
+    "ellmos-servercommander": "bin/ellmos-servercommander.js"
+  },
+  "files": [
+    "bin/",
+    "config/",
+    "src/",
+    "README.md",
+    "KONZEPT.md",
+    "pyproject.toml"
+  ],
+  "keywords": [
+    "mcp",
+    "server",
+    "deploy",
+    "logs",
+    "health-checks",
+    "ellmos"
+  ],
+  "scripts": {
+    "test": "python -m pytest -q",
+    "smoke": "node bin/ellmos-servercommander.js --version"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha"
+  }
+}
