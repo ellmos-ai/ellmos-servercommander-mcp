@@ -83,9 +83,9 @@ endpoints = [
 
 ## Quellmodule
 
-| Modul | Quellpfad | LoC | Dependencies |
+| Modul | Herkunft | LoC | Dependencies |
 |---|---|---|---|
-| deploy.py | `.TOPICS/.UMBRUCH/deploy.py` | ~221 | paramiko (SFTP) |
-| cli.py (Mail) | `.TOPICS/.UMBRUCH/cli.py` | ~516 | stdlib (imaplib, smtplib) |
-| traffic_analyzer.py | `.TOPICS/.UMBRUCH/traffic_analyzer.py` | ~300 | stdlib |
+| deploy.py | interne Extraktionsnotiz | ~221 | paramiko (SFTP) |
+| cli.py (Mail) | interne Extraktionsnotiz | ~516 | stdlib (imaplib, smtplib) |
+| traffic_analyzer.py | interne Extraktionsnotiz | ~300 | stdlib |
 | health.py | neu | ~50 | stdlib (urllib) |
