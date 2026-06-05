@@ -14,7 +14,7 @@ German README: [README_de.md](README_de.md)
 - Package status: public alpha package under `ellmos-ai`
 - Current core: MCP tool listing, MCP tool dispatch, config loading, `sc_logs_analyze`, `sc_health_check`
 - Safe alpha handlers: `sc_deploy` builds local SHA256 manifests in dry-run mode; `sc_mail_*` does not perform IMAP/SMTP operations yet
-- i18n: localized MCP tool descriptions for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
+- i18n: localized MCP tool descriptions, input-schema field descriptions, and unknown-tool errors for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
 ## Install
 

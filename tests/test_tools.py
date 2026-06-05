@@ -34,6 +34,25 @@ def test_tool_descriptions_are_localized():
     assert tools["sc_health_check"].description.startswith("Prüft HTTP-Endpunkte")
 
 
+def test_tool_input_schema_descriptions_are_localized():
+    registry = ServerCommanderRegistry(ServerCommanderConfig(language="de"))
+
+    tools = {tool.name: tool for tool in registry.list_tools()}
+    properties = tools["sc_health_check"].inputSchema["properties"]
+
+    assert properties["endpoints"]["description"] == "Zu prüfende HTTP-Endpunkt-URLs."
+    assert properties["timeout"]["description"] == "Request-Timeout in Sekunden."
+
+
+def test_tool_input_schema_descriptions_gain_english_defaults():
+    registry = ServerCommanderRegistry(ServerCommanderConfig())
+
+    tools = {tool.name: tool for tool in registry.list_tools()}
+    properties = tools["sc_logs_analyze"].inputSchema["properties"]
+
+    assert properties["log_text"]["description"] == "Inline access-log text."
+
+
 def test_locale_normalization_and_fallback():
     assert normalize_locale("de-DE") == "de"
     assert normalize_locale("ja_JP") == "ja"
@@ -55,6 +74,14 @@ async def test_logs_analyze_inline_text():
     assert result["parsed_lines"] == 2
     assert result["status_counts"] == {"200": 1, "404": 1}
     assert result["bot_requests"] == 1
+
+
+@pytest.mark.asyncio
+async def test_registry_rejects_unknown_tool_with_localized_error():
+    registry = ServerCommanderRegistry(ServerCommanderConfig(language="de"))
+
+    with pytest.raises(ValueError, match="Unbekanntes ServerCommander-Tool"):
+        await registry.call_tool("sc_missing", {})
 
 
 @pytest.mark.asyncio

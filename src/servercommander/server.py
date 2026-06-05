@@ -39,7 +39,7 @@ class ServerCommanderRegistry:
             types.Tool(
                 name=tool.name,
                 description=self.i18n.t(f"tool.{tool.name}", tool.description),
-                inputSchema=tool.input_schema,
+                inputSchema=self.i18n.localize_schema(tool.input_schema),
             )
             for tool in self._tools
         ]
@@ -47,7 +47,8 @@ class ServerCommanderRegistry:
     async def call_tool(self, name: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
         handler = self._handlers.get(name)
         if handler is None:
-            raise ValueError(f"Unknown ServerCommander tool: {name}")
+            message = self.i18n.t("error.unknown_tool", "Unknown ServerCommander tool: {name}").format(name=name)
+            raise ValueError(message)
         return await handler(**(arguments or {}))
 
 

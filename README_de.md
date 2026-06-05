@@ -14,7 +14,7 @@ Englische Standard-README: [README.md](README.md)
 - Paketstatus: öffentliches Alpha-Paket unter `ellmos-ai`
 - Aktiver Kern: MCP-Tool-Liste, MCP-Tool-Dispatch, Config-Lader, `sc_logs_analyze`, `sc_health_check`
 - Sichere Alpha-Handler: `sc_deploy` erstellt lokale SHA256-Manifeste im Dry-run, `sc_mail_*` führt noch keine IMAP/SMTP-Aktionen aus
-- i18n: lokalisierte MCP-Tool-Beschreibungen für `en`, `de`, `es`, `zh`, `ja`, `ru` mit Englisch-Fallback
+- i18n: lokalisierte MCP-Tool-Beschreibungen, Input-Schema-Feldbeschreibungen und Unknown-Tool-Fehler für `en`, `de`, `es`, `zh`, `ja`, `ru` mit Englisch-Fallback
 
 ## Installation
 
