@@ -33,6 +33,7 @@ async def sc_deploy(
         "local_path": local_path or profile_config.get("local_path"),
         "remote_path": remote_path or profile_config.get("remote_path"),
         "protocol": profile_config.get("protocol", "sftp"),
+        "port": profile_config.get("port", 22),
     }
     missing = [key for key in ("host", "user", "local_path", "remote_path") if not plan.get(key)]
     manifest = _build_manifest(plan["local_path"]) if plan.get("local_path") else None
@@ -43,6 +44,7 @@ async def sc_deploy(
         "missing": missing,
         "plan": plan,
         "manifest": manifest,
+        "diagnostics": _deploy_diagnostics(profile_config, plan, manifest),
     }
 
 
@@ -58,6 +60,7 @@ async def sc_deploy_status(
         "message": "Deployment history storage is not implemented yet.",
         "profiles": profiles,
         "selected_profile": selected,
+        "diagnostics": _deploy_diagnostics(selected or {}, selected or {}, None) if profile else None,
     }
 
 
@@ -97,4 +100,25 @@ def _file_entry(path: Path, root: Path) -> dict[str, Any]:
         "path": path.relative_to(root).as_posix(),
         "size": path.stat().st_size,
         "sha256": digest.hexdigest(),
+    }
+
+
+def _deploy_diagnostics(profile_config: dict[str, Any], plan: dict[str, Any], manifest: dict[str, Any] | None) -> dict[str, Any]:
+    protocol = str(plan.get("protocol") or "sftp").lower()
+    auth_methods = []
+    if profile_config.get("key_path"):
+        auth_methods.append("key_path")
+    if profile_config.get("password"):
+        auth_methods.append("password")
+    if not auth_methods:
+        auth_methods.append("agent_or_prompt")
+    local_status = manifest.get("status") if manifest else "not_checked"
+    return {
+        "protocol_supported": protocol == "sftp",
+        "protocol": protocol,
+        "port": int(plan.get("port") or 22),
+        "auth_methods_configured": auth_methods,
+        "local_status": local_status,
+        "execution_enabled": False,
+        "next_step": "Review the dry-run plan and enable a future SFTP executor only after credential handling is finalized.",
     }

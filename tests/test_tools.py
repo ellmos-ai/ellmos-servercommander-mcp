@@ -74,6 +74,27 @@ async def test_logs_analyze_inline_text():
     assert result["parsed_lines"] == 2
     assert result["status_counts"] == {"200": 1, "404": 1}
     assert result["bot_requests"] == 1
+    assert result["unique_hosts"] == 1
+    assert result["error_rate"] == 0.5
+    assert result["top_error_paths"] == [("/robots.txt", 1)]
+
+
+@pytest.mark.asyncio
+async def test_logs_analyze_reports_referers_bytes_and_suspicious_paths():
+    registry = ServerCommanderRegistry(ServerCommanderConfig())
+    log_text = (
+        '10.0.0.1 - - [04/Jun/2026:20:00:00 +0200] '
+        '"GET /.env HTTP/1.1" 404 5 "https://ref.example/" "curl/8"\n'
+        '10.0.0.2 - - [04/Jun/2026:20:00:01 +0200] '
+        '"POST /login HTTP/1.1" 403 7 "-" "Mozilla/5.0"\n'
+    )
+
+    result = await registry.call_tool("sc_logs_analyze", {"log_text": log_text})
+
+    assert result["unique_hosts"] == 2
+    assert result["total_bytes"] == 12
+    assert result["suspicious_requests"] == 2
+    assert result["top_referers"] == [("https://ref.example/", 1)]
 
 
 @pytest.mark.asyncio
@@ -93,6 +114,7 @@ async def test_deploy_dry_run_reports_missing_fields():
     assert result["status"] == "dry_run"
     assert result["ready"] is False
     assert "host" in result["missing"]
+    assert result["diagnostics"]["execution_enabled"] is False
 
 
 @pytest.mark.asyncio
@@ -117,7 +139,21 @@ async def test_deploy_dry_run_builds_local_manifest(tmp_path):
 
     assert result["ready"] is True
     assert result["manifest"]["file_count"] == 2
+    assert result["diagnostics"]["protocol_supported"] is True
     assert {entry["path"] for entry in result["manifest"]["files"]} == {"index.html", "style.css"}
+
+
+@pytest.mark.asyncio
+async def test_mail_handlers_report_configuration_gaps_without_executing():
+    registry = ServerCommanderRegistry(ServerCommanderConfig(mail={"imap_host": "imap.example.com"}))
+
+    result = await registry.call_tool("sc_mail_list", {"folder": "INBOX"})
+
+    assert result["status"] == "not_implemented"
+    assert result["configured"] is False
+    assert result["checks"]["imap_host"] is True
+    assert "smtp_host" in result["missing"]
+    assert result["capabilities"]["config_diagnostics"] is True
 
 
 @pytest.mark.asyncio

@@ -40,11 +40,27 @@ def _mail_alpha_response(config: ServerCommanderConfig, action: str, request: di
     mail = config.mail
     username = resolve_env_value(mail.get("username", ""))
     password = resolve_env_value(mail.get("password", ""))
-    configured = bool(mail.get("imap_host") and mail.get("smtp_host") and username and password)
+    checks = {
+        "imap_host": bool(mail.get("imap_host")),
+        "smtp_host": bool(mail.get("smtp_host")),
+        "username": bool(username),
+        "password": bool(password),
+    }
+    configured = all(checks.values())
+    missing = [key for key, ok in checks.items() if not ok]
     return {
         "status": "not_implemented",
         "action": action,
         "configured": configured,
+        "missing": missing,
+        "checks": checks,
+        "capabilities": {
+            "list": False,
+            "read": False,
+            "send": False,
+            "search": False,
+            "config_diagnostics": True,
+        },
         "request": request,
         "message": "IMAP/SMTP execution is not implemented in the alpha server.",
     }

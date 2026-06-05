@@ -12,8 +12,8 @@ German README: [README_de.md](README_de.md)
 
 - Transport: stdio via the Python MCP SDK
 - Package status: public alpha package under `ellmos-ai`
-- Current core: MCP tool listing, MCP tool dispatch, config loading, `sc_logs_analyze`, `sc_health_check`
-- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests in dry-run mode; `sc_mail_*` does not perform IMAP/SMTP operations yet
+- Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, richer access-log analysis
+- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests and configuration diagnostics in dry-run mode; `sc_mail_*` reports mail configuration gaps without IMAP/SMTP operations
 - i18n: localized MCP tool descriptions, input-schema field descriptions, and unknown-tool errors for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
 ## Install
@@ -66,10 +66,10 @@ Secrets should be referenced through environment variables, for example `$MAIL_P
 ## Tools
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency
-- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file
-- `sc_deploy`: creates a deployment plan with a local SHA256 manifest, but does not upload yet
-- `sc_deploy_status`: shows configured deploy profiles and the current alpha history status
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses without IMAP/SMTP connections
+- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file, including status classes, bytes, referers, error paths, and suspicious request markers
+- `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet
+- `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and the current alpha history status
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with mail configuration diagnostics and no IMAP/SMTP connections
 
 ## Development
 
@@ -81,4 +81,4 @@ npm run smoke
 npm pack --dry-run
 ```
 
-Next useful step: extract real SFTP, IMAP/SMTP, and extended traffic-analysis modules from `.UMBRUCH` into credential-free adapters with local tests.
+Next useful step: add explicitly configured execution adapters for SFTP and IMAP/SMTP, keep dry-run defaults, and extend log analysis with persisted reports.
