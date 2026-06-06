@@ -1,0 +1,48 @@
+# ellmos-servercommander-mcp
+
+ellmos-servercommander-mcp is an alpha Model Context Protocol (MCP) server for local-first server operations workflows. It exposes diagnostic and dry-run-first tools for HTTP health checks, Apache/Nginx access-log analysis, deployment manifest planning, deployment profile diagnostics, and mail configuration status.
+
+Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
+Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
+MCP registry name: io.github.ellmos-ai/ellmos-servercommander-mcp
+License: MIT
+Runtime: Node.js wrapper plus Python 3.10+ MCP server
+
+## Audience
+
+- Developers who want an MCP server for server operations checks.
+- Operators who want AI-assisted preflight diagnostics before deployment.
+- Claude Desktop, Claude Code, Cursor, and MCP host users looking for local-first operations tools.
+- ellmos/BACH users who want a server-operations sibling to FileCommander, CodeCommander, Clatcher, n8n Manager, and ControlCenter.
+
+## Current Tools
+
+- `sc_health_check`: checks HTTP endpoints and reports status code plus latency.
+- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path.
+- `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics.
+- `sc_deploy_status`: shows configured deployment profiles and alpha history status.
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution.
+
+## Search Phrases
+
+- MCP server operations tools
+- MCP deploy dry-run server
+- MCP access log analyzer
+- MCP HTTP health check tool
+- local-first server management MCP
+- Claude Code server operations MCP
+- safe SFTP deployment planning MCP
+- AI assistant server preflight checks
+- Apache Nginx log analysis MCP
+
+## Disambiguation
+
+This is not the GitHub MCP server, not a generic shell-command MCP server, not a cloud-hosted control panel, and not a production SFTP/IMAP executor yet. The alpha release is intentionally diagnostic, dry-run-first, local-first, and safe by default.
+
+## Related ellmos MCP Servers
+
+- ellmos-filecommander-mcp: filesystem operations, process management, OCR, archives, and exports.
+- ellmos-codecommander-mcp: code analysis, JSON repair, import management, diffs, regex, and format conversion.
+- ellmos-clatcher-mcp: repair, conversion, duplicate detection, batch operations, and document utilities.
+- n8n-manager-mcp: n8n workflow management through MCP.
+- ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.

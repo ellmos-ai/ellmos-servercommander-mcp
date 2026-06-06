@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "Lukas Geiger" }]
-keywords = ["mcp", "deploy", "server-management", "i18n", "ellmos"]
+keywords = ["mcp", "model-context-protocol", "server-operations", "server-management", "deploy", "access-log-analysis", "health-check", "i18n", "ellmos"]
 dependencies = [
     "mcp>=1.0.0",
 ]

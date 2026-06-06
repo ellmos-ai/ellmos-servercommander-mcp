@@ -17,7 +17,17 @@ Englische Standard-README: [README.md](README.md)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 
-**Auffindbarkeit:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp` und gepflegt in der Organisation [`ellmos-ai`](https://github.com/ellmos-ai).
+**Auffindbarkeit:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
+
+## Einstieg
+
+| Ziel | Einstieg |
+|---|---|
+| ServerCommander in Claude Desktop, Claude Code, Cursor oder einen anderen MCP-Host einbinden | [MCP-Client-Konfiguration](#mcp-client-konfiguration) |
+| Einen öffentlichen oder internen HTTP-Endpunkt vor einem Deployment prüfen | `sc_health_check` |
+| Apache-/Nginx-Access-Logs nach Fehlern, Bots, Referern und verdächtigen Pfaden prüfen | `sc_logs_analyze` |
+| Vor SFTP-/SSH-Ausführung ein trockenes Deployment-Manifest bauen | `sc_deploy` und `sc_deploy_status` |
+| Mail-Operationen später vorbereiten, ohne heute versehentlich zu senden | `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search` |
 
 ## Status
 
@@ -116,6 +126,28 @@ Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_P
 - `sc_deploy`: erstellt einen Deployment-Plan mit lokalem SHA256-Manifest und Profildiagnose, führt aber noch keinen Upload aus
 - `sc_deploy_status`: zeigt konfigurierte Deploy-Profile, ausgewählte Profildiagnosen und den aktuellen Alpha-History-Status
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit Mail-Konfigurationsdiagnosen und ohne IMAP/SMTP-Verbindung
+
+## Suche Und Abgrenzung
+
+ServerCommander ist der ellmos-Operations-MCP-Server für lokale Serververwaltungs-Workflows. Nützliche Suchphrasen:
+
+- MCP server operations tools
+- MCP deploy dry-run server
+- MCP access log analyzer
+- MCP HTTP health check tool
+- local-first server management MCP
+- Claude Code server operations MCP
+- safe SFTP deployment planning MCP
+
+Das Repo ist nicht der GitHub-MCP-Server, kein generischer Shell-Command-MCP-Server, kein Hosting-Control-Panel und noch kein produktiver SFTP-/IMAP-Executor. Die aktuelle Alpha-Oberfläche ist bewusst diagnostisch und Dry-run-first.
+
+## ellmos-MCP-Familie
+
+- [ellmos-filecommander-mcp](https://github.com/ellmos-ai/ellmos-filecommander-mcp): Dateisystemoperationen, Prozesssteuerung, OCR, Archive und Exporte
+- [ellmos-codecommander-mcp](https://github.com/ellmos-ai/ellmos-codecommander-mcp): Codeanalyse, JSON-Reparatur, Imports, Diffs, Regex und Formatkonvertierung
+- [ellmos-clatcher-mcp](https://github.com/ellmos-ai/ellmos-clatcher-mcp): Reparatur, Konvertierung, Duplikaterkennung, Batch-Operationen und Dokumentwerkzeuge
+- [n8n-manager-mcp](https://github.com/ellmos-ai/n8n-manager-mcp): n8n-Workflow-Management über MCP
+- [ellmos-controlcenter-mcp](https://github.com/ellmos-ai/ellmos-controlcenter-mcp): lokale MCP-Erkennung, Profile, Bundles und Control-Plane-Checks
 
 ## Entwicklung
 

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ellmos-ai/ellmos-servercommander-mcp",
+  "version": "0.1.0-alpha.6",
+  "title": "ellmos ServerCommander",
+  "description": "Alpha MCP server for server operations: deploy dry-runs, mail status diagnostics, Apache/Nginx access-log analysis, and HTTP health checks.",
+  "websiteUrl": "https://github.com/ellmos-ai/ellmos-servercommander-mcp",
+  "repository": {
+    "url": "https://github.com/ellmos-ai/ellmos-servercommander-mcp",
+    "source": "github",
+    "id": "ellmos-ai/ellmos-servercommander-mcp"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "ellmos-servercommander-mcp",
+      "version": "0.1.0-alpha.6",
+      "transport": { "type": "stdio" },
+      "runtimeHint": "npx"
+    }
+  ]
+}
