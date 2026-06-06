@@ -31,6 +31,8 @@ cache_db = "~/.servercommander/mail_cache.db"
 # --- Log analysis ---
 [logs]
 default_format = "apache"   # apache | nginx
+persist_reports = false
+reports_dir = "~/.servercommander/log_reports"
 
 # --- Health checks ---
 [health]

@@ -1,3 +1,4 @@
+import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
@@ -51,6 +52,7 @@ def test_tool_input_schema_descriptions_gain_english_defaults():
     properties = tools["sc_logs_analyze"].inputSchema["properties"]
 
     assert properties["log_text"]["description"] == "Inline access-log text."
+    assert properties["persist_report"]["description"] == "Persist the analysis summary as a JSON report."
 
 
 def test_locale_normalization_and_fallback():
@@ -95,6 +97,49 @@ async def test_logs_analyze_reports_referers_bytes_and_suspicious_paths():
     assert result["total_bytes"] == 12
     assert result["suspicious_requests"] == 2
     assert result["top_referers"] == [("https://ref.example/", 1)]
+
+
+@pytest.mark.asyncio
+async def test_logs_analyze_can_persist_json_report(tmp_path):
+    registry = ServerCommanderRegistry(ServerCommanderConfig(logs={"reports_dir": str(tmp_path)}))
+    log_text = (
+        '127.0.0.1 - - [04/Jun/2026:20:00:00 +0200] '
+        '"GET /index.html HTTP/1.1" 200 123 "-" "Mozilla/5.0"\n'
+    )
+
+    result = await registry.call_tool(
+        "sc_logs_analyze",
+        {"log_text": log_text, "persist_report": True, "report_name": "../daily report"},
+    )
+
+    report = result["report"]
+    assert report["persisted"] is True
+    assert report["raw_log_text_included"] is False
+    assert report["id"].startswith("daily-report-")
+    assert ".." not in report["id"]
+
+    report_path = tmp_path / f"{report['id']}.json"
+    assert report["path"] == str(report_path)
+    saved = json.loads(report_path.read_text(encoding="utf-8"))
+    assert saved["analysis"]["parsed_lines"] == 1
+    assert saved["analysis"]["source"]["type"] == "inline_text"
+    assert log_text not in report_path.read_text(encoding="utf-8")
+
+
+@pytest.mark.asyncio
+async def test_logs_analyze_config_persistence_can_be_overridden(tmp_path):
+    registry = ServerCommanderRegistry(
+        ServerCommanderConfig(logs={"reports_dir": str(tmp_path), "persist_reports": True})
+    )
+    log_text = (
+        '127.0.0.1 - - [04/Jun/2026:20:00:00 +0200] '
+        '"GET /index.html HTTP/1.1" 200 123 "-" "Mozilla/5.0"\n'
+    )
+
+    result = await registry.call_tool("sc_logs_analyze", {"log_text": log_text, "persist_report": False})
+
+    assert result["report"] == {"persisted": False}
+    assert list(tmp_path.glob("*.json")) == []
 
 
 @pytest.mark.asyncio

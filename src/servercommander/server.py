@@ -135,6 +135,8 @@ def build_tools(config: ServerCommanderConfig) -> list[ToolDefinition]:
                     "log_path": {"type": "string"},
                     "top_paths": {"type": "integer", "default": 10},
                     "format": {"type": "string", "enum": ["apache", "nginx"]},
+                    "persist_report": {"type": "boolean", "default": False},
+                    "report_name": {"type": "string"},
                 }
             ),
             handler=partial(sc_logs_analyze, config),

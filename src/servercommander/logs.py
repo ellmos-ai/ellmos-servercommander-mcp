@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -27,11 +30,14 @@ async def sc_logs_analyze(
     log_path: str | None = None,
     top_paths: int = 10,
     format: str | None = None,
+    persist_report: bool | None = None,
+    report_name: str | None = None,
 ) -> dict[str, Any]:
     """Analyze access logs from inline text or a local file path."""
-    _ = config, format
     text = _load_log_text(log_text, log_path)
     lines = [line for line in text.splitlines() if line.strip()]
+    logs_config = config.logs if isinstance(config.logs, dict) else {}
+    format_hint = format or logs_config.get("default_format")
 
     status_counts: Counter[str] = Counter()
     status_classes: Counter[str] = Counter()
@@ -77,11 +83,13 @@ async def sc_logs_analyze(
     error_count = sum(count for status, count in status_counts.items() if int(status) >= 400)
     error_rate = round(error_count / parsed_lines, 4) if parsed_lines else 0.0
 
-    return {
+    result: dict[str, Any] = {
         "status": "ok",
         "total_lines": len(lines),
         "parsed_lines": parsed_lines,
         "unparsed_lines": len(lines) - parsed_lines,
+        "format": format_hint,
+        "source": _source_metadata(log_text, log_path, len(lines)),
         "unique_hosts": len(hosts),
         "total_bytes": total_bytes,
         "error_rate": error_rate,
@@ -96,6 +104,13 @@ async def sc_logs_analyze(
         "suspicious_requests": suspicious_requests,
     }
 
+    if _should_persist_report(logs_config, persist_report):
+        result["report"] = _persist_report(logs_config, result, text, report_name)
+    else:
+        result["report"] = {"persisted": False}
+
+    return result
+
 
 def _load_log_text(log_text: str | None, log_path: str | None) -> str:
     if log_text is not None:
@@ -103,3 +118,57 @@ def _load_log_text(log_text: str | None, log_path: str | None) -> str:
     if log_path is not None:
         return Path(log_path).expanduser().read_text(encoding="utf-8", errors="replace")
     raise ValueError("Provide either log_text or log_path")
+
+
+def _source_metadata(log_text: str | None, log_path: str | None, line_count: int) -> dict[str, Any]:
+    if log_text is not None:
+        return {"type": "inline_text", "line_count": line_count}
+    return {"type": "file", "path": str(Path(str(log_path)).expanduser()), "line_count": line_count}
+
+
+def _should_persist_report(logs_config: dict[str, Any], persist_report: bool | None) -> bool:
+    if persist_report is not None:
+        return bool(persist_report)
+    return bool(logs_config.get("persist_reports", False))
+
+
+def _persist_report(
+    logs_config: dict[str, Any],
+    analysis: dict[str, Any],
+    source_text: str,
+    report_name: str | None,
+) -> dict[str, Any]:
+    created_at = datetime.now(timezone.utc)
+    digest = hashlib.sha256(source_text.encode("utf-8", errors="replace")).hexdigest()[:12]
+    timestamp = created_at.strftime("%Y%m%dT%H%M%S%fZ")
+    default_stem = "access-log"
+    stem = _safe_report_stem(report_name, default_stem)
+    report_id = f"{stem}-{timestamp}-{digest}"
+    reports_dir = _reports_dir(logs_config)
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    path = reports_dir / f"{report_id}.json"
+
+    record = {
+        "report_id": report_id,
+        "created_at": created_at.isoformat(),
+        "analysis": {key: value for key, value in analysis.items() if key != "report"},
+    }
+    path.write_text(json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    return {
+        "persisted": True,
+        "id": report_id,
+        "path": str(path),
+        "format": "json",
+        "raw_log_text_included": False,
+    }
+
+
+def _reports_dir(logs_config: dict[str, Any]) -> Path:
+    configured = logs_config.get("reports_dir") or "~/.servercommander/log_reports"
+    return Path(str(configured)).expanduser()
+
+
+def _safe_report_stem(report_name: str | None, default_stem: str) -> str:
+    raw = Path(str(report_name)).stem if report_name else default_stem
+    safe = re.sub(r"[^A-Za-z0-9_.-]+", "-", raw).strip("._-")
+    return (safe[:80] or default_stem)

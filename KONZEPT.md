@@ -13,7 +13,7 @@
 | `sc_mail_read` | .UMBRUCH cli.py | E-Mail lesen (nach ID oder Suchfilter) |
 | `sc_mail_send` | .UMBRUCH cli.py | E-Mail senden (SMTP, mit Anhängen) |
 | `sc_mail_search` | .UMBRUCH cli.py | E-Mails durchsuchen (FTS, Datum, Absender) |
-| `sc_logs_analyze` | .UMBRUCH traffic_analyzer.py | Server-Logs parsen (Apache/Nginx), Bot-Filterung, Traffic-Stats |
+| `sc_logs_analyze` | .UMBRUCH traffic_analyzer.py | Server-Logs parsen (Apache/Nginx), Bot-Filterung, Traffic-Stats, optional persistierte JSON-Reports |
 | `sc_health_check` | neu | HTTP-Endpoint(s) prüfen, Status-Codes + Latenz melden |
 
 ## Vorarbeiten
@@ -73,6 +73,8 @@ cache_db = "~/.servercommander/mail_cache.db"
 
 [logs]
 default_format = "apache"
+persist_reports = false
+reports_dir = "~/.servercommander/log_reports"
 
 [health]
 timeout = 5

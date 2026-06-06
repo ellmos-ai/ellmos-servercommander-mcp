@@ -33,7 +33,7 @@ Englische Standard-README: [README.md](README.md)
 
 - Transport: stdio über das Python-MCP-SDK
 - Paketstatus: öffentliches Alpha-Paket unter `ellmos-ai`
-- Aktiver Kern: MCP-Tool-Liste, MCP-Tool-Dispatch, Config-Lader, HTTP-Health-Checks, erweiterte Access-Log-Analyse
+- Aktiver Kern: MCP-Tool-Liste, MCP-Tool-Dispatch, Config-Lader, HTTP-Health-Checks, erweiterte Access-Log-Analyse mit optional gespeicherten JSON-Reports
 - Sichere Alpha-Handler: `sc_deploy` erstellt lokale SHA256-Manifeste und Konfigurationsdiagnosen im Dry-run, `sc_mail_*` meldet Mail-Konfigurationslücken ohne IMAP/SMTP-Aktionen
 - i18n: lokalisierte MCP-Tool-Beschreibungen, Input-Schema-Feldbeschreibungen und Unknown-Tool-Fehler für `en`, `de`, `es`, `zh`, `ja`, `ru` mit Englisch-Fallback
 
@@ -115,6 +115,11 @@ Die Sprache kann über `[server].language`, `SERVERCOMMANDER_LANG` oder `SERVERC
 [server]
 name = "ellmos-servercommander"
 language = "de" # en, de, es, zh, ja, ru
+
+[logs]
+default_format = "apache" # apache | nginx
+persist_reports = false
+reports_dir = "~/.servercommander/log_reports"
 ```
 
 Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_PASSWORD` oder `$SFTP_PASSWORD`.
@@ -122,7 +127,7 @@ Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_P
 ## Tools
 
 - `sc_health_check`: prüft HTTP-Endpunkte und meldet Status-Code plus Latenz
-- `sc_logs_analyze`: analysiert Apache-/Nginx-Access-Logs aus Text oder Datei, inklusive Statusklassen, Bytes, Referern, Fehlerpfaden und verdächtigen Request-Markern
+- `sc_logs_analyze`: analysiert Apache-/Nginx-Access-Logs aus Text oder Datei, inklusive Statusklassen, Bytes, Referern, Fehlerpfaden, verdächtigen Request-Markern und optionaler JSON-Report-Speicherung per `persist_report`
 - `sc_deploy`: erstellt einen Deployment-Plan mit lokalem SHA256-Manifest und Profildiagnose, führt aber noch keinen Upload aus
 - `sc_deploy_status`: zeigt konfigurierte Deploy-Profile, ausgewählte Profildiagnosen und den aktuellen Alpha-History-Status
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit Mail-Konfigurationsdiagnosen und ohne IMAP/SMTP-Verbindung
@@ -159,4 +164,4 @@ npm run smoke
 npm pack --dry-run
 ```
 
-Der nächste sinnvolle Schritt ist, explizit konfigurierte Ausführungsadapter für SFTP und IMAP/SMTP zu ergänzen, Dry-run als Standard beizubehalten und Log-Analysen um persistierte Reports zu erweitern.
+Der nächste sinnvolle Schritt ist, explizit konfigurierte Ausführungsadapter für SFTP und IMAP/SMTP zu ergänzen und Dry-run beziehungsweise Status-only als Standard beizubehalten.
