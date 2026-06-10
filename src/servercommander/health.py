@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import time
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -28,12 +29,14 @@ async def sc_health_check(
             "results": [],
         }
 
-    results = [_check_one(endpoint, check_timeout) for endpoint in selected_endpoints]
+    results = await asyncio.gather(
+        *[asyncio.to_thread(_check_one, endpoint, check_timeout) for endpoint in selected_endpoints]
+    )
     return {
         "status": "ok" if all(result["ok"] for result in results) else "degraded",
         "ok": all(result["ok"] for result in results),
         "timeout": check_timeout,
-        "results": results,
+        "results": list(results),
     }
 
 
