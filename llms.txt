@@ -25,15 +25,17 @@ Runtime: Node.js wrapper plus Python 3.10+ MCP server
 
 ## Search Phrases
 
-- MCP server operations tools
-- MCP deploy dry-run server
-- MCP access log analyzer
-- MCP HTTP health check tool
-- local-first server management MCP
-- Claude Code server operations MCP
-- safe SFTP deployment planning MCP
-- AI assistant server preflight checks
-- Apache Nginx log analysis MCP
+```
+MCP server operations tools
+MCP deploy dry-run server
+MCP access log analyzer
+MCP HTTP health check tool
+local-first server management MCP
+Claude Code server operations MCP
+safe SFTP deployment planning MCP
+AI assistant server preflight checks
+Apache Nginx log analysis MCP
+```
 
 ## Disambiguation
 
@@ -46,3 +48,6 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - ellmos-clatcher-mcp: repair, conversion, duplicate detection, batch operations, and document utilities.
 - n8n-manager-mcp: n8n workflow management through MCP.
 - ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.
+- ellmos-homebase-mcp: BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration.
+
+## Last-checked: 2026-06-11

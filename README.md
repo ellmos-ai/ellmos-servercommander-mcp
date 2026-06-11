@@ -153,6 +153,7 @@ It is not the GitHub MCP server, not a generic shell-command MCP server, not a h
 - [ellmos-clatcher-mcp](https://github.com/ellmos-ai/ellmos-clatcher-mcp): repair, conversion, duplicate detection, batch operations, and document utilities
 - [n8n-manager-mcp](https://github.com/ellmos-ai/n8n-manager-mcp): n8n workflow management through MCP
 - [ellmos-controlcenter-mcp](https://github.com/ellmos-ai/ellmos-controlcenter-mcp): local MCP discovery, profiles, bundles, and control-plane checks
+- [ellmos-homebase-mcp](https://github.com/ellmos-ai/ellmos-homebase-mcp): BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration
 
 ## Development
 
