@@ -21,7 +21,7 @@
     "assets/",
     "bin/",
     "config/",
-    "src/",
+    "src/**/*.py",
     "README.md",
     "README_de.md",
     "KONZEPT.md",

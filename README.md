@@ -34,7 +34,7 @@ German README: [README_de.md](README_de.md)
 - Transport: stdio via the Python MCP SDK
 - Package status: public alpha package under `ellmos-ai`
 - Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, richer access-log analysis with optional persisted JSON reports
-- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests and configuration diagnostics in dry-run mode; `sc_mail_*` reports mail configuration gaps without IMAP/SMTP operations
+- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests and configuration diagnostics in dry-run mode; `sc_mail_*` reports protocol-specific IMAP/SMTP readiness without opening mail connections
 - i18n: localized MCP tool descriptions, input-schema field descriptions, and unknown-tool errors for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
 ## Install
@@ -130,7 +130,7 @@ Secrets should be referenced through environment variables, for example `$MAIL_P
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file, including status classes, bytes, referers, error paths, suspicious request markers, and optional JSON report persistence via `persist_report`
 - `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet
 - `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and the current alpha history status
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with mail configuration diagnostics and no IMAP/SMTP connections
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with action-specific IMAP/SMTP readiness diagnostics and no mail connections
 
 ## Search And Disambiguation
 

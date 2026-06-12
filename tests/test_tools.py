@@ -198,7 +198,62 @@ async def test_mail_handlers_report_configuration_gaps_without_executing():
     assert result["configured"] is False
     assert result["checks"]["imap_host"] is True
     assert "smtp_host" in result["missing"]
+    assert result["diagnostics"]["imap"]["ready"] is False
+    assert result["diagnostics"]["smtp"]["ready"] is False
+    assert result["diagnostics"]["execution_enabled"] is False
     assert result["capabilities"]["config_diagnostics"] is True
+
+
+@pytest.mark.asyncio
+async def test_mail_list_reports_imap_ready_without_smtp(monkeypatch):
+    monkeypatch.setenv("MAIL_USER", "reader@example.com")
+    monkeypatch.setenv("MAIL_PASSWORD", "secret")
+    registry = ServerCommanderRegistry(
+        ServerCommanderConfig(
+            mail={
+                "imap_host": "imap.example.com",
+                "imap_port": 993,
+                "username": "$MAIL_USER",
+                "password": "$MAIL_PASSWORD",
+            }
+        )
+    )
+
+    result = await registry.call_tool("sc_mail_list", {"folder": "INBOX"})
+
+    assert result["configured"] is False
+    assert result["action_ready"] is True
+    assert result["action_missing"] == []
+    assert result["missing"] == ["smtp_host"]
+    assert result["diagnostics"]["imap"]["ready"] is True
+    assert result["diagnostics"]["imap"]["port"] == 993
+    assert result["diagnostics"]["smtp"]["ready"] is False
+
+
+@pytest.mark.asyncio
+async def test_mail_send_requires_smtp_readiness(monkeypatch):
+    monkeypatch.setenv("MAIL_USER", "sender@example.com")
+    monkeypatch.setenv("MAIL_PASSWORD", "secret")
+    registry = ServerCommanderRegistry(
+        ServerCommanderConfig(
+            mail={
+                "imap_host": "imap.example.com",
+                "username": "$MAIL_USER",
+                "password": "$MAIL_PASSWORD",
+            }
+        )
+    )
+
+    result = await registry.call_tool(
+        "sc_mail_send",
+        {"to": "a@example.com", "subject": "Hi", "body": "Short message"},
+    )
+
+    assert result["action_ready"] is False
+    assert result["action_missing"] == ["smtp_host"]
+    assert result["diagnostics"]["smtp"]["missing"] == ["smtp_host"]
+    assert result["diagnostics"]["smtp"]["port"] == 587
+    assert result["diagnostics"]["execution_enabled"] is False
 
 
 @pytest.mark.asyncio

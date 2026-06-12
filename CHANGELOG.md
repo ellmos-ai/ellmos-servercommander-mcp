@@ -5,11 +5,14 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
-- `sc_logs_analyze`: `urlopen()` now runs in a thread via `asyncio.to_thread` + `asyncio.gather`, so concurrent health checks no longer block the MCP event loop.
+- `sc_health_check`: `urlopen()` runs in worker threads via `asyncio.to_thread` + `asyncio.gather`, so concurrent health checks no longer block the MCP event loop.
+- npm package file selection now includes only Python source files from `src/`, preventing local `__pycache__` bytecode from entering the tarball.
+- Corrected the unreleased changelog entry for log-report persistence to use the implemented `persist_report`, `[logs].persist_reports`, and `[logs].reports_dir` names.
 
 ### Added
-- `sc_logs_analyze`: optional persistence of log-analysis JSON reports to a configurable output directory; enabled via `report_output_dir` in `servercommander.toml`.
-- Example config key `report_output_dir` added to `config/servercommander.example.toml`.
+- `sc_mail_*`: action-specific readiness diagnostics now distinguish IMAP needs for list/read/search from SMTP needs for send, while keeping mail execution disabled in alpha.
+- `sc_logs_analyze`: optional persistence of log-analysis JSON reports to a configurable output directory; enabled via `persist_report` per call or `[logs].persist_reports` in `servercommander.toml`.
+- Example config keys `[logs].persist_reports` and `[logs].reports_dir` added to `config/servercommander.example.toml`.
 - `server.json` with MCP Registry metadata for `io.github.ellmos-ai/ellmos-servercommander-mcp`.
 - `llms.txt` with canonical project context, search phrases, disambiguation, current tools, and sibling ellmos MCP servers.
 - MIT `LICENSE` text so GitHub and package consumers can detect the repository license directly.

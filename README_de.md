@@ -34,7 +34,7 @@ Englische Standard-README: [README.md](README.md)
 - Transport: stdio über das Python-MCP-SDK
 - Paketstatus: öffentliches Alpha-Paket unter `ellmos-ai`
 - Aktiver Kern: MCP-Tool-Liste, MCP-Tool-Dispatch, Config-Lader, HTTP-Health-Checks, erweiterte Access-Log-Analyse mit optional gespeicherten JSON-Reports
-- Sichere Alpha-Handler: `sc_deploy` erstellt lokale SHA256-Manifeste und Konfigurationsdiagnosen im Dry-run, `sc_mail_*` meldet Mail-Konfigurationslücken ohne IMAP/SMTP-Aktionen
+- Sichere Alpha-Handler: `sc_deploy` erstellt lokale SHA256-Manifeste und Konfigurationsdiagnosen im Dry-run, `sc_mail_*` meldet protokollspezifische IMAP-/SMTP-Bereitschaft ohne Mail-Verbindungen
 - i18n: lokalisierte MCP-Tool-Beschreibungen, Input-Schema-Feldbeschreibungen und Unknown-Tool-Fehler für `en`, `de`, `es`, `zh`, `ja`, `ru` mit Englisch-Fallback
 
 ## Installation
@@ -130,7 +130,7 @@ Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_P
 - `sc_logs_analyze`: analysiert Apache-/Nginx-Access-Logs aus Text oder Datei, inklusive Statusklassen, Bytes, Referern, Fehlerpfaden, verdächtigen Request-Markern und optionaler JSON-Report-Speicherung per `persist_report`
 - `sc_deploy`: erstellt einen Deployment-Plan mit lokalem SHA256-Manifest und Profildiagnose, führt aber noch keinen Upload aus
 - `sc_deploy_status`: zeigt konfigurierte Deploy-Profile, ausgewählte Profildiagnosen und den aktuellen Alpha-History-Status
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit Mail-Konfigurationsdiagnosen und ohne IMAP/SMTP-Verbindung
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit aktionsspezifischen IMAP-/SMTP-Bereitschaftsdiagnosen und ohne Mail-Verbindungen
 
 ## Suche Und Abgrenzung
 
@@ -153,6 +153,7 @@ Das Repo ist nicht der GitHub-MCP-Server, kein generischer Shell-Command-MCP-Ser
 - [ellmos-clatcher-mcp](https://github.com/ellmos-ai/ellmos-clatcher-mcp): Reparatur, Konvertierung, Duplikaterkennung, Batch-Operationen und Dokumentwerkzeuge
 - [n8n-manager-mcp](https://github.com/ellmos-ai/n8n-manager-mcp): n8n-Workflow-Management über MCP
 - [ellmos-controlcenter-mcp](https://github.com/ellmos-ai/ellmos-controlcenter-mcp): lokale MCP-Erkennung, Profile, Bundles und Control-Plane-Checks
+- [ellmos-homebase-mcp](https://github.com/ellmos-ai/ellmos-homebase-mcp): BACH-Integrationshub, Memory, Wissensbasis, State, Schwarm- und Auto-Chain-Orchestrierung
 
 ## Entwicklung
 

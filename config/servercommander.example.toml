@@ -20,6 +20,8 @@ protocol = "sftp"
 
 # --- Mail ---
 [mail]
+# IMAP is required for list/read/search readiness; SMTP is required for send readiness.
+# The alpha server reports readiness only and does not open mail connections yet.
 imap_host = "imap.example.com"
 imap_port = 993
 smtp_host = "smtp.example.com"
