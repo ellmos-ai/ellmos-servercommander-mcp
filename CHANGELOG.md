@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## 0.1.0-alpha.7 - 2026-06-13
 
 ### Fixed
 - `sc_health_check`: `urlopen()` runs in worker threads via `asyncio.to_thread` + `asyncio.gather`, so concurrent health checks no longer block the MCP event loop.
