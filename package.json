@@ -1,6 +1,6 @@
 {
   "name": "ellmos-servercommander-mcp",
-  "version": "0.1.0-alpha.7",
+  "version": "0.1.0-alpha.8",
   "mcpName": "io.github.ellmos-ai/ellmos-servercommander-mcp",
   "description": "Alpha MCP server for server operations: deploy dry-runs, mail status, log analysis, and health checks.",
   "type": "commonjs",
@@ -56,5 +56,8 @@
   "publishConfig": {
     "access": "public",
     "tag": "alpha"
+  },
+  "dependencies": {
+    "update-notifier": "^7.3.1"
   }
 }
