@@ -23,6 +23,7 @@ DEFAULT_CONFIG_PATHS = [
 class ServerCommanderConfig:
     server_name: str = "ellmos-servercommander"
     language: str = "en"
+    deploy: dict[str, Any] = field(default_factory=dict)
     deploy_profiles: dict[str, dict[str, Any]] = field(default_factory=dict)
     mail: dict[str, Any] = field(default_factory=dict)
     logs: dict[str, Any] = field(default_factory=dict)
@@ -52,13 +53,15 @@ def load_config(path: str | Path | None = None) -> ServerCommanderConfig:
         raw = tomllib.load(f)
 
     deploy = raw.get("deploy", {})
-    profiles = deploy.get("profiles", {}) if isinstance(deploy, dict) else {}
+    deploy_config = deploy if isinstance(deploy, dict) else {}
+    profiles = deploy_config.get("profiles", {})
     server = raw.get("server", {})
     language = _env_language(server.get("language") or server.get("locale") or "en")
 
     return ServerCommanderConfig(
         server_name=server.get("name", "ellmos-servercommander"),
         language=language,
+        deploy=deploy_config,
         deploy_profiles=profiles if isinstance(profiles, dict) else {},
         mail=raw.get("mail", {}),
         logs=raw.get("logs", {}),

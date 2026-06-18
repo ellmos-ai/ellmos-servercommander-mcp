@@ -7,6 +7,11 @@ name = "ellmos-servercommander"
 language = "en"
 
 # --- Deploy profiles ---
+[deploy]
+# Keeps deployment execution disabled, but can persist dry-run plans locally.
+persist_history = false
+history_db = "~/.servercommander/deploy_history.db"
+
 [deploy.profiles.example_site]
 host = "sftp.example.com"
 user = "deploy-user"

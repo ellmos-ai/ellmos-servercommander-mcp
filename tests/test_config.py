@@ -18,6 +18,10 @@ def test_load_config_with_profiles(tmp_path):
 name = "ellmos-servercommander"
 language = "de"
 
+[deploy]
+history_db = "./deploy-history.db"
+persist_history = true
+
 [deploy.profiles.example]
 host = "sftp.example.com"
 user = "deploy"
@@ -34,6 +38,8 @@ endpoints = ["http://127.0.0.1/health"]
     config = load_config(config_path)
 
     assert config.deploy_profile("example")["host"] == "sftp.example.com"
+    assert config.deploy["history_db"] == "./deploy-history.db"
+    assert config.deploy["persist_history"] is True
     assert config.language == "de"
     assert config.health["timeout"] == 2
 

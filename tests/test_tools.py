@@ -183,9 +183,67 @@ async def test_deploy_dry_run_builds_local_manifest(tmp_path):
     result = await registry.call_tool("sc_deploy", {"profile": "site"})
 
     assert result["ready"] is True
+    assert result["history"] == {"persisted": False}
     assert result["manifest"]["file_count"] == 2
     assert result["diagnostics"]["protocol_supported"] is True
+    assert result["diagnostics"]["history_supported"] is True
     assert {entry["path"] for entry in result["manifest"]["files"]} == {"index.html", "style.css"}
+
+
+@pytest.mark.asyncio
+async def test_deploy_can_record_and_report_local_history(tmp_path):
+    local_path = tmp_path / "site"
+    local_path.mkdir()
+    (local_path / "index.html").write_text("<h1>ok</h1>", encoding="utf-8")
+    history_db = tmp_path / "deploy-history.db"
+    config = ServerCommanderConfig(
+        deploy={"history_db": str(history_db)},
+        deploy_profiles={
+            "site": {
+                "host": "sftp.example.com",
+                "user": "deploy",
+                "local_path": str(local_path),
+                "remote_path": "/var/www/site",
+            }
+        },
+    )
+    registry = ServerCommanderRegistry(config)
+
+    deployed = await registry.call_tool("sc_deploy", {"profile": "site", "record_history": True})
+    status = await registry.call_tool("sc_deploy_status", {"profile": "site"})
+
+    assert deployed["history"]["persisted"] is True
+    assert deployed["history"]["path"] == str(history_db)
+    assert history_db.exists()
+    assert status["status"] == "ok"
+    assert status["history_count"] == 1
+    assert status["history"][0]["profile"] == "site"
+    assert status["history"][0]["ready"] is True
+    assert status["history"][0]["manifest_hash"] == deployed["history"]["manifest_hash"]
+
+
+@pytest.mark.asyncio
+async def test_deploy_history_can_be_enabled_by_config(tmp_path):
+    local_path = tmp_path / "site"
+    local_path.mkdir()
+    (local_path / "index.html").write_text("<h1>ok</h1>", encoding="utf-8")
+    history_db = tmp_path / "deploy-history.db"
+    config = ServerCommanderConfig(
+        deploy={"history_db": str(history_db), "persist_history": True},
+        deploy_profiles={
+            "site": {
+                "host": "sftp.example.com",
+                "user": "deploy",
+                "local_path": str(local_path),
+                "remote_path": "/var/www/site",
+            }
+        },
+    )
+    registry = ServerCommanderRegistry(config)
+
+    deployed = await registry.call_tool("sc_deploy", {"profile": "site"})
+
+    assert deployed["history"]["persisted"] is True
 
 
 @pytest.mark.asyncio

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+## 0.1.0-alpha.10 - 2026-06-18
+
+### Added
+- `sc_deploy` can now persist dry-run deployment plans to a local SQLite history database via `record_history=true` or `[deploy].persist_history=true`.
+- `sc_deploy_status` now reports recent dry-run deployment history, including manifest hashes, readiness, profile, host, local path, and remote path.
+
+### Changed
+- `sc_deploy` remains dry-run-only by default; history recording is opt-in unless explicitly enabled in configuration.
+
 ## 0.1.0-alpha.9 - 2026-06-17
 
 ### Changed

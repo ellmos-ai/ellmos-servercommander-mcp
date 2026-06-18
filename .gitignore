@@ -11,6 +11,12 @@ secrets.json
 secrets.*.json
 credentials.json
 credentials.*.json
+token.json
+tokens.json
+*.token.json
+.npmrc
+.pypirc
+*recovery*codes*.txt
 
 # Local runtime data
 .servercommander/
@@ -26,6 +32,10 @@ deploy_status.json
 *.p12
 *.pfx
 *.kdbx
+id_rsa
+id_ed25519
+id_ecdsa
+id_dsa
 
 # Python build and test artifacts
 __pycache__/

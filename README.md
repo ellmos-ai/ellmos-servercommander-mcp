@@ -33,8 +33,8 @@ German README: [README_de.md](README_de.md)
 
 - Transport: stdio via the Python MCP SDK
 - Package status: public alpha package under `ellmos-ai`
-- Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, richer access-log analysis with optional persisted JSON reports
-- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests and configuration diagnostics in dry-run mode; `sc_mail_*` reports protocol-specific IMAP/SMTP readiness without opening mail connections
+- Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, richer access-log analysis with optional persisted JSON reports, and optional local dry-run deployment history
+- Safe alpha handlers: `sc_deploy` builds local SHA256 manifests, configuration diagnostics, and opt-in SQLite history records in dry-run mode; `sc_mail_*` reports protocol-specific IMAP/SMTP readiness without opening mail connections
 - i18n: localized MCP tool descriptions, input-schema field descriptions, and unknown-tool errors for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
 ## Install
@@ -116,6 +116,10 @@ Language can be configured with `[server].language`, `SERVERCOMMANDER_LANG`, or 
 name = "ellmos-servercommander"
 language = "en" # en, de, es, zh, ja, ru
 
+[deploy]
+persist_history = false
+history_db = "~/.servercommander/deploy_history.db"
+
 [logs]
 default_format = "apache" # apache | nginx
 persist_reports = false
@@ -128,8 +132,8 @@ Secrets should be referenced through environment variables, for example `$MAIL_P
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file, including status classes, bytes, referers, error paths, suspicious request markers, and optional JSON report persistence via `persist_report`
-- `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet
-- `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and the current alpha history status
+- `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet; optionally records the dry-run plan with `record_history=true`
+- `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and recent dry-run history from the local SQLite history database
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with action-specific IMAP/SMTP readiness diagnostics and no mail connections
 
 ## Search And Disambiguation

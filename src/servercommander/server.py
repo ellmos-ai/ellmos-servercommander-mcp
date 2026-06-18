@@ -77,6 +77,7 @@ def build_tools(config: ServerCommanderConfig) -> list[ToolDefinition]:
                     "local_path": {"type": "string"},
                     "remote_path": {"type": "string"},
                     "dry_run": {"type": "boolean", "default": True},
+                    "record_history": {"type": "boolean", "default": False},
                 }
             ),
             handler=partial(sc_deploy, config),
@@ -84,7 +85,9 @@ def build_tools(config: ServerCommanderConfig) -> list[ToolDefinition]:
         ToolDefinition(
             name="sc_deploy_status",
             description="Show configured deployment profiles and alpha deployment-history status.",
-            input_schema=object_schema({"profile": {"type": "string"}}),
+            input_schema=object_schema(
+                {"profile": {"type": "string"}, "limit": {"type": "integer", "default": 5}}
+            ),
             handler=partial(sc_deploy_status, config),
         ),
         ToolDefinition(

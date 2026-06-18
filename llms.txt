@@ -19,8 +19,8 @@ Runtime: Node.js wrapper plus Python 3.10+ MCP server
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency.
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path.
-- `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics.
-- `sc_deploy_status`: shows configured deployment profiles and alpha history status.
+- `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics; can optionally persist the dry-run plan in local SQLite history.
+- `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history.
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution.
 
 ## Search Phrases
@@ -50,4 +50,4 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.
 - ellmos-homebase-mcp: BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration.
 
-## Last-checked: 2026-06-13
+## Last-checked: 2026-06-18
