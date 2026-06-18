@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Fixed
+- Close SQLite deploy-history connections explicitly so Windows can clean up history database files after writes and reads.
+- Ignore SQLite WAL/SHM/journal sidecar files created by local deploy-history databases.
+
 ## 0.1.0-alpha.10 - 2026-06-18
 
 ### Added

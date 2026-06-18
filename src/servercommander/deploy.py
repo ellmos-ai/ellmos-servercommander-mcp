@@ -157,7 +157,8 @@ def _record_deploy_plan(
     path = _history_db_path(config)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    with sqlite3.connect(path, timeout=30.0) as connection:
+    connection = sqlite3.connect(path, timeout=30.0)
+    try:
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA busy_timeout=30000")
@@ -185,6 +186,9 @@ def _record_deploy_plan(
             ),
         )
         history_id = int(cursor.lastrowid)
+        connection.commit()
+    finally:
+        connection.close()
 
     return {
         "persisted": True,
@@ -214,10 +218,13 @@ def _load_deploy_history(
     sql += " ORDER BY id DESC LIMIT ?"
     params.append(max(1, int(limit)))
 
-    with sqlite3.connect(path, timeout=30.0) as connection:
+    connection = sqlite3.connect(path, timeout=30.0)
+    try:
         connection.row_factory = sqlite3.Row
         _ensure_history_table(connection)
         rows = connection.execute(sql, params).fetchall()
+    finally:
+        connection.close()
 
     return [{**dict(row), "ready": bool(row["ready"])} for row in rows]
 

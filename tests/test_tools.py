@@ -1,4 +1,5 @@
 import json
+import shutil
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
@@ -244,6 +245,33 @@ async def test_deploy_history_can_be_enabled_by_config(tmp_path):
     deployed = await registry.call_tool("sc_deploy", {"profile": "site"})
 
     assert deployed["history"]["persisted"] is True
+
+
+@pytest.mark.asyncio
+async def test_deploy_history_releases_sqlite_files_after_write_and_read(tmp_path):
+    scratch = tmp_path / "history-cleanup"
+    local_path = scratch / "site"
+    local_path.mkdir(parents=True)
+    (local_path / "index.html").write_text("<h1>ok</h1>", encoding="utf-8")
+    history_db = scratch / "deploy-history.db"
+    config = ServerCommanderConfig(
+        deploy={"history_db": str(history_db)},
+        deploy_profiles={
+            "site": {
+                "host": "sftp.example.com",
+                "user": "deploy",
+                "local_path": str(local_path),
+                "remote_path": "/var/www/site",
+            }
+        },
+    )
+    registry = ServerCommanderRegistry(config)
+
+    await registry.call_tool("sc_deploy", {"profile": "site", "record_history": True})
+    await registry.call_tool("sc_deploy_status", {"profile": "site"})
+
+    shutil.rmtree(scratch)
+    assert not scratch.exists()
 
 
 @pytest.mark.asyncio
