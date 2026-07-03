@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.1.0-alpha.11 - 2026-07-03
 
 ### Fixed
 - Close SQLite deploy-history connections explicitly so Windows can clean up history database files after writes and reads.
