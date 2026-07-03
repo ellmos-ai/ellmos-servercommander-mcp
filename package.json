@@ -20,7 +20,7 @@
   "files": [
     "assets/",
     "bin/",
-    "config/",
+    "config/servercommander.example.toml",
     "src/**/*.py",
     "README.md",
     "README_de.md",
