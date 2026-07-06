@@ -19,6 +19,26 @@ German README: [README_de.md](README_de.md)
 
 **Discoverability:** Published on [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) as `ellmos-servercommander-mcp`, described for MCP catalogs in [`server.json`](server.json), and summarized for AI search/indexing in [`llms.txt`](llms.txt).
 
+## Architecture Visualized
+
+```mermaid
+graph TD
+    Client[MCP Host: Claude / Cursor] <-->|stdio / JSON-RPC| NodeWrapper[Node.js Entrypoint]
+    NodeWrapper <-->|Spawn subprocess| PyServer[Python MCP Server]
+    
+    subgraph Tools [ServerCommander Tools]
+        PyServer -->|sc_health_check| HTTP[HTTP/HTTPS Endpoint Check]
+        PyServer -->|sc_logs_analyze| Logs[Apache/Nginx Access Logs]
+        PyServer -->|sc_deploy / sc_deploy_status| Deploy[Dry-Run Manifest & SQLite History]
+        PyServer -->|sc_mail_*| Mail[IMAP/SMTP Safe Readiness Diagnostics]
+    end
+    
+    subgraph Storage [Local Storage]
+        Deploy -->|Optional persist| SQLite[(SQLite Deploy History)]
+        Logs -->|Optional persist| JSONReports[(JSON Log Reports)]
+    end
+```
+
 ## Start Here
 
 | Goal | Start with |

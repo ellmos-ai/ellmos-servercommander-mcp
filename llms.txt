@@ -50,4 +50,4 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.
 - ellmos-homebase-mcp: BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration.
 
-## Last-checked: 2026-06-18
+## Last-checked: 2026-07-06
