@@ -192,6 +192,56 @@ async def test_deploy_dry_run_builds_local_manifest(tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_deploy_dry_run_rejects_missing_local_path_readiness(tmp_path):
+    missing_path = tmp_path / "missing-site"
+    config = ServerCommanderConfig(
+        deploy_profiles={
+            "site": {
+                "host": "sftp.example.com",
+                "user": "deploy",
+                "local_path": str(missing_path),
+                "remote_path": "/var/www/site",
+            }
+        }
+    )
+    registry = ServerCommanderRegistry(config)
+
+    result = await registry.call_tool("sc_deploy", {"profile": "site"})
+
+    assert result["ready"] is False
+    assert result["missing"] == []
+    assert result["manifest"]["status"] == "missing_local_path"
+    assert result["diagnostics"]["local_status"] == "missing_local_path"
+    assert result["readiness_problems"] == ["local_path_exists"]
+
+
+@pytest.mark.asyncio
+async def test_deploy_dry_run_rejects_unsupported_protocol_readiness(tmp_path):
+    local_path = tmp_path / "site"
+    local_path.mkdir()
+    (local_path / "index.html").write_text("<h1>ok</h1>", encoding="utf-8")
+    config = ServerCommanderConfig(
+        deploy_profiles={
+            "site": {
+                "host": "ftp.example.com",
+                "user": "deploy",
+                "local_path": str(local_path),
+                "remote_path": "/var/www/site",
+                "protocol": "ftp",
+            }
+        }
+    )
+    registry = ServerCommanderRegistry(config)
+
+    result = await registry.call_tool("sc_deploy", {"profile": "site"})
+
+    assert result["ready"] is False
+    assert result["missing"] == []
+    assert result["diagnostics"]["protocol_supported"] is False
+    assert result["readiness_problems"] == ["unsupported_protocol"]
+
+
+@pytest.mark.asyncio
 async def test_deploy_can_record_and_report_local_history(tmp_path):
     local_path = tmp_path / "site"
     local_path.mkdir()

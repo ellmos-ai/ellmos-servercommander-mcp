@@ -42,12 +42,19 @@ async def sc_deploy(
     missing = [key for key in ("host", "user", "local_path", "remote_path") if not plan.get(key)]
     manifest = _build_manifest(plan["local_path"]) if plan.get("local_path") else None
     diagnostics = _deploy_diagnostics(profile_config, plan, manifest)
-    history = _record_deploy_plan(config, profile, plan, manifest, diagnostics) if _should_record_history(config, record_history) else {"persisted": False}
+    readiness_problems = _readiness_problems(missing, diagnostics)
+    ready = not readiness_problems
+    history = (
+        _record_deploy_plan(config, profile, plan, manifest, diagnostics, ready)
+        if _should_record_history(config, record_history)
+        else {"persisted": False}
+    )
 
     return {
         "status": "dry_run",
-        "ready": not missing,
+        "ready": ready,
         "missing": missing,
+        "readiness_problems": readiness_problems,
         "plan": plan,
         "manifest": manifest,
         "diagnostics": diagnostics,
@@ -137,6 +144,15 @@ def _deploy_diagnostics(profile_config: dict[str, Any], plan: dict[str, Any], ma
     }
 
 
+def _readiness_problems(missing: list[str], diagnostics: dict[str, Any]) -> list[str]:
+    problems = list(missing)
+    if "local_path" not in missing and diagnostics.get("local_status") != "ok":
+        problems.append("local_path_exists")
+    if diagnostics.get("protocol_supported") is not True:
+        problems.append("unsupported_protocol")
+    return problems
+
+
 def _should_record_history(config: ServerCommanderConfig, record_history: bool | None) -> bool:
     if record_history is not None:
         return bool(record_history)
@@ -150,6 +166,7 @@ def _record_deploy_plan(
     plan: dict[str, Any],
     manifest: dict[str, Any] | None,
     diagnostics: dict[str, Any],
+    ready: bool,
 ) -> dict[str, Any]:
     created_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     manifest_json = json.dumps(manifest or {}, ensure_ascii=False, sort_keys=True)
@@ -174,7 +191,7 @@ def _record_deploy_plan(
             (
                 created_at,
                 profile,
-                1 if diagnostics.get("local_status") == "ok" and plan.get("host") and plan.get("user") and plan.get("remote_path") else 0,
+                1 if ready else 0,
                 plan.get("local_path"),
                 plan.get("remote_path"),
                 plan.get("host"),
