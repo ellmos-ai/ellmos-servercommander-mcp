@@ -92,7 +92,15 @@ def _build_manifest(local_path: str) -> dict[str, Any]:
 
     files = []
     total_bytes = 0
+    skipped_symlinks = 0
     for path in sorted(root.rglob("*")):
+        # A nested symlink can point outside the selected release directory.
+        # A dry-run manifest must not silently hash files from that external
+        # location, because a later executor cannot safely infer the user's
+        # intended deployment boundary from the resolved target.
+        if path.is_symlink():
+            skipped_symlinks += 1
+            continue
         if not path.is_file():
             continue
         if any(part in SKIP_DIRS for part in path.relative_to(root).parts):
@@ -107,6 +115,7 @@ def _build_manifest(local_path: str) -> dict[str, Any]:
         "file_count": len(files),
         "total_bytes": total_bytes,
         "files": files,
+        "skipped_symlinks": skipped_symlinks,
     }
 
 

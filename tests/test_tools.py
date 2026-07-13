@@ -189,6 +189,37 @@ async def test_deploy_dry_run_builds_local_manifest(tmp_path):
     assert result["diagnostics"]["protocol_supported"] is True
     assert result["diagnostics"]["history_supported"] is True
     assert {entry["path"] for entry in result["manifest"]["files"]} == {"index.html", "style.css"}
+    assert result["manifest"]["skipped_symlinks"] == 0
+
+
+@pytest.mark.asyncio
+async def test_deploy_manifest_skips_nested_symlinks_outside_release_root(tmp_path):
+    local_path = tmp_path / "site"
+    local_path.mkdir()
+    (local_path / "index.html").write_text("<h1>ok</h1>", encoding="utf-8")
+    outside_file = tmp_path / "outside-secret.txt"
+    outside_file.write_text("not part of this release", encoding="utf-8")
+    nested_link = local_path / "outside-link.txt"
+    try:
+        nested_link.symlink_to(outside_file)
+    except OSError as exc:
+        pytest.skip(f"File symlinks are unavailable in this environment: {exc}")
+
+    config = ServerCommanderConfig(
+        deploy_profiles={
+            "site": {
+                "host": "sftp.example.com",
+                "user": "deploy",
+                "local_path": str(local_path),
+                "remote_path": "/var/www/site",
+            }
+        }
+    )
+    result = await ServerCommanderRegistry(config).call_tool("sc_deploy", {"profile": "site"})
+
+    assert result["ready"] is True
+    assert {entry["path"] for entry in result["manifest"]["files"]} == {"index.html"}
+    assert result["manifest"]["skipped_symlinks"] == 1
 
 
 @pytest.mark.asyncio

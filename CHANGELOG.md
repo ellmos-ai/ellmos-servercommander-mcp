@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - `sc_deploy` dry-run readiness now also fails when the configured local path cannot be manifested or when the selected protocol is unsupported, and reports the exact `readiness_problems` without changing the existing `missing` field semantics.
+- `sc_deploy` manifests now exclude nested symbolic links and expose their count as `skipped_symlinks`, preventing dry-run hashing from silently traversing beyond the selected release directory.
 
 ## 0.1.0-alpha.11 - 2026-07-03
 
