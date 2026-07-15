@@ -449,3 +449,18 @@ async def test_health_check_local_http_server():
     finally:
         httpd.shutdown()
         thread.join(timeout=2)
+
+
+@pytest.mark.asyncio
+async def test_health_check_reports_invalid_endpoint_without_aborting_batch():
+    registry = ServerCommanderRegistry(ServerCommanderConfig())
+
+    result = await registry.call_tool("sc_health_check", {"endpoints": ["not-a-url"]})
+
+    assert result["status"] == "degraded"
+    assert result["ok"] is False
+    assert result["results"][0]["endpoint"] == "not-a-url"
+    assert result["results"][0]["ok"] is False
+    assert result["results"][0]["status_code"] is None
+    assert result["results"][0]["latency_ms"] >= 0
+    assert result["results"][0]["error"] == "unknown url type: 'not-a-url'"

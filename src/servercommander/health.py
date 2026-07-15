@@ -42,9 +42,9 @@ async def sc_health_check(
 
 def _check_one(endpoint: str, timeout: float) -> dict[str, Any]:
     started = time.perf_counter()
-    request = Request(endpoint, method="GET", headers={"User-Agent": "ellmos-servercommander/0.1"})
 
     try:
+        request = Request(endpoint, method="GET", headers={"User-Agent": "ellmos-servercommander/0.1"})
         with urlopen(request, timeout=timeout) as response:
             status_code = int(response.status)
             ok = 200 <= status_code < 400
@@ -53,7 +53,7 @@ def _check_one(endpoint: str, timeout: float) -> dict[str, Any]:
         status_code = int(exc.code)
         ok = False
         error = str(exc)
-    except (URLError, TimeoutError, OSError) as exc:
+    except (URLError, TimeoutError, OSError, ValueError) as exc:
         status_code = None
         ok = False
         error = str(exc)
