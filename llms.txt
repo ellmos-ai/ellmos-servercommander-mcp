@@ -35,6 +35,8 @@ Claude Code server operations MCP
 safe SFTP deployment planning MCP
 AI assistant server preflight checks
 Apache Nginx log analysis MCP
+resilient HTTP health check MCP
+SQLite deploy history MCP
 ```
 
 ## Disambiguation
@@ -50,4 +52,4 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.
 - ellmos-homebase-mcp: BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration.
 
-## Last-checked: 2026-07-13
+## Last-checked: 2026-07-22
