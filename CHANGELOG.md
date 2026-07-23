@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.1.0-alpha.12 - 2026-07-23
 
 ### Added
 - Opt-in live IMAP reachability for `sc_mail_list`. With `[mail].execution_enabled = true` and IMAP credentials present, `sc_mail_list` performs a real, read-only reachability probe (connect + list folders) by **reusing the canonical `mail-connector` module's** `ImapConnector` instead of reimplementing an IMAP client. The module is located with a locate-and-import-with-fallback seam (env override `SERVERCOMMANDER_MAIL_CONNECTOR_PATH`, then default `.MODULES/.CONNECTORS/mail-connector`); a missing/broken module degrades to readiness and never crashes the server. Default stays `execution_enabled = false` (readiness-only, no connections). Message-level read/search remain the `mail-connector` module's domain (they report a `delegated_to` note when execution is enabled); SMTP send and `sc_deploy` stay non-executing until validated against a real server.
 
 ### Fixed
+- `sc_mail_list` readiness responses no longer advertise the `imap_reachability` capability when the canonical `mail-connector` module cannot be loaded; the fallback now carries a `probe_unavailable` reason (review finding, Fable cross-model review 2026-07-23).
 - `sc_health_check` reports malformed endpoint URLs as failed checks instead of aborting the complete health-check batch.
 - `sc_deploy` dry-run readiness now also fails when the configured local path cannot be manifested or when the selected protocol is unsupported, and reports the exact `readiness_problems` without changing the existing `missing` field semantics.
 - `sc_deploy` manifests now exclude nested symbolic links and expose their count as `skipped_symlinks`, preventing dry-run hashing from silently traversing beyond the selected release directory.
