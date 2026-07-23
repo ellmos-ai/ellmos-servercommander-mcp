@@ -26,7 +26,14 @@ protocol = "sftp"
 # --- Mail ---
 [mail]
 # IMAP is required for list/read/search readiness; SMTP is required for send readiness.
-# The alpha server reports readiness only and does not open mail connections yet.
+# execution_enabled = false (default): every handler reports readiness only and
+#   never opens a connection.
+# execution_enabled = true: sc_mail_list performs a live, read-only IMAP
+#   reachability probe (connect + list folders) by reusing the canonical
+#   mail-connector module -- ServerCommander does not reimplement an IMAP client.
+#   Message-level read/search stay the mail-connector module's domain; SMTP send
+#   is never executed in the alpha.
+execution_enabled = false
 imap_host = "imap.example.com"
 imap_port = 993
 smtp_host = "smtp.example.com"
@@ -34,6 +41,8 @@ smtp_port = 587
 username = "$MAIL_USER"
 password = "$MAIL_PASSWORD"
 cache_db = "~/.servercommander/mail_cache.db"
+# Optional: override where the mail-connector module is located.
+# mail_connector_path via env: SERVERCOMMANDER_MAIL_CONNECTOR_PATH
 
 # --- Log analysis ---
 [logs]

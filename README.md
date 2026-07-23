@@ -154,7 +154,7 @@ Secrets should be referenced through environment variables, for example `$MAIL_P
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file, including status classes, bytes, referers, error paths, suspicious request markers, and optional JSON report persistence via `persist_report`
 - `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet; readiness checks required fields, manifestable local paths, and supported protocols before optional `record_history=true`; nested symlinks are reported but excluded so a manifest cannot silently traverse beyond the selected release directory
 - `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and recent dry-run history from the local SQLite history database
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with action-specific IMAP/SMTP readiness diagnostics and no mail connections
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: safe alpha status responses with action-specific IMAP/SMTP readiness diagnostics and no mail connections by default. With `[mail].execution_enabled = true`, `sc_mail_list` runs a live, read-only IMAP reachability probe (connect + list folders) by reusing the canonical `mail-connector` module — it does not reimplement an IMAP client; message-level read/search stay `mail-connector`'s domain, and SMTP send stays non-executing
 
 ## Search And Disambiguation
 

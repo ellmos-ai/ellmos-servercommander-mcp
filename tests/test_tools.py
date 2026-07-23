@@ -423,6 +423,116 @@ async def test_mail_send_requires_smtp_readiness(monkeypatch):
     assert result["diagnostics"]["execution_enabled"] is False
 
 
+class _FakeImapConnector:
+    """Stand-in for mail-connector's ImapConnector: no network, no real data."""
+
+    _folders = ["INBOX", "Sent", "INBOX.Archiv"]
+
+    def __init__(self, account):
+        self.account = account
+
+    def __enter__(self):
+        # The reachability path must supply a usable password.
+        assert self.account.get("password")
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def list_folders(self):
+        return list(self._folders)
+
+
+class _FailingImapConnector:
+    def __init__(self, account):
+        self.account = account
+
+    def __enter__(self):
+        raise RuntimeError("connection refused")
+
+    def __exit__(self, *_args):
+        return False
+
+    def list_folders(self):
+        return []
+
+
+def _reader_config():
+    return ServerCommanderConfig(
+        mail={
+            "execution_enabled": True,
+            "imap_host": "imap.example.com",
+            "imap_port": 993,
+            "username": "$MAIL_USER",
+            "password": "$MAIL_PASSWORD",
+        }
+    )
+
+
+@pytest.mark.asyncio
+async def test_mail_list_live_probe_lists_folders(monkeypatch):
+    import servercommander.mail as mail_mod
+
+    monkeypatch.setenv("MAIL_USER", "reader@example.com")
+    monkeypatch.setenv("MAIL_PASSWORD", "secret")
+    monkeypatch.setattr(mail_mod, "_load_imap_connector_class", lambda: _FakeImapConnector)
+    registry = ServerCommanderRegistry(_reader_config())
+
+    result = await registry.call_tool("sc_mail_list", {"folder": "INBOX"})
+
+    assert result["status"] == "ok"
+    assert result["probe"] == "live"
+    assert result["reachable"] is True
+    assert result["reused_module"] == "mail-connector"
+    assert result["folder_exists"] is True
+    assert "INBOX.Archiv" in result["folders"]
+    assert result["capabilities"]["imap_reachability"] is True
+
+
+@pytest.mark.asyncio
+async def test_mail_list_live_probe_reports_connection_error(monkeypatch):
+    import servercommander.mail as mail_mod
+
+    monkeypatch.setenv("MAIL_USER", "reader@example.com")
+    monkeypatch.setenv("MAIL_PASSWORD", "secret")
+    monkeypatch.setattr(mail_mod, "_load_imap_connector_class", lambda: _FailingImapConnector)
+    registry = ServerCommanderRegistry(_reader_config())
+
+    result = await registry.call_tool("sc_mail_list", {"folder": "INBOX"})
+
+    assert result["status"] == "error"
+    assert result["reachable"] is False
+    assert "connection refused" in result["error"]
+
+
+@pytest.mark.asyncio
+async def test_mail_list_falls_back_to_readiness_without_connector(monkeypatch):
+    import servercommander.mail as mail_mod
+
+    monkeypatch.setenv("MAIL_USER", "reader@example.com")
+    monkeypatch.setenv("MAIL_PASSWORD", "secret")
+    monkeypatch.setattr(mail_mod, "_load_imap_connector_class", lambda: None)
+    registry = ServerCommanderRegistry(_reader_config())
+
+    result = await registry.call_tool("sc_mail_list", {"folder": "INBOX"})
+
+    assert result["status"] == "not_implemented"
+    assert result["diagnostics"]["execution_enabled"] is True
+    assert result["diagnostics"]["safe_mode"] == "reachability_only"
+
+
+@pytest.mark.asyncio
+async def test_mail_read_delegates_to_mail_connector_when_enabled():
+    registry = ServerCommanderRegistry(
+        ServerCommanderConfig(mail={"execution_enabled": True, "imap_host": "imap.example.com"})
+    )
+
+    result = await registry.call_tool("sc_mail_read", {"message_id": "42"})
+
+    assert result["delegated_to"] == "mail-connector"
+    assert result["diagnostics"]["execution_enabled"] is True
+
+
 @pytest.mark.asyncio
 async def test_health_check_local_http_server():
     class Handler(BaseHTTPRequestHandler):

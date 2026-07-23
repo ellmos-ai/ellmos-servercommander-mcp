@@ -154,7 +154,7 @@ Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_P
 - `sc_logs_analyze`: analysiert Apache-/Nginx-Access-Logs aus Text oder Datei, inklusive Statusklassen, Bytes, Referern, Fehlerpfaden, verdächtigen Request-Markern und optionaler JSON-Report-Speicherung per `persist_report`
 - `sc_deploy`: erstellt einen Deployment-Plan mit lokalem SHA256-Manifest und Profildiagnose, führt aber noch keinen Upload aus; die Bereitschaft prüft Pflichtfelder, manifestierbare lokale Pfade und unterstützte Protokolle vor optionalem `record_history=true`; verschachtelte Symlinks werden ausgewiesen, aber ausgeschlossen, damit ein Manifest nicht unbemerkt außerhalb des gewählten Release-Ordners traversiert
 - `sc_deploy_status`: zeigt konfigurierte Deploy-Profile, ausgewählte Profildiagnosen und die jüngste Dry-run-Historie aus der lokalen SQLite-History-Datenbank
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit aktionsspezifischen IMAP-/SMTP-Bereitschaftsdiagnosen und ohne Mail-Verbindungen
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: sichere Alpha-Statusantworten mit aktionsspezifischen IMAP-/SMTP-Bereitschaftsdiagnosen und standardmäßig ohne Mail-Verbindungen. Mit `[mail].execution_enabled = true` führt `sc_mail_list` eine echte, read-only IMAP-Erreichbarkeitsprobe aus (verbinden + Ordner auflisten) und **verwendet dafür das kanonische `mail-connector`-Modul wieder** — ohne einen eigenen IMAP-Client nachzubauen; Message-Level-Read/Search bleiben Domäne von `mail-connector`, und SMTP-Send bleibt ohne Ausführung
 
 ## Suche Und Abgrenzung
 
