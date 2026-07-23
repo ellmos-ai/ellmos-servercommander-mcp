@@ -519,6 +519,10 @@ async def test_mail_list_falls_back_to_readiness_without_connector(monkeypatch):
     assert result["status"] == "not_implemented"
     assert result["diagnostics"]["execution_enabled"] is True
     assert result["diagnostics"]["safe_mode"] == "reachability_only"
+    # The capability must not be advertised when the canonical module is missing,
+    # and the response must say why no live probe ran.
+    assert result["capabilities"]["imap_reachability"] is False
+    assert "mail-connector" in result["probe_unavailable"]
 
 
 @pytest.mark.asyncio

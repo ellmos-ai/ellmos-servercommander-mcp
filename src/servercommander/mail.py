@@ -105,12 +105,16 @@ async def sc_mail_list(config: ServerCommanderConfig, folder: str = "INBOX", lim
     checks = _mail_checks(mail)
     imap_ready = not [key for key in ("imap_host", "username", "password") if not checks[key]]
 
-    if _execution_enabled(mail) and imap_ready:
-        probe = _imap_probe(mail, folder)
-        if probe is not None:
-            return probe
+    connector_cls = _load_imap_connector_class() if _execution_enabled(mail) else None
+    if connector_cls is not None and imap_ready:
+        return _imap_probe(mail, folder, connector_cls)
 
-    return _mail_alpha_response(config, "list", {"folder": folder, "limit": limit})
+    return _mail_alpha_response(
+        config,
+        "list",
+        {"folder": folder, "limit": limit},
+        connector_available=connector_cls is not None,
+    )
 
 
 async def sc_mail_read(config: ServerCommanderConfig, message_id: str | None = None) -> dict[str, Any]:
@@ -134,16 +138,12 @@ async def sc_mail_search(config: ServerCommanderConfig, query: str, limit: int =
     return _mail_alpha_response(config, "search", {"query": query, "limit": limit})
 
 
-def _imap_probe(mail: dict[str, Any], folder: str) -> dict[str, Any] | None:
+def _imap_probe(mail: dict[str, Any], folder: str, connector_cls: Any) -> dict[str, Any]:
     """Live, read-only IMAP reachability check via the canonical mail-connector.
 
-    Returns a result dict, or ``None`` to fall back to readiness when the
-    canonical connector cannot be loaded (never reimplements IMAP here).
+    ``connector_cls`` is the already-loaded ``ImapConnector`` class; the caller
+    decides availability so the readiness fallback can report *why* no probe ran.
     """
-    connector_cls = _load_imap_connector_class()
-    if connector_cls is None:
-        return None
-
     account = _build_account(mail)
     base = {
         "action": "list",
@@ -188,7 +188,12 @@ def _mail_checks(mail: dict[str, Any]) -> dict[str, bool]:
     }
 
 
-def _mail_alpha_response(config: ServerCommanderConfig, action: str, request: dict[str, Any]) -> dict[str, Any]:
+def _mail_alpha_response(
+    config: ServerCommanderConfig,
+    action: str,
+    request: dict[str, Any],
+    connector_available: bool = False,
+) -> dict[str, Any]:
     mail = config.mail
     checks = _mail_checks(mail)
     configured = all(checks.values())
@@ -212,11 +217,17 @@ def _mail_alpha_response(config: ServerCommanderConfig, action: str, request: di
             "send": False,
             "search": False,
             "config_diagnostics": True,
-            "imap_reachability": execution_enabled and action == "list",
+            # Only advertise the live probe when the canonical module actually loaded.
+            "imap_reachability": execution_enabled and action == "list" and connector_available,
         },
         "request": request,
         "message": "IMAP/SMTP execution is not implemented in the alpha server.",
     }
+    if execution_enabled and action == "list" and not connector_available:
+        response["probe_unavailable"] = (
+            "mail-connector module not found or not importable; live IMAP probe "
+            "unavailable. Set SERVERCOMMANDER_MAIL_CONNECTOR_PATH or install the module."
+        )
     if delegated:
         # read/search are message-level operations owned by mail-connector; we
         # explicitly delegate rather than build a second mail client.
