@@ -170,14 +170,40 @@ ServerCommander is the ellmos operations MCP server for local-first server admin
 
 It is not the GitHub MCP server, not a generic shell-command MCP server, not a hosting provider control panel, and not a production SFTP/IMAP executor yet. The current alpha surface is intentionally diagnostic and dry-run first.
 
-## ellmos MCP Family
+## ellmos-ai Ecosystem
 
-- [ellmos-filecommander-mcp](https://github.com/ellmos-ai/ellmos-filecommander-mcp): filesystem operations, process management, OCR, archives, and exports
-- [ellmos-codecommander-mcp](https://github.com/ellmos-ai/ellmos-codecommander-mcp): code analysis, JSON repair, imports, diffs, regex, and format conversion
-- [ellmos-clatcher-mcp](https://github.com/ellmos-ai/ellmos-clatcher-mcp): repair, conversion, duplicate detection, batch operations, and document utilities
-- [n8n-manager-mcp](https://github.com/ellmos-ai/n8n-manager-mcp): n8n workflow management through MCP
-- [ellmos-controlcenter-mcp](https://github.com/ellmos-ai/ellmos-controlcenter-mcp): local MCP discovery, profiles, bundles, and control-plane checks
-- [ellmos-homebase-mcp](https://github.com/ellmos-ai/ellmos-homebase-mcp): BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration
+This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** ecosystem — AI infrastructure, MCP servers, and intelligent tools.
+
+### MCP Server Family
+
+| Server | Tools | Focus | npm |
+|--------|-------|-------|-----|
+| [FileCommander](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | 45 | Filesystem, process management, interactive sessions, cloud-lock-safe operations | [`ellmos-filecommander-mcp`](https://www.npmjs.com/package/ellmos-filecommander-mcp) |
+| [CodeCommander](https://github.com/ellmos-ai/ellmos-codecommander-mcp) | 18 | Code analysis, JSON repair, imports, diffs, regex | [`ellmos-codecommander-mcp`](https://www.npmjs.com/package/ellmos-codecommander-mcp) |
+| [Clatcher](https://github.com/ellmos-ai/ellmos-clatcher-mcp) | 12 | File repair, format conversion, batch operations | [`ellmos-clatcher-mcp`](https://www.npmjs.com/package/ellmos-clatcher-mcp) |
+| [n8n Manager](https://github.com/ellmos-ai/n8n-manager-mcp) | 18 | n8n workflow management via AI assistants | [`n8n-manager-mcp`](https://www.npmjs.com/package/n8n-manager-mcp) |
+| [ControlCenter](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | 20 | MCP stack discovery, profile management, control plane | [`ellmos-controlcenter-mcp`](https://www.npmjs.com/package/ellmos-controlcenter-mcp) |
+| [Homebase](https://github.com/ellmos-ai/ellmos-homebase-mcp) | 45 | Local-first LLM memory, knowledge, state, routing, swarm orchestration | [`ellmos-homebase-mcp`](https://www.npmjs.com/package/ellmos-homebase-mcp) (alpha) |
+| **[ServerCommander](https://github.com/ellmos-ai/ellmos-servercommander-mcp)** | **8** | **Server operations: health checks, log analysis, deploy dry-runs, mail diagnostics** | **[`ellmos-servercommander-mcp`](https://www.npmjs.com/package/ellmos-servercommander-mcp)** (alpha) |
+| [Blender Use](https://github.com/ellmos-ai/ellmos-blender-use-mcp) | 3 | Headless Blender asset QA and FBX reimport verification | [`ellmos-blender-use-mcp`](https://www.npmjs.com/package/ellmos-blender-use-mcp) (alpha) |
+| [Open Compute](https://github.com/ellmos-ai/open-compute-mcp) | 10 | Model-agnostic computer use: capture, safety-gated actions, Windows UIA | [`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp) (alpha) |
+
+### AI Infrastructure
+
+| Project | Description |
+|---------|-------------|
+| [BACH](https://github.com/ellmos-ai/bach) | Local-first text-based OS for LLM agents — 113+ handlers, 550+ tools, SQLite memory |
+| [open-compute](https://github.com/ellmos-ai/open-compute) | Model-agnostic computer-use core powering Open Compute MCP |
+| [clutch](https://github.com/ellmos-ai/clutch) | Provider-neutral LLM orchestration with auto-routing and budget tracking |
+| [rinnsal](https://github.com/ellmos-ai/rinnsal) | Lightweight agent memory, connectors, and automation infrastructure |
+| [ellmos-stack](https://github.com/ellmos-ai/ellmos-stack) | Self-hosted AI research stack (Ollama + n8n + Rinnsal + KnowledgeDigest) |
+| [MarbleRun](https://github.com/ellmos-ai/MarbleRun) | Autonomous agent chain framework for Claude Code |
+| [gardener](https://github.com/ellmos-ai/gardener) | Minimalist database-driven LLM OS prototype (4 functions, 1 table) |
+| [ellmos-tests](https://github.com/ellmos-ai/ellmos-tests) | Testing framework for LLM operating systems (7 dimensions) |
+
+### Desktop Software
+
+Our partner organization **[open-bricks](https://github.com/open-bricks)** bundles AI-native desktop applications — a modern, open-source software suite built for the age of AI. Categories include file management, document tools, developer utilities, and more.
 
 ## Development
 

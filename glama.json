@@ -1,0 +1,32 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "ellmos-servercommander-mcp",
+  "version": "0.1.0-alpha.13",
+  "description": "Local-first MCP server for server operations: HTTP health checks, Apache/Nginx log analysis, dry-run deploy manifests, and mail readiness diagnostics.",
+  "maintainers": [
+    "lukisch"
+  ],
+  "author": "Lukas Geiger",
+  "homepage": "https://github.com/ellmos-ai/ellmos-servercommander-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "server-operations",
+    "devops",
+    "health-check",
+    "log-analysis",
+    "deployment",
+    "mcp-server"
+  ],
+  "tools": {
+    "count": 8
+  },
+  "features": [
+    "HTTP health checks",
+    "Access log analysis",
+    "Deploy dry-runs with SHA256 manifests",
+    "Deploy profile diagnostics",
+    "Mail readiness diagnostics"
+  ]
+}
