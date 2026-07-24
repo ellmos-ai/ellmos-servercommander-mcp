@@ -3,7 +3,7 @@
   "name": "io.github.ellmos-ai/ellmos-servercommander-mcp",
   "version": "0.1.0-alpha.14",
   "title": "ellmos ServerCommander",
-  "description": "Alpha MCP server for server operations: deploy dry-runs, mail status diagnostics, Apache/Nginx access-log analysis, and HTTP health checks.",
+  "description": "Server operations MCP: HTTP health checks, log analysis, deploy dry-runs, mail diagnostics.",
   "websiteUrl": "https://github.com/ellmos-ai/ellmos-servercommander-mcp",
   "repository": {
     "url": "https://github.com/ellmos-ai/ellmos-servercommander-mcp",
