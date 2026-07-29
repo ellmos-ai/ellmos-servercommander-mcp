@@ -28,7 +28,6 @@
     "CHANGELOG.md",
     "pyproject.toml",
     "server.json",
-    "smithery.yaml",
     "llms.txt",
     "LICENSE"
   ],

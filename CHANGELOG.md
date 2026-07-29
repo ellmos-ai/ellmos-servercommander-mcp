@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Maintenance
 - Certified `llms.txt` Last-checked timestamp (`2026-07-29`), re-verified unit test suite (34 passed, 1 skipped) and smoke CLI, and verified MCP catalog discoverability metadata (`server.json`, `glama.json`, `package.json`).
 - Updated ecosystem overview and checked i18n localization parity across `README.md` and `README_de.md`.
+- Removed the unverified legacy `smithery.yaml`; current Smithery publication for local stdio servers requires a validated MCPB bundle.
 
 ## 0.1.0-alpha.14 - 2026-07-24
 
