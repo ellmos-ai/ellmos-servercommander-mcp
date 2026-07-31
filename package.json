@@ -18,7 +18,6 @@
     "ellmos-servercommander": "bin/ellmos-servercommander.js"
   },
   "files": [
-    "assets/",
     "bin/",
     "config/servercommander.example.toml",
     "src/**/*.py",
