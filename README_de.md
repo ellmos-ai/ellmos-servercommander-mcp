@@ -1,8 +1,8 @@
-# ellmos-servercommander-mcp
-
 <p align="center">
-  <img src="assets/servercommander-logo.jpg" alt="ellmos ServerCommander MCP Logo" width="360">
+  <img src="https://raw.githubusercontent.com/ellmos-ai/.github/master/profile/logo-ellmos-servercommander.jpg" alt="ellmos ServerCommander MCP Emblem" width="300">
 </p>
+
+# ellmos-servercommander-mcp
 
 Alpha-MCP-Server für Server-Operationen: Deployment-Dry-runs, Mail-Status, Access-Log-Analyse und HTTP-Health-Checks.
 
