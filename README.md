@@ -1,6 +1,5 @@
 # ellmos-servercommander-mcp
 
-<img src="assets/banner.png" width="100%" alt="Ellmos Servercommander Mcp banner">
 
 
 <p align="center">
