@@ -1,3 +1,5 @@
+<img src="assets/banner.png" width="100%" alt="ELLMOS ServerCommander MCP Banner">
+
 # ellmos-servercommander-mcp
 
 <p align="center">
