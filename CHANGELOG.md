@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.17 - 2026-08-02
+
+### Maintenance
+- Aligned MCP catalog metadata (`server.json`, `glama.json`), Python package version (`pyproject.toml`, `__version__`), and `llms.txt` timestamp (`2026-08-02`) with npm version `0.1.0-alpha.17`.
+- Enhanced Discoverability & SEO in `README.md` and `README_de.md` with GFM callout boxes for `llms.txt` & MCP catalog manifests (`server.json`, `glama.json`) and added `open-bricks` umbrella badges.
+
 ## 0.1.0-alpha.15 - 2026-07-29
 
 ### Maintenance

@@ -16,8 +16,10 @@ German README: [README_de.md](README_de.md)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
+[![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 
-**Discoverability:** Published on [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) as `ellmos-servercommander-mcp`, described for MCP catalogs in [`server.json`](server.json), and summarized for AI search/indexing in [`llms.txt`](llms.txt).
+> [!NOTE]
+> **Discoverability & AI Search:** Published on [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) as `ellmos-servercommander-mcp`, cataloged for MCP ecosystems in [`server.json`](server.json) & [`glama.json`](glama.json), and summarized for AI/LLM indexing in [`llms.txt`](llms.txt).
 
 ## Architecture Visualized
 

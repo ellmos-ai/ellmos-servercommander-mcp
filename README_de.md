@@ -16,8 +16,10 @@ Englische Standard-README: [README.md](README.md)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
+[![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 
-**Auffindbarkeit:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
+> [!NOTE]
+> **Auffindbarkeit & KI-Suche:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json) & [`glama.json`](glama.json) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
 
 ## Architektur Visualisiert
 
