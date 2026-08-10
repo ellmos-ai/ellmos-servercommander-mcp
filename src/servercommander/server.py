@@ -14,7 +14,7 @@ from mcp.server.stdio import stdio_server
 
 from servercommander.config import ServerCommanderConfig, load_config
 from servercommander.deploy import sc_deploy, sc_deploy_status
-from servercommander.health import sc_health_check
+from servercommander.health import sc_health_check, sc_host_diagnostics
 from servercommander.i18n import I18n
 from servercommander.logs import sc_logs_analyze
 from servercommander.mail import sc_mail_list, sc_mail_read, sc_mail_search, sc_mail_send
@@ -154,6 +154,19 @@ def build_tools(config: ServerCommanderConfig) -> list[ToolDefinition]:
                 }
             ),
             handler=partial(sc_health_check, config),
+        ),
+        ToolDefinition(
+            name="sc_host_diagnostics",
+            description="Run explicitly configured local storage, ping, and DNS diagnostics.",
+            input_schema=object_schema(
+                {
+                    "storage_paths": {"type": "array", "items": {"type": "string"}},
+                    "ping_hosts": {"type": "array", "items": {"type": "string"}},
+                    "dns_hosts": {"type": "array", "items": {"type": "string"}},
+                    "timeout": {"type": "number", "default": 5},
+                }
+            ),
+            handler=partial(sc_host_diagnostics, config),
         ),
     ]
 

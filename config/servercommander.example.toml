@@ -56,3 +56,8 @@ timeout = 5
 endpoints = [
     "https://example.com/health",
 ]
+# Host diagnostics never use implicit network targets. Configure only hosts
+# and paths this installation is allowed to inspect.
+storage_paths = ["C:\\"]
+ping_hosts = ["router.example.internal"]
+dns_hosts = ["example.com"]

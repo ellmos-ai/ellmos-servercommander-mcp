@@ -1,6 +1,6 @@
 # ellmos-servercommander-mcp
 
-ellmos-servercommander-mcp is an alpha Model Context Protocol (MCP) server for local-first server operations workflows. It exposes diagnostic and dry-run-first tools for HTTP health checks, Apache/Nginx access-log analysis, deployment manifest planning, deployment profile diagnostics, and mail configuration status.
+ellmos-servercommander-mcp is an alpha Model Context Protocol (MCP) server for local-first server operations workflows. It exposes diagnostic and dry-run-first tools for HTTP health checks, explicitly configured local storage/ping/DNS diagnostics, Apache/Nginx access-log analysis, deployment manifest planning, deployment profile diagnostics, and mail configuration status.
 
 Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
 Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
@@ -18,6 +18,7 @@ Runtime: Node.js wrapper plus Python 3.10+ MCP server
 ## Current Tools
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency.
+- `sc_host_diagnostics`: runs only explicitly configured or supplied local storage, ping, and DNS checks; it has no implicit network targets.
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path.
 - `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics; can optionally persist the dry-run plan in local SQLite history.
 - `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history.

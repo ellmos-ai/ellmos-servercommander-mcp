@@ -4,7 +4,7 @@
 
 # ellmos-servercommander-mcp
 
-Alpha MCP server for server operations: deployment dry-runs, mail status, access-log analysis, and HTTP health checks.
+Alpha MCP server for server operations: deployment dry-runs, mail status, access-log analysis, HTTP health checks, and explicitly configured host diagnostics.
 
 German README: [README_de.md](README_de.md)
 
@@ -30,6 +30,7 @@ graph TD
     
     subgraph Tools [ServerCommander Tools]
         PyServer -->|sc_health_check| HTTP[HTTP/HTTPS Endpoint Check]
+        PyServer -->|sc_host_diagnostics| Host[Local storage, ping, DNS]
         PyServer -->|sc_logs_analyze| Logs[Apache/Nginx Access Logs]
         PyServer -->|sc_deploy / sc_deploy_status| Deploy[Dry-Run Manifest & SQLite History]
         PyServer -->|sc_mail_*| Mail[IMAP/SMTP Safe Readiness Diagnostics]
@@ -47,6 +48,7 @@ graph TD
 |---|---|
 | Add ServerCommander to Claude Desktop, Claude Code, Cursor, or another MCP host | [MCP Client Configuration](#mcp-client-configuration) |
 | Check a public or internal HTTP endpoint before a deploy | `sc_health_check` |
+| Check explicitly configured local storage, ping, and DNS targets | `sc_host_diagnostics` |
 | Inspect Apache/Nginx access logs for errors, bots, referrers, and suspicious paths | `sc_logs_analyze` |
 | Build a dry-run deployment manifest before SFTP/SSH execution exists | `sc_deploy` and `sc_deploy_status` |
 | Wire mail operations later without accidental sends today | `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search` |
@@ -55,7 +57,7 @@ graph TD
 
 - Transport: stdio via the Python MCP SDK
 - Package status: public alpha package under `ellmos-ai`
-- Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, richer access-log analysis with optional persisted JSON reports, and optional local dry-run deployment history
+- Current core: MCP tool listing, MCP tool dispatch, config loading, HTTP health checks, configuration-first host diagnostics, richer access-log analysis with optional persisted JSON reports, and optional local dry-run deployment history
 - Safe alpha handlers: `sc_deploy` builds local SHA256 manifests, configuration diagnostics, and opt-in SQLite history records in dry-run mode; `sc_mail_*` reports protocol-specific IMAP/SMTP readiness without opening mail connections
 - i18n: localized MCP tool descriptions, input-schema field descriptions, and unknown-tool errors for `en`, `de`, `es`, `zh`, `ja`, `ru` with English fallback
 
@@ -153,6 +155,7 @@ Secrets should be referenced through environment variables, for example `$MAIL_P
 ## Tools
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency; malformed endpoint URLs are returned as failed checks, so one bad input does not abort a batch
+- `sc_host_diagnostics`: checks only explicitly configured or supplied local storage paths, ping hosts, and DNS hosts; it has no implicit network targets and does not import BACH database logging or personal NAS defaults
 - `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file, including status classes, bytes, referers, error paths, suspicious request markers, and optional JSON report persistence via `persist_report`
 - `sc_deploy`: creates a deployment plan with a local SHA256 manifest and profile diagnostics, but does not upload yet; readiness checks required fields, manifestable local paths, and supported protocols before optional `record_history=true`; nested symlinks are reported but excluded so a manifest cannot silently traverse beyond the selected release directory
 - `sc_deploy_status`: shows configured deploy profiles, selected-profile diagnostics, and recent dry-run history from the local SQLite history database
@@ -186,7 +189,7 @@ This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** eco
 | [n8n Manager](https://github.com/ellmos-ai/n8n-manager-mcp) | 18 | n8n workflow management via AI assistants | [`n8n-manager-mcp`](https://www.npmjs.com/package/n8n-manager-mcp) |
 | [ControlCenter](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | 20 | MCP stack discovery, profile management, control plane | [`ellmos-controlcenter-mcp`](https://www.npmjs.com/package/ellmos-controlcenter-mcp) |
 | [Homebase](https://github.com/ellmos-ai/ellmos-homebase-mcp) | 45 | Local-first LLM memory, knowledge, state, routing, swarm orchestration | [`ellmos-homebase-mcp`](https://www.npmjs.com/package/ellmos-homebase-mcp) (alpha) |
-| **[ServerCommander](https://github.com/ellmos-ai/ellmos-servercommander-mcp)** | **8** | **Server operations: health checks, log analysis, deploy dry-runs, mail diagnostics** | **[`ellmos-servercommander-mcp`](https://www.npmjs.com/package/ellmos-servercommander-mcp)** (alpha) |
+| **[ServerCommander](https://github.com/ellmos-ai/ellmos-servercommander-mcp)** | **9** | **Server operations: health checks, host diagnostics, log analysis, deploy dry-runs, mail diagnostics** | **[`ellmos-servercommander-mcp`](https://www.npmjs.com/package/ellmos-servercommander-mcp)** (alpha) |
 | [Blender Use](https://github.com/ellmos-ai/ellmos-blender-use-mcp) | 3 | Headless Blender asset QA and FBX reimport verification | [`ellmos-blender-use-mcp`](https://www.npmjs.com/package/ellmos-blender-use-mcp) (alpha) |
 | [Open Compute](https://github.com/ellmos-ai/open-compute-mcp) | 10 | Model-agnostic computer use: capture, safety-gated actions, Windows UIA | [`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp) (alpha) |
 

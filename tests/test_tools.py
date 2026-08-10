@@ -25,6 +25,7 @@ async def test_registry_lists_expected_tools():
         "sc_mail_search",
         "sc_logs_analyze",
         "sc_health_check",
+        "sc_host_diagnostics",
     }
 
 
@@ -34,6 +35,7 @@ def test_tool_descriptions_are_localized():
     tools = {tool.name: tool for tool in registry.list_tools()}
 
     assert tools["sc_health_check"].description.startswith("Prüft HTTP-Endpunkte")
+    assert tools["sc_host_diagnostics"].description.startswith("Prüft konfigurierte lokale")
 
 
 def test_tool_input_schema_descriptions_are_localized():
@@ -44,6 +46,9 @@ def test_tool_input_schema_descriptions_are_localized():
 
     assert properties["endpoints"]["description"] == "Zu prüfende HTTP-Endpunkt-URLs."
     assert properties["timeout"]["description"] == "Request-Timeout in Sekunden."
+
+    host_properties = tools["sc_host_diagnostics"].inputSchema["properties"]
+    assert host_properties["storage_paths"]["description"] == "Lokale Pfade, deren Speicherkapazität geprüft werden soll."
 
 
 def test_tool_input_schema_descriptions_gain_english_defaults():

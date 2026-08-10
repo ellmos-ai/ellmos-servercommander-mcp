@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added `sc_host_diagnostics`, a configuration-first port of BACH's generic host checks for local storage, ping, and DNS. It deliberately omits BACH database logging and personal default targets.
+
 All notable changes to this project will be documented in this file.
 
 ## 0.1.0-alpha.17 - 2026-08-02
