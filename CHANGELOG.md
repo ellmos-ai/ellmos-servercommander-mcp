@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.17 - 2026-08-14
+
+### Maintenance
+- Synchronized `llms.txt` Last-checked verification timestamp (`2026-08-14`) and updated related MCP server family references.
+- Added `[tool.ruff]` linting configuration in `pyproject.toml` (target py310, line-length 120, ruff check 100% clean).
+- Re-verified complete test suite (34 passed, 1 skipped in pytest), node smoke CLI, and repository hygiene tests.
+- Validated npm package manifest (20 files, 0 secrets) and strict exclusion of local configuration.
+
 ## 0.1.0-alpha.17 - 2026-08-02
 
 ### Maintenance
