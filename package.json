@@ -28,6 +28,8 @@
     "CHANGELOG.md",
     "pyproject.toml",
     "server.json",
+    "glama.json",
+    "smithery.yaml",
     "llms.txt",
     "LICENSE"
   ],
