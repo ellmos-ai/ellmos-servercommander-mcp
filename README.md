@@ -16,10 +16,13 @@ German README: [README_de.md](README_de.md)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
+[![Pytest: 37 passed](https://img.shields.io/badge/pytest-37%20passed-brightgreen.svg)](tests/)
+[![Ecosystem: ellmos--ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
 [![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
+[![LLM--Ready: llms.txt](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 > [!NOTE]
-> **Discoverability & AI Search:** Published on [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) as `ellmos-servercommander-mcp`, cataloged for MCP ecosystems in [`server.json`](server.json) & [`glama.json`](glama.json), and summarized for AI/LLM indexing in [`llms.txt`](llms.txt).
+> **Discoverability & AI Search:** Published on [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) as `ellmos-servercommander-mcp`, cataloged for MCP ecosystems in [`server.json`](server.json), [`glama.json`](glama.json), and [`smithery.yaml`](smithery.yaml), and indexed for AI/LLM search in [`llms.txt`](llms.txt).
 
 ## Architecture Visualized
 
@@ -103,7 +106,20 @@ python -m servercommander.server
 }
 ```
 
-### Source Checkout
+### npx Without Global Install
+
+```json
+{
+  "mcpServers": {
+    "servercommander": {
+      "command": "npx",
+      "args": ["-y", "ellmos-servercommander-mcp@alpha"]
+    }
+  }
+}
+```
+
+### Direct Python Execution
 
 ```json
 {
@@ -112,40 +128,44 @@ python -m servercommander.server
       "command": "python",
       "args": ["-m", "servercommander.server"],
       "env": {
-        "PYTHONPATH": "/absolute/path/to/ellmos-servercommander-mcp/src"
+        "PYTHONPATH": "C:/path/to/ellmos-servercommander-mcp/src",
+        "SERVERCOMMANDER_CONFIG_PATH": "C:/path/to/config/servercommander.toml"
       }
     }
   }
 }
 ```
 
-Replace `/absolute/path/to/ellmos-servercommander-mcp` with your local checkout path.
+## Configuration
 
-## Server Configuration
+ServerCommander looks for configuration in this order:
 
-Example: [config/servercommander.example.toml](config/servercommander.example.toml)
+1. Environment variable `SERVERCOMMANDER_CONFIG_PATH`
+2. `./servercommander.toml`
+3. `./config/servercommander.toml`
+4. `~/.config/servercommander/servercommander.toml`
 
-Default paths:
-
-- `%USERPROFILE%\.servercommander\config.toml`
-- `%USERPROFILE%\.config\servercommander\config.toml`
-- override with `SERVERCOMMANDER_CONFIG`
-
-Language can be configured with `[server].language`, `SERVERCOMMANDER_LANG`, or `SERVERCOMMANDER_LOCALE`.
+An annotated template is included at [`config/servercommander.example.toml`](config/servercommander.example.toml).
 
 ```toml
 [server]
-name = "ellmos-servercommander"
-language = "en" # en, de, es, zh, ja, ru
+name = "servercommander"
+log_level = "INFO"
+language = "en"
 
-[deploy]
-persist_history = false
-history_db = "~/.servercommander/deploy_history.db"
+[deploy.profiles.staging]
+target = "sftp://staging.example.com/var/www/app"
+local_path = "./dist"
+protocol = "sftp"
+dry_run = true
+record_history = true
 
-[logs]
-default_format = "apache" # apache | nginx
-persist_reports = false
-reports_dir = "~/.servercommander/log_reports"
+[mail]
+execution_enabled = false
+smtp_host = "smtp.example.com"
+smtp_port = 587
+imap_host = "imap.example.com"
+imap_port = 993
 ```
 
 Secrets should be referenced through environment variables, for example `$MAIL_PASSWORD` or `$SFTP_PASSWORD`.
@@ -190,7 +210,7 @@ This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** eco
 | [Blender Use](https://github.com/ellmos-ai/ellmos-blender-use-mcp) | 3 | Headless Blender asset QA and FBX reimport verification | [`ellmos-blender-use-mcp`](https://www.npmjs.com/package/ellmos-blender-use-mcp) (alpha) |
 | [Open Compute](https://github.com/ellmos-ai/open-compute-mcp) | 10 | Model-agnostic computer use: capture, safety-gated actions, Windows UIA | [`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp) (alpha) |
 
-### AI Infrastructure
+### AI Infrastructure & Developer Tools
 
 | Project | Description |
 |---------|-------------|
@@ -202,16 +222,19 @@ This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** eco
 | [MarbleRun](https://github.com/ellmos-ai/MarbleRun) | Autonomous agent chain framework for Claude Code |
 | [gardener](https://github.com/ellmos-ai/gardener) | Minimalist database-driven LLM OS prototype (4 functions, 1 table) |
 | [ellmos-tests](https://github.com/ellmos-ai/ellmos-tests) | Testing framework for LLM operating systems (7 dimensions) |
+| [sqlite-transit-sync](https://github.com/ellmos-ai/sqlite-transit-sync) | Encrypted SQLite transit synchronization & additive read-replica engine |
+| [workflowhooker](https://github.com/ellmos-ai/workflowhooker) | Git-hook-driven workflow automation and execution safety boundaries |
+| [system-explorer](https://github.com/ellmos-ai/system-explorer) | Local-first system composition, module introspection, and fleet verification |
+| [companion-for-agy](https://github.com/ellmos-ai/companion-for-agy) | Antigravity developer companion & telemetry bridge |
 
 ### Desktop Software
 
-Our partner organization **[open-bricks](https://github.com/open-bricks)** bundles AI-native desktop applications — a modern, open-source software suite built for the age of AI. Categories include file management, document tools, developer utilities, and more.
+Our partner organization **[open-bricks](https://github.com/open-bricks)** bundles AI-native desktop applications — a modern, open-source software suite built for the age of AI. Categories include file management ([ProFiler](https://github.com/file-bricks/ProFiler)), document tools ([DokuZen](https://github.com/doc-bricks/DokuZen), [PDFtoPDFocr](https://github.com/doc-bricks/PDFtoPDFocr)), developer utilities ([DevCenter](https://github.com/dev-bricks/DevCenter), [CodeBox](https://github.com/dev-bricks/CodeBox)), and more.
 
 ## Development
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
-$env:PYTHONDONTWRITEBYTECODE = "1"
 python -m pytest -q
 npm run smoke
 npm pack --dry-run

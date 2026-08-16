@@ -16,10 +16,13 @@ Englische Standard-README: [README.md](README.md)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
+[![Pytest: 37 passed](https://img.shields.io/badge/pytest-37%20passed-brightgreen.svg)](tests/)
+[![Ecosystem: ellmos--ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
 [![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
+[![LLM--Ready: llms.txt](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 > [!NOTE]
-> **Auffindbarkeit & KI-Suche:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json) & [`glama.json`](glama.json) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
+> **Auffindbarkeit & KI-Suche:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json), [`glama.json`](glama.json) und [`smithery.yaml`](smithery.yaml) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
 
 ## Architektur Visualisiert
 
@@ -103,7 +106,20 @@ python -m servercommander.server
 }
 ```
 
-### Quellcode-Checkout
+### npx Ohne Globale Installation
+
+```json
+{
+  "mcpServers": {
+    "servercommander": {
+      "command": "npx",
+      "args": ["-y", "ellmos-servercommander-mcp@alpha"]
+    }
+  }
+}
+```
+
+### Direkte Python-Ausführung
 
 ```json
 {
@@ -112,40 +128,44 @@ python -m servercommander.server
       "command": "python",
       "args": ["-m", "servercommander.server"],
       "env": {
-        "PYTHONPATH": "/absolute/path/to/ellmos-servercommander-mcp/src"
+        "PYTHONPATH": "C:/path/to/ellmos-servercommander-mcp/src",
+        "SERVERCOMMANDER_CONFIG_PATH": "C:/path/to/config/servercommander.toml"
       }
     }
   }
 }
 ```
 
-`/absolute/path/to/ellmos-servercommander-mcp` durch den eigenen lokalen Checkout-Pfad ersetzen.
+## Konfiguration
 
-## Server-Konfiguration
+ServerCommander sucht Konfigurationsdateien in folgender Reihenfolge:
 
-Beispiel: [config/servercommander.example.toml](config/servercommander.example.toml)
+1. Umgebungsvariable `SERVERCOMMANDER_CONFIG_PATH`
+2. `./servercommander.toml`
+3. `./config/servercommander.toml`
+4. `~/.config/servercommander/servercommander.toml`
 
-Standardpfade:
-
-- `%USERPROFILE%\.servercommander\config.toml`
-- `%USERPROFILE%\.config\servercommander\config.toml`
-- Override per `SERVERCOMMANDER_CONFIG`
-
-Die Sprache kann über `[server].language`, `SERVERCOMMANDER_LANG` oder `SERVERCOMMANDER_LOCALE` gesetzt werden.
+Ein kommentiertes Template liegt unter [`config/servercommander.example.toml`](config/servercommander.example.toml).
 
 ```toml
 [server]
-name = "ellmos-servercommander"
-language = "de" # en, de, es, zh, ja, ru
+name = "servercommander"
+log_level = "INFO"
+language = "de"
 
-[deploy]
-persist_history = false
-history_db = "~/.servercommander/deploy_history.db"
+[deploy.profiles.staging]
+target = "sftp://staging.example.com/var/www/app"
+local_path = "./dist"
+protocol = "sftp"
+dry_run = true
+record_history = true
 
-[logs]
-default_format = "apache" # apache | nginx
-persist_reports = false
-reports_dir = "~/.servercommander/log_reports"
+[mail]
+execution_enabled = false
+smtp_host = "smtp.example.com"
+smtp_port = 587
+imap_host = "imap.example.com"
+imap_port = 993
 ```
 
 Secrets sollen als Umgebungsvariablen referenziert werden, zum Beispiel `$MAIL_PASSWORD` oder `$SFTP_PASSWORD`.
@@ -190,7 +210,7 @@ Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ök
 | [Blender Use](https://github.com/ellmos-ai/ellmos-blender-use-mcp) | 3 | Headless Blender-Asset-QA und FBX-Reimport-Verifikation | [`ellmos-blender-use-mcp`](https://www.npmjs.com/package/ellmos-blender-use-mcp) (alpha) |
 | [Open Compute](https://github.com/ellmos-ai/open-compute-mcp) | 10 | Modell-agnostischer Computer-Use: Capture, safety-gated Aktionen, Windows-UIA | [`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp) (alpha) |
 
-### KI-Infrastruktur
+### KI-Infrastruktur & Entwickler-Werkzeuge
 
 | Projekt | Beschreibung |
 |---------|-------------|
@@ -202,19 +222,23 @@ Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ök
 | [MarbleRun](https://github.com/ellmos-ai/MarbleRun) | Autonomes Agent-Chain-Framework für Claude Code |
 | [gardener](https://github.com/ellmos-ai/gardener) | Minimalistischer datenbankgetriebener LLM-OS-Prototyp (4 Funktionen, 1 Tabelle) |
 | [ellmos-tests](https://github.com/ellmos-ai/ellmos-tests) | Testframework für LLM-Betriebssysteme (7 Dimensionen) |
+| [sqlite-transit-sync](https://github.com/ellmos-ai/sqlite-transit-sync) | Verschlüsselte SQLite-Transit-Synchronisation & additive Read-Replica-Engine |
+| [workflowhooker](https://github.com/ellmos-ai/workflowhooker) | Git-Hook-getriebene Workflow-Automatisierung und Sicherheitsgrenzen |
+| [system-explorer](https://github.com/ellmos-ai/system-explorer) | Local-first System-Komposition, Modul-Introspektion und Flottenverifikation |
+| [companion-for-agy](https://github.com/ellmos-ai/companion-for-agy) | Entwicklerbegleiter und Telemetrie-Bridge für Antigravity-Workflows |
 
 ### Desktop-Software
 
-Unsere Partnerorganisation **[open-bricks](https://github.com/open-bricks)** bündelt KI-native Desktop-Anwendungen: eine moderne Open-Source-Softwaresuite für Datei-, Dokumenten- und Entwicklerwerkzeuge.
+Unsere Partnerorganisation **[open-bricks](https://github.com/open-bricks)** bündelt KI-native Desktop-Anwendungen: eine moderne Open-Source-Softwaresuite für Dateiverwaltung ([ProFiler](https://github.com/file-bricks/ProFiler)), Dokumentenwerkzeuge ([DokuZen](https://github.com/doc-bricks/DokuZen), [PDFtoPDFocr](https://github.com/doc-bricks/PDFtoPDFocr)), Entwicklerwerkzeuge ([DevCenter](https://github.com/dev-bricks/DevCenter), [CodeBox](https://github.com/dev-bricks/CodeBox)) und mehr.
 
 ## Entwicklung
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
-$env:PYTHONDONTWRITEBYTECODE = "1"
 python -m pytest -q
 npm run smoke
 npm pack --dry-run
 ```
 
 Der nächste sinnvolle Schritt ist, explizit konfigurierte Ausführungsadapter für SFTP und IMAP/SMTP zu ergänzen und Dry-run beziehungsweise Status-only als Standard beizubehalten.
+

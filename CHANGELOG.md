@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.17 - 2026-08-16
+
+### Maintenance & Discoverability
+- Synchronized Registry Triad manifests (`server.json`, `glama.json`, `smithery.yaml`) and AI/LLM indexing in `llms.txt` with timestamp `2026-08-16`.
+- Enhanced `README.md` and `README_de.md` with test status badges (`37 passed`), ecosystem badges, npx client configuration examples, and cross-linking to sibling developer tools (`sqlite-transit-sync`, `workflowhooker`, `system-explorer`, `companion-for-agy`).
+- Extended automated repository hygiene and discoverability test suite in `tests/test_repository_hygiene.py` covering registry parity, manifest consistency, and bilingual README parity (37 passed, 1 skipped).
+- Verified npm package manifest (22 files, 0 secrets) and strict zero-configuration leak policy.
+
 ## 0.1.0-alpha.17 - 2026-08-14
 
 ### Maintenance

@@ -117,3 +117,46 @@ def test_package_json_version_matches_python_and_server_metadata():
     npm_python_version = npm_version.replace("-alpha.", "a")
     assert pyproject_match.group(1) == npm_python_version
     assert init_match.group(1) == npm_python_version
+
+
+def test_glama_and_smithery_manifests_exist_and_match():
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    npm_version = package["version"]
+
+    glama_json = json.loads((REPO_ROOT / "glama.json").read_text(encoding="utf-8"))
+    assert glama_json["version"] == npm_version
+    assert glama_json["name"] == "ellmos-servercommander-mcp"
+
+    smithery_yaml = (REPO_ROOT / "smithery.yaml").read_text(encoding="utf-8")
+    assert "startCommand:" in smithery_yaml
+    assert "ellmos-servercommander-mcp" in smithery_yaml
+
+
+def test_llms_txt_contains_required_discoverability_sections():
+    llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+    assert "Last-checked: 2026-08-16" in llms_text
+    assert "sc_health_check" in llms_text
+    assert "sc_logs_analyze" in llms_text
+    assert "sc_deploy" in llms_text
+    assert "sc_deploy_status" in llms_text
+    assert "sc_mail_list" in llms_text
+    assert "server.json" in llms_text
+    assert "glama.json" in llms_text
+    assert "smithery.yaml" in llms_text
+
+
+def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "pytest-37%20passed" in readme_en
+    assert "pytest-37%20passed" in readme_de
+    assert "smithery.yaml" in readme_en
+    assert "smithery.yaml" in readme_de
+    assert "sqlite-transit-sync" in readme_en
+    assert "sqlite-transit-sync" in readme_de
+    assert "workflowhooker" in readme_en
+    assert "workflowhooker" in readme_de
+    assert "system-explorer" in readme_en
+    assert "system-explorer" in readme_de
+
