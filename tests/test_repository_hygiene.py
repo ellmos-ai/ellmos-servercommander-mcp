@@ -149,8 +149,8 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
-    assert "pytest-37%20passed" in readme_en
-    assert "pytest-37%20passed" in readme_de
+    assert "pytest-38%20passed" in readme_en
+    assert "pytest-38%20passed" in readme_de
     assert "smithery.yaml" in readme_en
     assert "smithery.yaml" in readme_de
     assert "sqlite-transit-sync" in readme_en
@@ -159,4 +159,19 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     assert "workflowhooker" in readme_de
     assert "system-explorer" in readme_en
     assert "system-explorer" in readme_de
+
+
+def test_security_policy_exists_and_is_distributed():
+    security_md = REPO_ROOT / "SECURITY.md"
+    assert security_md.exists(), "SECURITY.md must exist in repository root"
+    assert not _git_check_ignore("SECURITY.md"), "SECURITY.md must remain trackable"
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    files = set(package["files"])
+    assert "SECURITY.md" in files, "SECURITY.md must be included in package.json files list"
+
+    content = security_md.read_text(encoding="utf-8")
+    assert "Execution Safety and Local-First Guarantees" in content
+    assert "Tool Risk Classification" in content
+
 

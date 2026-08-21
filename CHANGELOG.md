@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Security & Hygiene (2026-08-21)
+- Added dedicated `SECURITY.md` establishing local-first invariants, dry-run deployment architecture, mail diagnostic safety, and secret exclusion.
+- Included `SECURITY.md` in `package.json` `files` array for npm package distribution.
+- Updated test badge in `README.md` and `README_de.md` to `38 passed`.
+- Extended automated repository hygiene test suite in `tests/test_repository_hygiene.py` with `test_security_policy_exists_and_is_distributed` (38 passed, 1 platform-skip).
+
 ## 0.1.0-alpha.17 - 2026-08-16
 
 ### Maintenance & Discoverability
