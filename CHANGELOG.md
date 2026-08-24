@@ -2,15 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## 0.1.0-alpha.17 - 2026-08-24
 
-### Security & Hygiene (2026-08-21)
-- Added dedicated `SECURITY.md` establishing local-first invariants, dry-run deployment architecture, mail diagnostic safety, and secret exclusion.
-- Included `SECURITY.md` in `package.json` `files` array for npm package distribution.
-- Updated test badge in `README.md` and `README_de.md` to `38 passed`.
-- Extended automated repository hygiene test suite in `tests/test_repository_hygiene.py` with `test_security_policy_exists_and_is_distributed` (38 passed, 1 platform-skip).
+### Discoverability, Dual Mermaid Diagrams & Multi-OS CI Matrix
+- **Dual Mermaid Visualizations**: Integrated 5-tier architecture flowchart (`flowchart TD`) and end-to-end server operations & diagnostics sequence diagram (`sequenceDiagram`) across bilingual README architecture (`README.md` & `README_de.md`).
+- **Quick Navigation & Key Capabilities Table**: Added structured 13-anchor jump navigation and bilingual Key Capabilities & Safety Invariants matrix with concrete technical guarantees (100% Local-First / Dry-Run, Non-Elevation, SHA-256 integrity, 6-language i18n).
+- **Expanded Sibling Ecosystem Matrix**: Documented full 9-server MCP family and 8 sibling AI infrastructure tools across `ellmos-ai` and `open-bricks`.
+- **Multi-OS GitHub Actions CI**: Implemented `.github/workflows/ci.yml` covering `ubuntu-latest`, `windows-latest`, and `macos-latest` across Python 3.10-3.13 and Node.js 18-22 with concurrency cancellation (`cancel-in-progress: true`), Ruff linting gate, and Pytest execution.
+- **Bilingual Security Policy**: Hardened `SECURITY.md` with explicit 48-hour response SLA, GitHub Security Advisories link, official security contacts (`security@ellmos.ai`, `security@open-bricks.org`, `lukas@open-bricks.org`, `support@lukasgeiger.com`), and Local-First / Zero-Egress guarantees.
+- **PEP 621 Metadata**: Expanded `pyproject.toml` with standard Trove classifiers, DevOps/MCP keywords, and complete `[project.urls]` taxonomy.
+- **Automated Contract Tests**: Extended repository hygiene test suite in `tests/test_repository_hygiene.py` to 15 contract tests covering CI matrix integrity, bilingual README parity, Mermaid syntax, Sibling matrix, and PEP 621 compliance (44 passed, 1 skipped).
+- **LLM Context**: Synchronized `llms.txt` verification timestamp to `2026-08-24`.
 
-## 0.1.0-alpha.17 - 2026-08-16
 
 ### Maintenance & Discoverability
 - Synchronized Registry Triad manifests (`server.json`, `glama.json`, `smithery.yaml`) and AI/LLM indexing in `llms.txt` with timestamp `2026-08-16`.

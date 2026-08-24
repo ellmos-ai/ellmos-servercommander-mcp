@@ -66,3 +66,8 @@ node_modules/
 
 # mcp-publisher login artifacts (credentials, never commit)
 .mcpregistry_*
+
+# Sync conflicts and locks
+*.sync-conflict-*
+*.conflict
+LOCK*.txt

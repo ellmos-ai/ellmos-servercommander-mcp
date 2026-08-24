@@ -6,7 +6,8 @@ Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
 Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
 MCP registry name: io.github.ellmos-ai/ellmos-servercommander-mcp
 License: MIT
-Runtime: Node.js wrapper plus Python 3.10+ MCP server
+Runtime: Node.js wrapper plus Python 3.10+ MCP server (FastMCP stdio)
+Architecture: 5-Tier System (Host Layer, Node Gateway Layer, Python Core Server Layer, Operations Engines, Local Storage & Audit Sink)
 
 ## Audience
 
@@ -17,11 +18,11 @@ Runtime: Node.js wrapper plus Python 3.10+ MCP server
 
 ## Current Tools
 
-- `sc_health_check`: checks HTTP endpoints and reports status code plus latency.
-- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path.
-- `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics; can optionally persist the dry-run plan in local SQLite history.
-- `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history.
-- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution.
+- `sc_health_check`: checks HTTP endpoints and reports status code plus latency; non-blocking worker threads.
+- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path; supports optional JSON report persistence.
+- `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics; tracks skipped symlinks; can optionally persist the dry-run plan in local SQLite history.
+- `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history from local SQLite.
+- `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution by default.
 
 ## Search Phrases
 
@@ -41,7 +42,7 @@ SQLite deploy history MCP
 
 ## Disambiguation
 
-This is not the GitHub MCP server, not a generic shell-command MCP server, not a cloud-hosted control panel, and not a production SFTP/IMAP executor yet. The alpha release is intentionally diagnostic, dry-run-first, local-first, and safe by default.
+This is not the GitHub MCP server, not a generic arbitrary shell-command MCP server, not a cloud-hosted control panel, and not a production SFTP/IMAP executor yet. The alpha release is intentionally diagnostic, dry-run-first, local-first, and safe by default.
 
 ## Registries & Discoverability
 
@@ -49,6 +50,8 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - MCP Schema Manifest: [server.json](server.json) (`io.github.ellmos-ai/ellmos-servercommander-mcp`)
 - Glama Directory Manifest: [glama.json](glama.json)
 - Smithery Manifest: [smithery.yaml](smithery.yaml)
+- Security Policy: [SECURITY.md](SECURITY.md) (Bilingual, 48h SLA)
+- CI Matrix: [.github/workflows/ci.yml](.github/workflows/ci.yml) (Ubuntu, Windows, macOS / Python 3.10-3.13 / Node 18-22)
 - AI / LLM Index: [llms.txt](llms.txt)
 
 ## Related ellmos & Open-Bricks Ecosystem
@@ -66,4 +69,4 @@ This is not the GitHub MCP server, not a generic shell-command MCP server, not a
 - system-explorer: local-first system composition, module introspection, and fleet verification.
 - companion-for-agy: developer companion and telemetry bridge for Antigravity workflows.
 
-## Last-checked: 2026-08-16
+## Last-checked: 2026-08-24

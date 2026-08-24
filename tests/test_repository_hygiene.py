@@ -134,7 +134,7 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-08-16" in llms_text
+    assert "Last-checked: 2026-08-24" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
     assert "sc_deploy" in llms_text
@@ -143,25 +143,97 @@ def test_llms_txt_contains_required_discoverability_sections():
     assert "server.json" in llms_text
     assert "glama.json" in llms_text
     assert "smithery.yaml" in llms_text
+    assert "SECURITY.md" in llms_text
+    assert "5-Tier System" in llms_text
 
 
 def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
-    assert "pytest-38%20passed" in readme_en
-    assert "pytest-38%20passed" in readme_de
-    assert "smithery.yaml" in readme_en
-    assert "smithery.yaml" in readme_de
-    assert "sqlite-transit-sync" in readme_en
-    assert "sqlite-transit-sync" in readme_de
-    assert "workflowhooker" in readme_en
-    assert "workflowhooker" in readme_de
-    assert "system-explorer" in readme_en
-    assert "system-explorer" in readme_de
+    for keyword in [
+        "pytest-44%20passed",
+        "smithery.yaml",
+        "sqlite-transit-sync",
+        "workflowhooker",
+        "system-explorer",
+        "companion-for-agy",
+        "open-bricks",
+        "ellmos--ai",
+        "SECURITY.md",
+    ]:
+        assert keyword in readme_en, f"'{keyword}' missing in README.md"
+        assert keyword in readme_de, f"'{keyword}' missing in README_de.md"
 
 
-def test_security_policy_exists_and_is_distributed():
+def test_readme_and_readme_de_quick_navigation_and_jump_links():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "## Quick Navigation" in readme_en
+    assert "## Schnellnavigation" in readme_de
+
+    en_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_en)
+    de_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_de)
+
+    assert len(en_links) >= 10, f"Expected >= 10 quick nav links in EN, got {len(en_links)}"
+    assert len(de_links) >= 10, f"Expected >= 10 quick nav links in DE, got {len(de_links)}"
+
+
+def test_readme_and_readme_de_dual_mermaid_diagrams():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for doc, name in [(readme_en, "README.md"), (readme_de, "README_de.md")]:
+        assert "flowchart TD" in doc, f"Flowchart missing in {name}"
+        assert "sequenceDiagram" in doc, f"Sequence diagram missing in {name}"
+        assert "sc_health_check" in doc, f"sc_health_check missing in {name}"
+        assert "sc_logs_analyze" in doc, f"sc_logs_analyze missing in {name}"
+        assert "sc_deploy" in doc, f"sc_deploy missing in {name}"
+
+
+def test_key_capabilities_and_safety_invariants_table_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "## Key Capabilities & Safety Invariants" in readme_en
+    assert "## Kernfähigkeiten & Sicherheitsinvarianten" in readme_de
+
+    for key in [
+        "Local-First",
+        "Non-Elevation",
+        "SHA-256",
+        "i18n",
+    ]:
+        assert key in readme_en, f"'{key}' missing in README.md capabilities table"
+        assert key in readme_de, f"'{key}' missing in README_de.md capabilities table"
+
+
+def test_sibling_ecosystem_matrix_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    siblings = [
+        "FileCommander",
+        "CodeCommander",
+        "Clatcher",
+        "n8n Manager",
+        "ControlCenter",
+        "Homebase",
+        "ServerCommander",
+        "Blender Use",
+        "Open Compute",
+        "BACH",
+        "ProFiler",
+        "DevCenter",
+    ]
+
+    for sibling in siblings:
+        assert sibling in readme_en, f"Sibling '{sibling}' missing in README.md"
+        assert sibling in readme_de, f"Sibling '{sibling}' missing in README_de.md"
+
+
+def test_security_policy_bilingual_sla_and_contacts():
     security_md = REPO_ROOT / "SECURITY.md"
     assert security_md.exists(), "SECURITY.md must exist in repository root"
     assert not _git_check_ignore("SECURITY.md"), "SECURITY.md must remain trackable"
@@ -171,7 +243,45 @@ def test_security_policy_exists_and_is_distributed():
     assert "SECURITY.md" in files, "SECURITY.md must be included in package.json files list"
 
     content = security_md.read_text(encoding="utf-8")
+    assert "Security Policy / Sicherheitsrichtlinie" in content
     assert "Execution Safety and Local-First Guarantees" in content
-    assert "Tool Risk Classification" in content
+    assert "Ausführungssicherheit und Local-First Garantien" in content
+    assert "security@ellmos.ai" in content
+    assert "security@open-bricks.org" in content
+    assert "48 hours" in content or "48 Stunden" in content
+    assert "github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories" in content
 
 
+def test_pyproject_pep621_classifiers_and_urls():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+
+    assert "classifiers = [" in pyproject_text
+    assert "Development Status :: 4 - Beta" in pyproject_text
+    assert "Operating System :: OS Independent" in pyproject_text
+    assert "Topic :: System :: Systems Administration" in pyproject_text
+
+    assert "[project.urls]" in pyproject_text
+    assert "Homepage = " in pyproject_text
+    assert "Documentation = " in pyproject_text
+    assert "Repository = " in pyproject_text
+    assert "Bug Tracker" in pyproject_text
+    assert "Changelog = " in pyproject_text
+    assert "Security = " in pyproject_text
+    assert "Parent Organization" in pyproject_text
+    assert "Umbrella Ecosystem" in pyproject_text
+
+
+def test_ci_workflow_multi_os_matrix_and_concurrency():
+    ci_path = REPO_ROOT / ".github" / "workflows" / "ci.yml"
+    assert ci_path.exists(), ".github/workflows/ci.yml must exist"
+
+    content = ci_path.read_text(encoding="utf-8")
+    assert "cancel-in-progress: true" in content
+    assert "ubuntu-latest" in content
+    assert "windows-latest" in content
+    assert "macos-latest" in content
+    assert "actions/checkout@v4" in content
+    assert "actions/setup-python@v5" in content
+    assert "actions/setup-node@v4" in content
+    assert "ruff check ." in content
+    assert "python -m pytest" in content
