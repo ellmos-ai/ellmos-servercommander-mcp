@@ -152,7 +152,7 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
     for keyword in [
-        "pytest-49%20passed",
+        "pytest-50%20passed",
         "smithery.yaml",
         "sqlite-transit-sync",
         "workflowhooker",
