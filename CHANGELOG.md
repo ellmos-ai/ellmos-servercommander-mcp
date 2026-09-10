@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.17 - 2026-09-10
+
+### Repository Hygiene, CI Hardening & Contract Test Expansion (Pfad A)
+- **CI Matrix Hardening**: Added explicit pre-test bytecode compilation check (`python -m compileall -q src tests`) to `.github/workflows/ci.yml` ensuring syntax and AST integrity across Linux, Windows, and macOS environments.
+- **Automated Lifecycle Governance**: Added `.github/workflows/stale.yml` according to the centrally managed GitHub Actions ecosystem standard (daily 01:30 UTC cron, 30 days inactive, 7 days close, high-priority label exemptions).
+- **Multi-Host Sync & Lock Defense**: Hardened `.gitignore` against multi-host file conflicts (`*-conflict-*`, `*.sync-temp-*`, `*.tmp`, `*.bak`, `*.swp`), multi-agent locks (`LOCK`, `LOCK.*`, `*.lock`), and packaging caches (`wheelhouse/`, `.wheel-smoke/`), with explicit exemption for `package-lock.json`.
+- **PEP 621 & Test Configuration**: Configured pytest `testpaths = ["tests"]` and strict markers `addopts = "-v --strict-markers"` in `pyproject.toml`.
+- **Contract Test Expansion**: Added 5 new automated contract tests in `tests/test_repository_hygiene.py` covering gitignore conflict/lock defense, CI bytecode gate, stale workflow compliance, pytest configuration integrity, and end-to-end Python bytecode compilation (suite expanded to 49 passed, 1 skipped | 100% green).
+- **AI / LLM Context & Badge Parity**: Synchronized `llms.txt` verification timestamp to `2026-09-10` and aligned test pass badges across `README.md` and `README_de.md`.
+
 ## 0.1.0-alpha.17 - 2026-08-24
 
 ### Discoverability, Dual Mermaid Diagrams & Multi-OS CI Matrix

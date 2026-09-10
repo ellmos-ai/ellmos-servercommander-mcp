@@ -65,6 +65,9 @@ jobs:
       - name: Run Ruff Linter
         run: ruff check .
 
+      - name: Bytecode compilation check
+        run: python -m compileall -q src tests
+
       - name: Run Pytest Suite
         env:
           PYTHONIOENCODING: utf-8

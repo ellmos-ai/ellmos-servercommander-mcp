@@ -69,4 +69,4 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - system-explorer: local-first system composition, module introspection, and fleet verification.
 - companion-for-agy: developer companion and telemetry bridge for Antigravity workflows.
 
-## Last-checked: 2026-08-24
+## Last-checked: 2026-09-10

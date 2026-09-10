@@ -134,7 +134,7 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-08-24" in llms_text
+    assert "Last-checked: 2026-09-10" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
     assert "sc_deploy" in llms_text
@@ -152,7 +152,7 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
     for keyword in [
-        "pytest-44%20passed",
+        "pytest-49%20passed",
         "smithery.yaml",
         "sqlite-transit-sync",
         "workflowhooker",
@@ -284,4 +284,73 @@ def test_ci_workflow_multi_os_matrix_and_concurrency():
     assert "actions/setup-python@v5" in content
     assert "actions/setup-node@v4" in content
     assert "ruff check ." in content
+    assert "python -m compileall -q src tests" in content
     assert "python -m pytest" in content
+
+
+def test_gitignore_conflict_and_lock_hygiene():
+    ignored_conflicts_and_locks = [
+        "file-conflict-20260910.txt",
+        "nested/path/sample.sync-conflict-2026.json",
+        "sync-temp-001.tmp",
+        "backup.bak",
+        "editor.swp",
+        "file.txt~",
+        "LOCK",
+        "LOCK.user",
+        "LOCK.until.2026",
+        "LOCK-CACHE.md",
+        "LOCK.permissions.json",
+        "LOCK.txt",
+        "wheelhouse/package.whl",
+        ".wheel-smoke/status.json",
+    ]
+
+    for item in ignored_conflicts_and_locks:
+        assert _git_check_ignore(item), f"'{item}' must be ignored by .gitignore"
+
+    assert not _git_check_ignore("package-lock.json"), "package-lock.json must NOT be ignored"
+
+
+def test_stale_workflow_present_and_configured():
+    stale_path = REPO_ROOT / ".github" / "workflows" / "stale.yml"
+    assert stale_path.exists(), ".github/workflows/stale.yml must exist"
+
+    content = stale_path.read_text(encoding="utf-8")
+    assert "name: 'Stale Issues & PRs'" in content
+    assert "cron: '30 1 * * *'" in content
+    assert "actions/stale@v9" in content
+    assert "days-before-stale: 30" in content
+    assert "days-before-close: 7" in content
+    assert "stale-issue-label: 'stale'" in content
+
+
+def test_pytest_configuration_integrity():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert "[tool.pytest.ini_options]" in pyproject_text
+    assert 'pythonpath = ["src"]' in pyproject_text
+    assert 'testpaths = ["tests"]' in pyproject_text
+    assert "addopts = " in pyproject_text
+
+
+def test_python_bytecode_compilation_clean():
+    import compileall
+
+    src_dir = REPO_ROOT / "src"
+    tests_dir = REPO_ROOT / "tests"
+
+    assert compileall.compile_dir(str(src_dir), quiet=1, force=True)
+    assert compileall.compile_dir(str(tests_dir), quiet=1, force=True)
+
+
+def test_pyproject_dependencies_and_build_system():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'requires = ["hatchling"]' in pyproject_text
+    assert 'build-backend = "hatchling.build"' in pyproject_text
+    assert "dependencies = [" in pyproject_text
+    assert '"mcp>=1.0.0"' in pyproject_text
+    assert "[project.optional-dependencies]" in pyproject_text
+    assert "sftp = " in pyproject_text
+    assert "dev = " in pyproject_text
+    assert "[tool.hatch.build.targets.wheel]" in pyproject_text
+    assert 'packages = ["src/servercommander"]' in pyproject_text
