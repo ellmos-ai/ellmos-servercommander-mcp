@@ -65,13 +65,13 @@ jobs:
       - name: Run Ruff Linter
         run: ruff check .
 
-      - name: Bytecode compilation check
+      - name: Verify Python Bytecode Compilation
         run: python -m compileall -q src tests
 
       - name: Run Pytest Suite
         env:
           PYTHONIOENCODING: utf-8
-        run: python -m pytest -v
+        run: python -m pytest -ra -v
 
       - name: Verify Node CLI Wrapper Smoke
         run: npm run smoke

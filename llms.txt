@@ -6,6 +6,7 @@ Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
 Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
 MCP registry name: io.github.ellmos-ai/ellmos-servercommander-mcp
 License: MIT
+Version: 0.1.0-alpha.18 (Python 0.1.0a18, 49 passed, 1 skipped in Pytest)
 Runtime: Node.js wrapper plus Python 3.10+ MCP server (FastMCP stdio)
 Architecture: 5-Tier System (Host Layer, Node Gateway Layer, Python Core Server Layer, Operations Engines, Local Storage & Audit Sink)
 

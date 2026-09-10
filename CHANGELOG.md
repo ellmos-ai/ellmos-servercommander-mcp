@@ -2,21 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.1.0-alpha.17 - 2026-09-10
+## 0.1.0-alpha.18 - 2026-09-10
 
-### Repository Hygiene, CI Hardening & Contract Test Expansion (Pfad A)
-- **CI Matrix Hardening**: Added explicit pre-test bytecode compilation check (`python -m compileall -q src tests`) to `.github/workflows/ci.yml` ensuring syntax and AST integrity across Linux, Windows, and macOS environments.
+### Security & Hardening
+- Hardened the npm-to-Python launcher against current-directory package hijacking by binding Python to the trusted package root, enabling safe-path mode where supported (`PYTHONSAFEPATH=1`), and replacing inherited `PYTHONPATH` entries.
+- Added regression test `tests/test_launcher_security.py` verifying isolation against rogue working directory packages.
+
+### Technical Hygiene & Lifecycle Governance (Pfad A)
+- **CI Matrix Hardening & Bytecode Gate**: Added explicit pre-test bytecode compilation check (`python -m compileall -q src tests`) and standardized pytest invocation (`python -m pytest -ra -v`) to `.github/workflows/ci.yml` ensuring syntax and AST integrity across Linux, Windows, and macOS environments.
 - **Automated Lifecycle Governance**: Added `.github/workflows/stale.yml` according to the centrally managed GitHub Actions ecosystem standard (daily 01:30 UTC cron, 30 days inactive, 7 days close, high-priority label exemptions).
-- **Multi-Host Sync & Lock Defense**: Hardened `.gitignore` against multi-host file conflicts (`*-conflict-*`, `*.sync-temp-*`, `*.tmp`, `*.bak`, `*.swp`), multi-agent locks (`LOCK`, `LOCK.*`, `*.lock`), and packaging caches (`wheelhouse/`, `.wheel-smoke/`), with explicit exemption for `package-lock.json`.
-- **PEP 621 & Test Configuration**: Configured pytest `testpaths = ["tests"]` and strict markers `addopts = "-v --strict-markers"` in `pyproject.toml`.
-- **Contract Test Expansion**: Added 5 new automated contract tests in `tests/test_repository_hygiene.py` covering gitignore conflict/lock defense, CI bytecode gate, stale workflow compliance, pytest configuration integrity, and end-to-end Python bytecode compilation (suite expanded to 49 passed, 1 skipped | 100% green).
-- **AI / LLM Context & Badge Parity**: Synchronized `llms.txt` verification timestamp to `2026-09-10` and aligned test pass badges across `README.md` and `README_de.md`.
+- **Multi-Host Sync & Lock Defense**: Hardened `.gitignore` against multi-host file conflicts (`*-conflict-*`, `*.sync-conflict-*`, `*-ASUS-GEI.*`, `*-WORKSTATION-LG.*`, `*-WORKSTATION.*`, `* (copy)*`, `*.sync-temp-*`, `*.tmp`, `*.bak`, `*.swp`), multi-agent locks (`LOCK`, `LOCK.*`, `*.lock`, `LOCK*.txt`, `LOCK.permissions.json`, `uv.lock`), and coverage/packaging caches (`.coverage.*`, `wheelhouse/`, `.wheel-smoke/`), with explicit exemption for `package-lock.json`.
+- **PEP 621 & Pytest Configuration**: Configured pytest `testpaths = ["tests"]` and standardized `addopts = "-ra -v"` in `pyproject.toml`.
+- **Contract Test Suite Expansion**: Added automated contract tests in `tests/test_repository_hygiene.py` covering gitignore conflict/lock defense, CI bytecode gate, stale workflow compliance, pytest configuration integrity, changelog parity, and end-to-end Python bytecode compilation (suite expanded to 50 passed, 1 skipped | 100% green).
+- **Metadata & LLM Context Synchronization**: Synchronized package version to `0.1.0-alpha.18` (Python `0.1.0a18`) across `package.json`, `server.json`, `glama.json`, `pyproject.toml`, and `__version__`, and refreshed `llms.txt` verification timestamp to `2026-09-10`.
 
 ## 0.1.0-alpha.17 - 2026-08-24
-
-### Security
-- Hardened the npm-to-Python launcher against current-directory package hijacking by binding Python to the trusted package root, enabling safe-path mode where supported, and replacing inherited `PYTHONPATH` entries.
-- Added a regression test that launches from a workspace containing a malicious same-name `servercommander` package (45 passed, 1 skipped).
 
 ### Discoverability, Dual Mermaid Diagrams & Multi-OS CI Matrix
 - **Dual Mermaid Visualizations**: Integrated 5-tier architecture flowchart (`flowchart TD`) and end-to-end server operations & diagnostics sequence diagram (`sequenceDiagram`) across bilingual README architecture (`README.md` & `README_de.md`).

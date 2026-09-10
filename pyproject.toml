@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ellmos-servercommander-mcp"
-version = "0.1.0a17"
+version = "0.1.0a18"
 description = "MCP server for server operations: deploy, mail, log analysis, health checks."
 readme = "README.md"
 license = "MIT"
@@ -74,7 +74,7 @@ packages = ["src/servercommander"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "-v --strict-markers"
+addopts = "-ra -v --strict-markers"
 
 [tool.ruff]
 line-length = 120

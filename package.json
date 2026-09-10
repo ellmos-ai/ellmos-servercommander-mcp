@@ -1,6 +1,6 @@
 {
   "name": "ellmos-servercommander-mcp",
-  "version": "0.1.0-alpha.17",
+  "version": "0.1.0-alpha.18",
   "mcpName": "io.github.ellmos-ai/ellmos-servercommander-mcp",
   "description": "Alpha MCP server for server operations: deploy dry-runs, mail status, log analysis, and health checks.",
   "type": "commonjs",
@@ -50,7 +50,7 @@
     "ellmos"
   ],
   "scripts": {
-    "test": "python -m pytest -q",
+    "test": "python -m pytest -ra -v",
     "smoke": "node bin/ellmos-servercommander.js --version"
   },
   "engines": {
