@@ -73,9 +73,12 @@ node_modules/
 *.conflict
 *-CONFLIT-*
 *.sync-temp-*
-*-ASUS-GEI.*
-*-WORKSTATION-LG.*
-*-WORKSTATION.*
+*-ASUS-GEI*
+*-WORKSTATION-LG*
+*-WORKSTATION*
+*-LAPTOP*
+*.orig
+*.rej
 * (kopie)*
 * (copy)*
 LOCK*

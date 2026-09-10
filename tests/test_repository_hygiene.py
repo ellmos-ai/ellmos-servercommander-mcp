@@ -252,6 +252,27 @@ def test_security_policy_bilingual_sla_and_contacts():
     assert "github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories" in content
 
 
+def test_third_party_licenses_inventory_and_pep639():
+    licenses_md = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+    assert licenses_md.exists(), "THIRD_PARTY_LICENSES.md must exist in repository root"
+    assert not _git_check_ignore("THIRD_PARTY_LICENSES.md"), "THIRD_PARTY_LICENSES.md must remain trackable"
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    files = set(package["files"])
+    assert "THIRD_PARTY_LICENSES.md" in files, "THIRD_PARTY_LICENSES.md must be included in package.json files list"
+
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]' in pyproject_text
+
+    content = licenses_md.read_text(encoding="utf-8")
+    assert "Third-Party Licenses / Drittanbieter-Lizenzen" in content
+    assert "mcp" in content
+    assert "update-notifier" in content
+    assert "paramiko" in content
+    assert "pytest" in content
+    assert "ruff" in content
+
+
 def test_pyproject_pep621_classifiers_and_urls():
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
 
@@ -293,6 +314,11 @@ def test_gitignore_conflict_and_lock_hygiene():
         "file-conflict-20260910.txt",
         "nested/path/sample.sync-conflict-2026.json",
         "sync-temp-001.tmp",
+        "doc.md-WORKSTATION-LG",
+        "README.md-ASUS-GEI.md",
+        "config-LAPTOP.toml",
+        "patch.orig",
+        "patch.rej",
         "backup.bak",
         "editor.swp",
         "file.txt~",
