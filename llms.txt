@@ -1,21 +1,22 @@
 # ellmos-servercommander-mcp
 
-ellmos-servercommander-mcp is an alpha Model Context Protocol (MCP) server for local-first server operations workflows. It exposes diagnostic and dry-run-first tools for HTTP health checks, Apache/Nginx access-log analysis, deployment manifest planning, deployment profile diagnostics, and mail configuration status.
+ellmos-servercommander-mcp is an authoritative Model Context Protocol (MCP) server for local-first server operations workflows. It exposes diagnostic and dry-run-first tools for HTTP health checks, Apache/Nginx access-log analysis, deployment manifest planning, deployment profile diagnostics, and mail configuration status.
 
 Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
 Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
 MCP registry name: io.github.ellmos-ai/ellmos-servercommander-mcp
 License: MIT
-Version: 0.1.0-alpha.18 (Python 0.1.0a18, 49 passed, 1 skipped in Pytest)
+Version: 0.1.0-alpha.19 (Python 0.1.0a19)
 Runtime: Node.js wrapper plus Python 3.10+ MCP server (FastMCP stdio)
 Architecture: 5-Tier System (Host Layer, Node Gateway Layer, Python Core Server Layer, Operations Engines, Local Storage & Audit Sink)
+Navigation: 15-point standardized quick navigation with 100% bilingual parity across README.md and README_de.md
 
-## Audience
+## Audience & Target Personas
 
-- Developers who want an MCP server for server operations checks.
-- Operators who want AI-assisted preflight diagnostics before deployment.
-- Claude Desktop, Claude Code, Cursor, and MCP host users looking for local-first operations tools.
-- ellmos/BACH users who want a server-operations sibling to FileCommander, CodeCommander, Clatcher, n8n Manager, and ControlCenter.
+- Autonomous AI Agent Engineers & Tooling Architects: MCP tool-calling agents (Claude Code, Cursor, Codex, Antigravity) requiring safe server diagnostics.
+- DevOps & Site Reliability Engineers (SREs): Preflight deployment verification with recursive SHA-256 tree manifests.
+- Security-Conscious System Administrators: Forensic access log analysis, unprivileged RunAsInvoker execution, and strict secret isolation.
+- Solo Developers & Maintainers: Fast, zero-configuration HTTP endpoint health probing directly from IDE.
 
 ## Current Tools
 
@@ -25,13 +26,26 @@ Architecture: 5-Tier System (Host Layer, Node Gateway Layer, Python Core Server 
 - `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history from local SQLite.
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution by default.
 
+## Governance & Runtime Invariants
+
+- INV-LOCAL-01: 100% Local-First & Zero-Egress (Local diagnostic and dry-run execution; zero unverified outbound telemetry)
+- INV-DRY-02: Fail-Safe Deployment Staging (Default dry_run=True; manifest calculation & SHA-256 tree hashing before target execution)
+- INV-LOG-03: Sanitized Access-Log Analysis (Read-only parse; regex token extraction; optional structured JSON output without credential leaks)
+- INV-PROBE-04: Non-Blocking Resilient Health Probes (Worker thread HTTP GET with strict timeouts; resilient error handling without aborting batches)
+- INV-MAIL-05: Dry-Run Mail Configuration Status (Readiness checks report gaps without sending emails; protocol verification only)
+- INV-PRIV-06: Non-Elevation / RunAsInvoker (Unprivileged user mode; zero sudo/root/UAC requirements)
+- INV-SEC-07: Safe Process & Working Directory Isolation (PYTHONSAFEPATH=1; hardened launcher against rogue working directory packages)
+- INV-I18N-08: Native Multi-Language i18n Engine (6 locales: en, de, es, zh, ja, ru with automated English fallback)
+- INV-SYNC-09: Cloud-Sync & Multi-Agent Lock Hardening (.gitignore hardened against sync conflicts and multi-agent locks)
+- INV-SLA-10: 48-Hour Response & 5-Day Triage SLA (Direct security response via security@ellmos.ai and security@open-bricks.org)
+
 ## Search Phrases
 
 ```
 MCP server operations tools
 MCP deploy dry-run server
 MCP access log analyzer
-MCP HTTP health check tool
+MCP http health check tool
 local-first server management MCP
 Claude Code server operations MCP
 safe SFTP deployment planning MCP
@@ -45,13 +59,15 @@ SQLite deploy history MCP
 
 This is not the GitHub MCP server, not a generic arbitrary shell-command MCP server, not a cloud-hosted control panel, and not a production SFTP/IMAP executor yet. The alpha release is intentionally diagnostic, dry-run-first, local-first, and safe by default.
 
-## Registries & Discoverability
+## Registries, Compliance & Discoverability
 
 - npm Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
 - MCP Schema Manifest: [server.json](server.json) (`io.github.ellmos-ai/ellmos-servercommander-mcp`)
 - Glama Directory Manifest: [glama.json](glama.json)
 - Smithery Manifest: [smithery.yaml](smithery.yaml)
 - Security Policy: [SECURITY.md](SECURITY.md) (Bilingual, 48h SLA)
+- Third-Party License Audit: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) (100% Permissive Open Source)
+- Marketing & Personas Log: [MARKETING-LOG.txt](MARKETING-LOG.txt)
 - CI Matrix: [.github/workflows/ci.yml](.github/workflows/ci.yml) (Ubuntu, Windows, macOS / Python 3.10-3.13 / Node 18-22)
 - AI / LLM Index: [llms.txt](llms.txt)
 
@@ -70,4 +86,4 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - system-explorer: local-first system composition, module introspection, and fleet verification.
 - companion-for-agy: developer companion and telemetry bridge for Antigravity workflows.
 
-## Last-checked: 2026-09-10
+## Last-checked: 2026-09-11

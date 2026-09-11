@@ -1,0 +1,127 @@
+# ==============================================================================
+# ellmos-servercommander-mcp — Local Marketing, Discoverability & Governance Log
+# ==============================================================================
+# Repository: ellmos-ai/ellmos-servercommander-mcp
+# Canonical Path: C:\_Local_DEV\repos\ellmos-servercommander-mcp
+# Remote: https://github.com/ellmos-ai/ellmos-servercommander-mcp.git
+# Ecosystem: ellmos-ai (AI Infrastructure & MCP Control Plane)
+# Umbrella: open-bricks (AI-Native Desktop & Developer Tools)
+# Current Version: 0.1.0-alpha.19
+# Maintenance Path: Pfad B (Discoverability, Visual Design & Governance)
+# Last Updated: 2026-09-11
+# ==============================================================================
+
+[POSITIONING & VALUE PROPOSITION]
+ellmos ServerCommander MCP is an authoritative, local-first Model Context Protocol (MCP) server
+specialized in resilient, diagnostic, and dry-run-first server operations. Designed specifically
+for AI coding assistants and autonomous agent platforms (Claude Code, Cursor, Codex, Antigravity,
+Gemini), it bridges AI agents with system administration tasks without exposing production
+infrastructure to unverified, destructive mutations.
+
+Key Differentiators:
+1. Dry-Run & Staging First: Deployment planning (`sc_deploy`) calculates complete SHA-256 tree
+   digests and verifies target profiles locally before executing any remote commands.
+2. 100% Local-First & Zero-Egress: All diagnostics, forensic log parsing, and manifest hashing
+   run strictly locally; zero cloud dependencies, zero hidden telemetry.
+3. Resilient Forensic Log Analysis: In-memory and streaming Apache/Nginx access log analysis
+   identifies error spikes, bot scanners, and suspicious path traversals with optional structured
+   JSON export.
+4. Non-Blocking Health Probes: Asynchronous HTTP endpoint verification executes within dedicated
+   worker threads with resilient batch failure handling.
+5. Multilingual Native i18n Engine: Full support for 6 locales (en, de, es, zh, ja, ru) across
+   all MCP tool declarations, parameter schemas, and diagnostic outputs.
+
+[TARGET PERSONAS]
+1. Autonomous AI Agent Engineers & Tooling Architects:
+   - Need reliable server diagnostics and deployment preflight checks without exposing raw bash shells.
+   - Require standardized JSON-RPC schemas and structured outputs for tool-calling agents.
+2. DevOps Engineers & Site Reliability Engineers (SREs):
+   - Seek deterministic release verification, SHA-256 tree hashing, and local deployment histories.
+   - Demand safe dry-run manifests and symlink traversal safeguards before remote sync.
+3. Security-Conscious System Administrators:
+   - Require unprivileged (RunAsInvoker) execution, zero sudo/root requirements, and strict secret isolation.
+   - Want instant local forensic analysis of web server access logs during incident triage.
+4. Solo Developers & Full-Stack Maintainers:
+   - Need a lightweight, zero-configuration MCP server to monitor API health and server configurations
+     directly from their IDE or AI chat interface.
+
+[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]
+English:
+- "mcp server operations tools"
+- "mcp deploy dry-run server"
+- "mcp access log analyzer"
+- "mcp http health check tool"
+- "local-first server management mcp"
+- "claude code server operations mcp"
+- "safe sftp deployment planning mcp"
+- "ai assistant server preflight checks"
+- "apache nginx log analysis mcp"
+- "resilient http health check mcp"
+- "sqlite deploy history mcp"
+
+German:
+- "mcp server verwaltung tools"
+- "mcp deployment dry run server"
+- "mcp access log analyse"
+- "mcp http health check werkzeug"
+- "local first server management mcp"
+- "claude code server operationen"
+- "sichere deployment planung mcp"
+- "ki assistent server vorabpruefung"
+
+[5-WAY COMPETITIVE / LANDSCAPE MATRIX]
+| Dimension | ServerCommander MCP | SSH / Raw Bash Scripts | Heavy Web Panels (cPanel) | Cloud SaaS APM (Datadog) | Generic Terminal MCP |
+|---|---|---|---|---|---|
+| **AI Native Integration** | Direct MCP stdio / JSON-RPC | Requires prompt glue | None / Browser UI | Custom API Webhooks | Unstructured text |
+| **Execution Safety** | Dry-run first / non-destructive | High risk of destructive typo | Opaque web abstraction | Read-only agent metrics | Arbitrary shell danger |
+| **Local-First / Egress** | 100% Local / Zero-Egress | Local / Direct remote | Server-side web portal | Constant cloud telemetry | Local shell execution |
+| **Privilege Requirements**| Unprivileged RunAsInvoker | Often requires sudo/root | Full root server daemon | Root daemon / system agent| Host shell privileges |
+| **i18n Multilingual** | 6 Languages built-in | English only | Web UI localized | English predominantly | Unlocalized raw output |
+
+[GOVERNANCE & RUNTIME INVARIANTS]
+- INV-LOCAL-01: 100% Local-First & Zero-Egress (Local diagnostic and dry-run execution; zero unverified outbound telemetry)
+- INV-DRY-02:   Fail-Safe Deployment Staging (Default `dry_run=True`; manifest calculation & SHA-256 tree hashing before target execution)
+- INV-LOG-03:   Sanitized Access-Log Analysis (Read-only parse; regex token extraction; optional structured JSON output without credential leaks)
+- INV-PROBE-04: Non-Blocking Resilient Health Probes (Worker thread HTTP GET with strict timeouts; resilient error handling without aborting batches)
+- INV-MAIL-05:  Dry-Run Mail Configuration Status (Readiness checks report gaps without sending emails; protocol verification only)
+- INV-PRIV-06:  Non-Elevation / RunAsInvoker (Unprivileged user mode; zero sudo/root/UAC requirements)
+- INV-SEC-07:   Safe Process & Working Directory Isolation (`PYTHONSAFEPATH=1`; hardened launcher against rogue working directory packages)
+- INV-I18N-08:  Native Multi-Language i18n Engine (6 locales: en, de, es, zh, ja, ru with automated English fallback)
+- INV-SYNC-09:  Cloud-Sync & Multi-Agent Lock Hardening (.gitignore hardened against sync conflicts `*-conflict-*` and multi-agent locks `LOCK*`)
+- INV-SLA-10:   48-Hour Response & 5-Day Triage SLA (Direct security response via security@ellmos.ai and security@open-bricks.org)
+
+[SIBLING ECOSYSTEM SYNERGIES]
+- ellmos-ai/ellmos-filecommander-mcp: Filesystem operations, process management, OCR, archives, and exports.
+- ellmos-ai/ellmos-codecommander-mcp: Code analysis, AST inspection, JSON repair, imports, and diffs.
+- ellmos-ai/ellmos-clatcher-mcp: File repair, encoding correction, format conversion, and batch deduplication.
+- ellmos-ai/n8n-manager-mcp: n8n workflow management, deployment, and node exploration.
+- ellmos-ai/ellmos-controlcenter-mcp: MCP stack discovery, profile management, and control-plane checks.
+- ellmos-ai/ellmos-homebase-mcp: Local-first LLM memory, knowledge base, state, and swarm orchestration.
+- ellmos-ai/sqlite-transit-sync: Encrypted SQLite database transit, synchronization, and read-replica engine.
+- ellmos-ai/workflowhooker: Git-hook-driven workflow automation and execution safety boundaries.
+- open-bricks/safe-start-for-codex: Pre-flight environment validation and safety checks.
+- open-bricks/automation-master: Multi-agent coordination engine.
+
+[RECOMMENDED DISTRIBUTION & REGISTRY CHANNELS]
+- npm Registry: Published as `ellmos-servercommander-mcp` (alpha channel)
+- MCP Official Directory: Cataloged in `server.json` schema (`io.github.ellmos-ai/ellmos-servercommander-mcp`)
+- Glama.ai Directory: Verified manifest in `glama.json`
+- Smithery.ai: Manifest in `smithery.yaml`
+- GitHub Topics: #mcp, #model-context-protocol, #server-operations, #devops, #health-checks, #access-logs, #local-first
+
+# ------------------------------------------------------------------------------
+# Historical Log of Discoverability & Marketing Checks
+# ------------------------------------------------------------------------------
+2026-08-24: Pfad B initial discoverability and visual design release:
+  - Dual Mermaid diagrams (architecture flowchart TD and operations sequence diagram).
+  - Quick Navigation jump links, Key Capabilities table, and initial sibling matrix.
+2026-09-10: Pfad A technical hygiene & security hardening (v0.1.0-alpha.18):
+  - Hardened launcher against rogue working directory package hijacking (`PYTHONSAFEPATH=1`).
+  - Added CI multi-OS bytecode gate, stale workflow, and multi-agent lock gitignore rules.
+2026-09-11: Pfad B Discoverability, Design & Governance Parity Overhaul (v0.1.0-alpha.19):
+  - Established 10 Governance & Runtime Invariants (INV-LOCAL-01 to INV-SLA-10) across all documentation.
+  - Standardized 15-anchor Quick Navigation with 100% bilingual parity across README and README_de.
+  - Created THIRD_PARTY_LICENSES.md with full open-source license audit and compliance guarantees.
+  - Created local MARKETING-LOG.txt with 4 target personas, 5-way competitive matrix, and search keywords.
+  - Synchronized llms.txt, package.json, pyproject.toml, server.json, and glama.json.
+  - Expanded automated contract test suite in tests/test_repository_hygiene.py.

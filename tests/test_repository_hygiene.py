@@ -134,7 +134,8 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-10" in llms_text
+    assert "Last-checked: 2026-09-11" in llms_text
+    assert "0.1.0-alpha.19" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
     assert "sc_deploy" in llms_text
@@ -144,6 +145,9 @@ def test_llms_txt_contains_required_discoverability_sections():
     assert "glama.json" in llms_text
     assert "smithery.yaml" in llms_text
     assert "SECURITY.md" in llms_text
+    assert "THIRD_PARTY_LICENSES.md" in llms_text
+    assert "MARKETING-LOG.txt" in llms_text
+    assert "INV-LOCAL-01" in llms_text
     assert "5-Tier System" in llms_text
 
 
@@ -151,8 +155,10 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
+    assert re.search(r"pytest-\d+%20passed", readme_en), "pytest badge missing in README.md"
+    assert re.search(r"pytest-\d+%20passed", readme_de), "pytest badge missing in README_de.md"
+
     for keyword in [
-        "pytest-50%20passed",
         "smithery.yaml",
         "sqlite-transit-sync",
         "workflowhooker",
@@ -161,6 +167,8 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
         "open-bricks",
         "ellmos--ai",
         "SECURITY.md",
+        "THIRD_PARTY_LICENSES.md",
+        "MARKETING-LOG.txt",
     ]:
         assert keyword in readme_en, f"'{keyword}' missing in README.md"
         assert keyword in readme_de, f"'{keyword}' missing in README_de.md"
@@ -176,8 +184,27 @@ def test_readme_and_readme_de_quick_navigation_and_jump_links():
     en_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_en)
     de_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_de)
 
-    assert len(en_links) >= 10, f"Expected >= 10 quick nav links in EN, got {len(en_links)}"
-    assert len(de_links) >= 10, f"Expected >= 10 quick nav links in DE, got {len(de_links)}"
+    assert len(en_links) >= 15, f"Expected >= 15 quick nav links in EN, got {len(en_links)}"
+    assert len(de_links) >= 15, f"Expected >= 15 quick nav links in DE, got {len(de_links)}"
+
+    for anchor in [
+        "architecture-visualized",
+        "start-here",
+        "key-capabilities--safety-invariants",
+        "status--protocol-support",
+        "installation",
+        "mcp-client-configuration",
+        "configuration--profiles",
+        "tools--handlers",
+        "end-to-end-operations-lifecycle",
+        "search-and-disambiguation",
+        "sibling-ecosystem",
+        "development--verification",
+        "third-party-licenses--transparency",
+        "marketing--target-personas",
+        "security--governance",
+    ]:
+        assert any(link[1] == anchor for link in en_links), f"Missing anchor '{anchor}' in README.md"
 
 
 def test_readme_and_readme_de_dual_mermaid_diagrams():
@@ -380,3 +407,76 @@ def test_pyproject_dependencies_and_build_system():
     assert "dev = " in pyproject_text
     assert "[tool.hatch.build.targets.wheel]" in pyproject_text
     assert 'packages = ["src/servercommander"]' in pyproject_text
+
+
+def test_third_party_licenses_inventory():
+    licenses_path = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+    assert licenses_path.exists(), "THIRD_PARTY_LICENSES.md must exist in repository root"
+    assert not _git_check_ignore("THIRD_PARTY_LICENSES.md"), "THIRD_PARTY_LICENSES.md must be trackable"
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    files = set(package["files"])
+    assert "THIRD_PARTY_LICENSES.md" in files, "THIRD_PARTY_LICENSES.md must be in package.json files"
+
+    content = licenses_path.read_text(encoding="utf-8")
+    assert "Third-Party Licenses / Drittanbieter-Lizenzen" in content
+    assert "Stand: 2026-09-11" in content
+    for comp in ["mcp", "update-notifier", "paramiko", "pytest", "pytest-asyncio", "ruff", "hatchling"]:
+        assert comp in content, f"Component '{comp}' missing in THIRD_PARTY_LICENSES.md"
+
+    for lic in ["MIT", "BSD-2-Clause", "LGPL-2.1-or-later", "Apache-2.0", "PSF-2.0"]:
+        assert lic in content, f"License identifier '{lic}' missing in THIRD_PARTY_LICENSES.md"
+
+
+def test_marketing_log_contract():
+    log_path = REPO_ROOT / "MARKETING-LOG.txt"
+    assert log_path.exists(), "MARKETING-LOG.txt must exist in repository root"
+    assert not _git_check_ignore("MARKETING-LOG.txt"), "MARKETING-LOG.txt must be trackable"
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    files = set(package["files"])
+    assert "MARKETING-LOG.txt" in files, "MARKETING-LOG.txt must be in package.json files"
+
+    content = log_path.read_text(encoding="utf-8")
+    assert "Maintenance Path: Pfad B" in content
+    assert "Last Updated: 2026-09-11" in content
+    assert "[POSITIONING & VALUE PROPOSITION]" in content
+    assert "[TARGET PERSONAS]" in content
+    assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
+    assert "[5-WAY COMPETITIVE / LANDSCAPE MATRIX]" in content
+    assert "[GOVERNANCE & RUNTIME INVARIANTS]" in content
+    assert "[SIBLING ECOSYSTEM SYNERGIES]" in content
+    assert "[RECOMMENDED DISTRIBUTION & REGISTRY CHANNELS]" in content
+
+
+def test_governance_invariants_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+    llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+
+    invariants = [
+        "INV-LOCAL-01",
+        "INV-DRY-02",
+        "INV-LOG-03",
+        "INV-PROBE-04",
+        "INV-MAIL-05",
+        "INV-PRIV-06",
+        "INV-SEC-07",
+        "INV-I18N-08",
+        "INV-SYNC-09",
+        "INV-SLA-10",
+    ]
+
+    for inv in invariants:
+        assert inv in readme_en, f"Invariant '{inv}' missing in README.md"
+        assert inv in readme_de, f"Invariant '{inv}' missing in README_de.md"
+        assert inv in marketing_log, f"Invariant '{inv}' missing in MARKETING-LOG.txt"
+        assert inv in llms_txt, f"Invariant '{inv}' missing in llms.txt"
+
+
+def test_pyproject_extended_urls():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert '"Third-Party Licenses"' in pyproject_text
+    assert '"Marketing Log"' in pyproject_text
+    assert '"LLM Ready"' in pyproject_text

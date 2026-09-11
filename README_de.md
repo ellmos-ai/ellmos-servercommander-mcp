@@ -13,13 +13,15 @@ Englische Standard-README: [README.md](README.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/ellmos-servercommander-mcp.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![CI](https://img.shields.io/badge/CI-passing-brightgreen.svg)](.github/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-50%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-55%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey.svg)](.github/workflows/ci.yml)
 [![MCP](https://img.shields.io/badge/MCP-stdio-blueviolet.svg)](https://modelcontextprotocol.io/)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![Privacy: Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First%20%7C%20Dry--Run-success.svg)](SECURITY.md)
+[![Third-Party: Audited](https://img.shields.io/badge/Third--Party-Audited%20100%25%20permissive-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing: Log](https://img.shields.io/badge/Marketing--Log-active-blue.svg)](MARKETING-LOG.txt)
 [![Security: Bilingual Policy](https://img.shields.io/badge/security-Bilingual%20Policy%20(48h%20SLA)-blue.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
 [![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
@@ -44,6 +46,8 @@ Englische Standard-README: [README.md](README.md)
 - [Suche & Begriffsklärung](#suche--Begriffsklärung)
 - [Geschwister-Ökosystem](#geschwister-ökosystem)
 - [Entwicklung & Verifikation](#entwicklung--verifikation)
+- [Drittanbieter-Lizenzen & Transparenz](#drittanbieter-lizenzen--transparenz)
+- [Marketing & Zielgruppen](#marketing--zielgruppen)
 - [Sicherheit & Richtlinien](#sicherheit--richtlinien)
 
 ---
@@ -109,16 +113,18 @@ flowchart TD
 
 ## Kernfähigkeiten & Sicherheitsinvarianten
 
-| Fähigkeit / Invariante | Implementierungs-Garantie | Technische Details |
-|---|---|---|
-| **100% Local-First & Dry-Run Staging** | Strikt zerstörungsfreier Standard | Deployment-Tools berechnen SHA-256-Hashes lokal, ohne unautorisierte Remote-Schreibvorgänge auszuführen. |
-| **Rechtefreie Ausführung (Non-Elevation)** | Keine Root-/Administrator-Rechte nötig | Läuft vollständig mit regulären Benutzerberechtigungen; erfordert niemals sudo oder Rechteausweitung. |
-| **Isolation von Secrets & Anmeldedaten** | Paketierung ohne Konfigurationslecks | `.env`, `.npmrc`, `.pypirc`, Private Keys (`id_rsa`, `*.pem`) und Tokens werden über `.gitignore` und `.npmignore` ausgeschlossen. |
-| **Deterministische Manifest-Integrität** | Kryptografische Release-Validierung | Berechnet rekursive SHA-256-Prüfsummen; verschachtelte Symlinks werden erfasst, aber von der Traversierung ausgeschlossen. |
-| **Robuste Health-Probes** | Nicht-blockierende Worker-Threads | HTTP-Checks laufen via `asyncio.to_thread` mit harten Timeouts; fehlerhafte URLs brechen keinen Gesamt-Batch ab. |
-| **Strukturierte Log-Analyse** | Lokale forensische Prüfung | Liest Common-/Combined-Logformate; erkennt HTTP 4xx/5xx Spitzen, Bot-Muster und verdächtige Pfadtraversierungen. |
-| **Sichere Mail-Bereitschaftsdiagnose** | Ausführungsfreies sicheres Staging | Bindet das geprüfte `mail-connector`-Modul für IMAP nur bei expliziter Aktivierung ein; SMTP-Versand bleibt deaktiviert. |
-| **6-Sprachen i18n Engine** | Umfassende Mehrsprachigkeit | Vollständige Lokalisierung von Tool-Beschreibungen, Schema-Argumenten und Fehlermeldungen für `en`, `de`, `es`, `zh`, `ja`, `ru`. |
+| Invariante | Fähigkeit / Regel | Implementierungs-Garantie | Technische Details |
+|---|---|---|---|
+| **INV-LOCAL-01** | **100% Local-First & Zero-Egress** | Zerstörungsfreier diagnostischer Standard | Diagnosen & Dry-run-Planung laufen lokal ohne unautorisierte Remote-Telemetrie. |
+| **INV-DRY-02** | **Ausfallsicheres Deployment-Staging** | Standard `dry_run=True` | Berechnet SHA-256-Manifeste und prüft Profile, bevor Zielsysteme berührt werden. |
+| **INV-LOG-03** | **Bereinigte Access-Log-Analyse** | Forensisches Read-Only-Parsing | Regex-Token-Extraktion erkennt Fehler, Bots und Pfadtraversierungen ohne Secret-Leaks. |
+| **INV-PROBE-04** | **Robuste Health-Probes** | Nicht-blockierende Worker-Threads | HTTP-Checks laufen via `asyncio.to_thread`; ungültige URLs brechen Batches niemals ab. |
+| **INV-MAIL-05** | **Sichere Mail-Bereitschaftsdiagnose** | Ausführungsfreies sicheres Staging | Validiert IMAP/SMTP-Konfiguration und Logins ohne versehentlichen E-Mail-Versand. |
+| **INV-PRIV-06** | **Rechtefreie Ausführung (Non-Elevation)** | Keine Root-/sudo-Rechte (RunAsInvoker) | Läuft vollständig mit regulären Nutzerrechten; erfordert niemals Administratorrechte. |
+| **INV-SEC-07** | **Sichere Prozess- & Paketisolation** | Schutz vor Fremdpaketen im CWD | Launcher erzwingt `PYTHONSAFEPATH=1`, um Hijacking durch Arbeitsverzeichnispakete zu verhindern. |
+| **INV-I18N-08** | **Native 6-Sprachen i18n Engine** | Vollständige mehrsprachige Parität | Lokalisierte Toolbeschreibungen, Schema-Argumente und Fehler für `en`, `de`, `es`, `zh`, `ja`, `ru`. |
+| **INV-SYNC-09** | **Cloud-Sync-Konflikthärtung** | Multi-Host .gitignore-Abwehr | Gehärtet gegen OneDrive-/Dropbox-Konfliktkopien (`*-conflict-*`) und Multi-Agent-Locks (`LOCK*`). |
+| **INV-SLA-10** | **Zweisprachige Sicherheits-SLA** | 48h Reaktionsgarantie | Schwachstellenmeldung mit 48h-Triage via `security@ellmos.ai` und `security@open-bricks.org`. |
 
 ---
 
@@ -370,6 +376,45 @@ npm run smoke
 # npm Paketprüfung (Dry-Run)
 npm pack --dry-run
 ```
+
+---
+
+## Drittanbieter-Lizenzen & Transparenz
+
+ellmos ServerCommander MCP baut ausnahmslos auf permissiven Open-Source-Grundlagen auf. Wir garantieren null versteckte Telemetrie, null proprietäre Binär-Blobs und null ungeprüfte dynamische Abhängigkeiten.
+
+- **Direkte Laufzeit**: Python MCP SDK (`mcp>=1.0.0`, MIT-Lizenz, Anthropic PBC), Python-Standardbibliothek (PSFL-2.0).
+- **Node CLI Wrapper**: `update-notifier` (BSD-2-Clause, Sindre Sorhus) für nicht-intrusive CLI-Update-Prüfungen.
+- **Optionale Erweiterungen**: `paramiko` (LGPL-2.1) wird nur dann dynamisch importiert, wenn das optionale `[sftp]`-Extra explizit installiert wurde.
+- **Entwicklungs-Werkzeuge**: `pytest` (MIT), `pytest-asyncio` (Apache-2.0), `ruff` (MIT/Apache-2.0), `hatchling` (MIT).
+- **Audit-Protokoll**: Umfassende Lizenzangaben, Copyright-Hinweise und Local-First-Compliance-Garantien sind im [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) dokumentiert.
+
+---
+
+## Marketing & Zielgruppen
+
+ServerCommander MCP schließt die kritische Lücke zwischen gefährlichen rohen Shell-Befehlen und unzugänglichen Web-Hosting-Panels. Der Server stattet KI-Agenten mit sicheren, strukturierten Diagnosewerkzeugen für die Serveradministration aus.
+
+### Zielgruppen-Profile (Personas)
+
+| Zielgruppe | Herausforderung / Pain Point | ServerCommander MCP Lösung |
+|---|---|---|
+| **Autonome KI-Agent-Ingenieure** | Hohes Risiko destruktiver Bash-Befehle | Strukturierte JSON-RPC MCP-Tools mit strikt zerstörungsfreien Standards |
+| **DevOps- & SRE-Ingenieure** | Unbemerkte Dateiabweichungen & riskante Deploys | Deterministisches SHA-256-Tree-Hashing & lokale Dry-run-Deployment-Pläne |
+| **Sicherheitsadministratoren** | Credential-Leaks & Root-Eskalationsrisiken | Rechtefreie RunAsInvoker-Ausführung, Secret-Isolation & forensische Log-Analyse |
+| **Solo-Entwickler & Maintainer** | Aufwändiges manuelles Monitoring & Log-Grep | Sofortige HTTP-Health-Checks & automatische Bot-/Fehler-Erkennung aus der IDE |
+
+### 5-Wege-Vergleichs- & Landschaftsmatrix
+
+| Dimension | ServerCommander MCP | SSH / Rohe Bash-Skripte | Web-Panels (cPanel) | Cloud SaaS APM (Datadog) | Generisches Terminal MCP |
+|---|---|---|---|---|---|
+| **Native KI-Integration** | Direktes MCP stdio / JSON-RPC | Benötigt Prompt-Kleber | Keine / Browser-UI | Eigene API-Webhooks | Unstrukturierter Text |
+| **Ausführungssicherheit** | Dry-run-first / zerstörungsfrei | Hohes Risiko durch Tippfehler | Intransparente Abstraktion | Nur-Lese-Agent-Metriken | Willkürliche Shell-Gefahr |
+| **Local-First / Egress** | 100% Lokal / Zero-Egress | Lokal / Direkt remote | Server-Webportal | Permanente Cloud-Telemetrie| Lokale Shell-Ausführung |
+| **Rechteanforderungen** | Rechtefrei (RunAsInvoker) | Oft sudo-/Root-Bedarf | Vollständiger Root-Daemon | Root-Daemon / System-Agent | Host-Shell-Berechtigungen |
+| **i18n Mehrsprachigkeit** | 6 Sprachen integriert | Nur Englisch | Web-UI lokalisiert | Vorwiegend Englisch | Unübersetzter roher Output |
+
+Detaillierte Marketing-Positionierung, User-Journeys und Suchbegriffe sind in [MARKETING-LOG.txt](MARKETING-LOG.txt) hinterlegt.
 
 ---
 

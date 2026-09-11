@@ -1,3 +1,3 @@
 """ellmos-servercommander-mcp - server operations via MCP."""
 
-__version__ = "0.1.0a18"
+__version__ = "0.1.0a19"

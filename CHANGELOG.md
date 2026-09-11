@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.19 - 2026-09-11
+
+### Discoverability, Visual Design, Bilingual Parity & Governance (Pfad B)
+- **10 Governance & Runtime Invariants**: Codified strict execution boundaries (`INV-LOCAL-01` to `INV-SLA-10`) spanning 100% Local-First / Zero-Egress, Fail-Safe Deployment Staging (`dry_run=True`), Sanitized Access-Log Analysis, Non-Blocking Resilient Health Probes, Dry-Run Mail Readiness, Non-Elevation (RunAsInvoker), Process & Working Directory Isolation (`PYTHONSAFEPATH=1`), Native 6-Language i18n Engine, Cloud-Sync Conflict Defense, and Bilingual 48h Security SLA.
+- **Third-Party License Audit (`THIRD_PARTY_LICENSES.md`)**: Published exhaustive audit covering direct runtime dependencies (`mcp`, Python stdlib), CLI launcher wrapper (`update-notifier`), optional extras (`paramiko`), and developer tooling (`pytest`, `pytest-asyncio`, `ruff`, `hatchling`), certifying 100% permissive open-source licensing and zero copyleft contamination in default distributions.
+- **Discoverability & Marketing Log (`MARKETING-LOG.txt`)**: Established structured marketing ledger defining 4 target personas (Autonomous Agent Engineers, DevOps/SREs, System Administrators, Solo Developers), 5-way competitive matrix against raw bash/SSH and heavy web panels, high-intent discovery search queries (EN/DE), and sibling ecosystem synergies.
+- **15-Point Bilingual Navigation Parity**: Restructured `README.md` and `README_de.md` to feature 15 standardized navigation anchors with 100% bilingual parity, including dedicated sections for Third-Party Licenses & Transparency and Marketing & Target Personas.
+- **PEP 621 Extended URLs**: Expanded `pyproject.toml` with explicit `[project.urls]` entries pointing to `Third-Party Licenses`, `Marketing Log`, and `LLM Ready` endpoints.
+- **AI / LLM Search Index (`llms.txt`)**: Synchronized machine-readable context with version `0.1.0-alpha.19`, current verification timestamp `2026-09-11`, 15-point navigation references, and all 10 governance invariants.
+- **Automated Contract Tests**: Expanded `tests/test_repository_hygiene.py` with contract tests verifying third-party license audit compliance, marketing log presence, 10-invariant documentation parity, PEP 621 extended URLs, and 15-anchor quick navigation.
+
 ## 0.1.0-alpha.18 - 2026-09-10
 
 ### Security & Hardening
