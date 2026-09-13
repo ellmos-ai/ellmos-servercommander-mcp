@@ -6,9 +6,9 @@
 # Remote: https://github.com/ellmos-ai/ellmos-servercommander-mcp.git
 # Ecosystem: ellmos-ai (AI Infrastructure & MCP Control Plane)
 # Umbrella: open-bricks (AI-Native Desktop & Developer Tools)
-# Current Version: 0.1.0-alpha.19
-# Maintenance Path: Pfad B (Discoverability, Visual Design & Governance)
-# Last Updated: 2026-09-11
+# Current Version: 0.1.0-alpha.20
+# Maintenance Path: Pfad A (Repository Hygiene, CI Hardening & Multi-Host Sync Defense)
+# Last Updated: 2026-09-13
 # ==============================================================================
 
 [POSITIONING & VALUE PROPOSITION]
@@ -125,3 +125,10 @@ German:
   - Created local MARKETING-LOG.txt with 4 target personas, 5-way competitive matrix, and search keywords.
   - Synchronized llms.txt, package.json, pyproject.toml, server.json, and glama.json.
   - Expanded automated contract test suite in tests/test_repository_hygiene.py.
+2026-09-13: Pfad A Repository Hygiene, CI Timeout Guardrails & Multi-Host Sync Defense (v0.1.0-alpha.20):
+  - Added timeout-minutes: 15 runaway guardrails and permissions: contents: read to CI test matrix job.
+  - Added timeout-minutes: 10 guardrail to stale issue & PR lifecycle workflow.
+  - Hardened .gitignore against multi-host conflict copies (* (Kopie)*, * (Copy)*, *conflicted copy*) and test caches (.tox, .turbo, .nyc_output, .hypothesis).
+  - Configured 9 Ruff lint rulesets (E, F, W, I, UP, B, SIM, C4, RUF) and cleaned all imports/syntax.
+  - Bumped version to 0.1.0-alpha.20 / 0.1.0a20 across all manifests and synchronized llms.txt (2026-09-13).
+  - Expanded contract test suite in tests/test_repository_hygiene.py to 59+ tests (100% green).

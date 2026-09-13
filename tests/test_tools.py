@@ -426,7 +426,7 @@ async def test_mail_send_requires_smtp_readiness(monkeypatch):
 class _FakeImapConnector:
     """Stand-in for mail-connector's ImapConnector: no network, no real data."""
 
-    _folders = ["INBOX", "Sent", "INBOX.Archiv"]
+    _folders = ("INBOX", "Sent", "INBOX.Archiv")
 
     def __init__(self, account):
         self.account = account

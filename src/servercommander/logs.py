@@ -12,7 +12,6 @@ from typing import Any
 
 from servercommander.config import ServerCommanderConfig
 
-
 LOG_PATTERN = re.compile(
     r'(?P<host>\S+)\s+\S+\s+\S+\s+\[(?P<time>[^\]]+)\]\s+'
     r'"(?P<method>[A-Z]+)\s+(?P<path>\S+)(?:\s+HTTP/[0-9.]+)?"\s+'

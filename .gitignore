@@ -80,16 +80,26 @@ node_modules/
 *.orig
 *.rej
 * (kopie)*
+* (Kopie)*
 * (copy)*
+* (Copy)*
+*conflicted copy*
+LOCK
+LOCK.*
 LOCK*
 *.lock
 !package-lock.json
+LOCK.permissions.json
 uv.lock
 
 # Test and coverage caches
 .coverage.*
 wheelhouse/
 .wheel-smoke/
+.tox/
+.turbo/
+.nyc_output/
+.hypothesis/
 *.tmp
 *.bak
 *.swp

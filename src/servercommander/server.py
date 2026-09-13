@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import asyncio
-from functools import partial
 import logging
 import sys
+from functools import partial
 from typing import Any
 
 import mcp.types as types
@@ -22,7 +22,7 @@ from servercommander.tooling import ToolDefinition
 
 app = Server("ellmos-servercommander")
 logger = logging.getLogger("servercommander")
-_registry: "ServerCommanderRegistry | None" = None
+_registry: ServerCommanderRegistry | None = None
 
 
 class ServerCommanderRegistry:

@@ -5,11 +5,11 @@ Real SFTP deployment is intentionally not executed in this alpha layer.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import hashlib
 import json
-from pathlib import Path
 import sqlite3
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from servercommander.config import ServerCommanderConfig
@@ -88,7 +88,12 @@ def _build_manifest(local_path: str) -> dict[str, Any]:
     if not root.exists():
         return {"status": "missing_local_path", "path": str(root), "files": [], "total_bytes": 0}
     if root.is_file():
-        return {"status": "ok", "path": str(root), "files": [_file_entry(root, root.parent)], "total_bytes": root.stat().st_size}
+        return {
+            "status": "ok",
+            "path": str(root),
+            "files": [_file_entry(root, root.parent)],
+            "total_bytes": root.stat().st_size,
+        }
 
     files = []
     total_bytes = 0
@@ -131,7 +136,9 @@ def _file_entry(path: Path, root: Path) -> dict[str, Any]:
     }
 
 
-def _deploy_diagnostics(profile_config: dict[str, Any], plan: dict[str, Any], manifest: dict[str, Any] | None) -> dict[str, Any]:
+def _deploy_diagnostics(
+    profile_config: dict[str, Any], plan: dict[str, Any], manifest: dict[str, Any] | None
+) -> dict[str, Any]:
     protocol = str(plan.get("protocol") or "sftp").lower()
     auth_methods = []
     if profile_config.get("key_path"):
@@ -149,7 +156,10 @@ def _deploy_diagnostics(profile_config: dict[str, Any], plan: dict[str, Any], ma
         "local_status": local_status,
         "execution_enabled": False,
         "history_supported": True,
-        "next_step": "Review the dry-run plan, record history if useful, and enable a future SFTP executor only after credential handling is finalized.",
+        "next_step": (
+            "Review the dry-run plan, record history if useful, "
+            "and enable a future SFTP executor only after credential handling is finalized."
+        ),
     }
 
 

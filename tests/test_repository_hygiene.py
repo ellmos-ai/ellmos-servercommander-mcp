@@ -134,8 +134,8 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-11" in llms_text
-    assert "0.1.0-alpha.19" in llms_text
+    assert "Last-checked: 2026-09-13" in llms_text
+    assert "0.1.0-alpha.20" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
     assert "sc_deploy" in llms_text
@@ -325,6 +325,9 @@ def test_ci_workflow_multi_os_matrix_and_concurrency():
 
     content = ci_path.read_text(encoding="utf-8")
     assert "cancel-in-progress: true" in content
+    assert "timeout-minutes: 15" in content
+    assert "permissions:" in content
+    assert "contents: read" in content
     assert "ubuntu-latest" in content
     assert "windows-latest" in content
     assert "macos-latest" in content
@@ -349,6 +352,9 @@ def test_gitignore_conflict_and_lock_hygiene():
         "backup.bak",
         "editor.swp",
         "file.txt~",
+        "notes (Kopie).txt",
+        "draft (Copy).md",
+        "README (conflicted copy 2026-09-13).md",
         "LOCK",
         "LOCK.user",
         "LOCK.until.2026",
@@ -357,6 +363,10 @@ def test_gitignore_conflict_and_lock_hygiene():
         "LOCK.txt",
         "wheelhouse/package.whl",
         ".wheel-smoke/status.json",
+        ".tox/log.txt",
+        ".turbo/cache.json",
+        ".nyc_output/coverage.json",
+        ".hypothesis/examples.json",
     ]
 
     for item in ignored_conflicts_and_locks:
@@ -373,6 +383,7 @@ def test_stale_workflow_present_and_configured():
     assert "name: 'Stale Issues & PRs'" in content
     assert "cron: '30 1 * * *'" in content
     assert "actions/stale@v9" in content
+    assert "timeout-minutes: 10" in content
     assert "days-before-stale: 30" in content
     assert "days-before-close: 7" in content
     assert "stale-issue-label: 'stale'" in content
@@ -438,8 +449,8 @@ def test_marketing_log_contract():
     assert "MARKETING-LOG.txt" in files, "MARKETING-LOG.txt must be in package.json files"
 
     content = log_path.read_text(encoding="utf-8")
-    assert "Maintenance Path: Pfad B" in content
-    assert "Last Updated: 2026-09-11" in content
+    assert "Maintenance Path: Pfad" in content
+    assert "Last Updated: 2026-09-13" in content
     assert "[POSITIONING & VALUE PROPOSITION]" in content
     assert "[TARGET PERSONAS]" in content
     assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
@@ -480,3 +491,32 @@ def test_pyproject_extended_urls():
     assert '"Third-Party Licenses"' in pyproject_text
     assert '"Marketing Log"' in pyproject_text
     assert '"LLM Ready"' in pyproject_text
+
+
+def test_ruff_lint_configuration_and_rulesets():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert "[tool.ruff.lint]" in pyproject_text
+    for rule in ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "RUF"]:
+        assert f'"{rule}"' in pyproject_text
+    assert "ignore = [" in pyproject_text
+    assert '"RUF001"' in pyproject_text
+
+
+def test_changelog_recent_pfad_a_release():
+    changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## 0.1.0-alpha.20 - 2026-09-13" in changelog_text
+    assert "Repository Hygiene, CI Hardening & Multi-Host Sync Defense (Pfad A)" in changelog_text
+    assert "timeout-minutes: 15" in changelog_text
+    assert "permissions: contents: read" in changelog_text
+
+
+def test_node_wrapper_version_smoke():
+    result = subprocess.run(
+        ["node", "bin/ellmos-servercommander.js", "--version"],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=REPO_ROOT,
+    )
+    assert result.returncode == 0
+    assert "0.1.0-alpha.20" in result.stdout.strip()

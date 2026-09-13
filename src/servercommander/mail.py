@@ -20,6 +20,7 @@ degrades to readiness, it never crashes the server.
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import os
 import sys
@@ -71,10 +72,8 @@ def _load_imap_connector_class() -> Any | None:
             continue
         finally:
             if inserted:
-                try:
+                with contextlib.suppress(ValueError):
                     sys.path.remove(search)
-                except ValueError:
-                    pass
     return None
 
 
@@ -155,7 +154,7 @@ def _imap_probe(mail: dict[str, Any], folder: str, connector_cls: Any) -> dict[s
     try:
         with connector_cls(account) as conn:
             folders = list(conn.list_folders())
-    except Exception as exc:  # noqa: BLE001 - report, do not crash the server
+    except Exception as exc:  # report, do not crash the server
         return {
             **base,
             "status": "error",

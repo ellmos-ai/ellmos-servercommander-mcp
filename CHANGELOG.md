@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.20 - 2026-09-13
+
+### Repository Hygiene, CI Hardening & Multi-Host Sync Defense (Pfad A)
+- **CI Workflow Timeout & Permissions Guardrails**: Added `timeout-minutes: 15` runaway guardrail and `permissions: contents: read` to the test matrix job in `.github/workflows/ci.yml`; added `timeout-minutes: 10` runaway guardrail to `.github/workflows/stale.yml`.
+- **Ruff Linter Expansion & Code Hygiene**: Configured `[tool.ruff.lint]` in `pyproject.toml` with 9 comprehensive rulesets (`E`, `F`, `W`, `I`, `UP`, `B`, `SIM`, `C4`, `RUF`); organized imports in `logs.py`, `server.py`, `tooling.py`, and `test_launcher_security.py`; removed unnecessary string type annotations; wrapped long string in `deploy.py`; replaced manual exception suppression with `contextlib.suppress(ValueError)` in `mail.py`.
+- **Multi-Host Cloud-Sync & Lock-Defense Gitignore**: Expanded `.gitignore` with multi-host collision patterns (`* (Kopie)*`, `* (Copy)*`, `*conflicted copy*`, `LOCK`, `LOCK.*`), and test/analysis caches (`.tox/`, `.turbo/`, `.nyc_output/`, `.hypothesis/`).
+- **Metadata & Manifest Synchronization**: Bumped version to `0.1.0-alpha.20` (Python `0.1.0a20`) across `pyproject.toml`, `package.json`, `src/servercommander/__init__.py`, `server.json`, `glama.json`, `llms.txt`, and `MARKETING-LOG.txt`; refreshed LLM verification timestamp to `2026-09-13`.
+- **Contract Test Suite Expansion**: Added automated contract tests in `tests/test_repository_hygiene.py` covering CI timeouts and permissions, extended gitignore multi-host and cache defense, ruff linter configuration and clean run, and changelog Pfad A release entry.
+
 ## 0.1.0-alpha.19 - 2026-09-11
 
 ### Discoverability, Visual Design, Bilingual Parity & Governance (Pfad B)
