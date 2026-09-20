@@ -134,8 +134,8 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-13" in llms_text
-    assert "0.1.0-alpha.20" in llms_text
+    assert "Last-checked: 2026-09-20" in llms_text
+    assert "0.1.0-alpha.21" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
     assert "sc_deploy" in llms_text
@@ -184,8 +184,8 @@ def test_readme_and_readme_de_quick_navigation_and_jump_links():
     en_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_en)
     de_links = re.findall(r"\[([^\]]+)\]\(#([^\)]+)\)", readme_de)
 
-    assert len(en_links) >= 15, f"Expected >= 15 quick nav links in EN, got {len(en_links)}"
-    assert len(de_links) >= 15, f"Expected >= 15 quick nav links in DE, got {len(de_links)}"
+    assert len(en_links) >= 18, f"Expected >= 18 quick nav links in EN, got {len(en_links)}"
+    assert len(de_links) >= 18, f"Expected >= 18 quick nav links in DE, got {len(de_links)}"
 
     for anchor in [
         "architecture-visualized",
@@ -203,6 +203,8 @@ def test_readme_and_readme_de_quick_navigation_and_jump_links():
         "third-party-licenses--transparency",
         "marketing--target-personas",
         "security--governance",
+        "comparative-matrix--alternatives",
+        "statutory-notice--liability-limitation",
     ]:
         assert any(link[1] == anchor for link in en_links), f"Missing anchor '{anchor}' in README.md"
 
@@ -223,8 +225,8 @@ def test_key_capabilities_and_safety_invariants_table_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
-    assert "## Key Capabilities & Safety Invariants" in readme_en
-    assert "## Kernfähigkeiten & Sicherheitsinvarianten" in readme_de
+    assert "Key Capabilities & Safety Invariants" in readme_en
+    assert "Kernfähigkeiten & Sicherheitsinvarianten" in readme_de
 
     for key in [
         "Local-First",
@@ -289,7 +291,7 @@ def test_third_party_licenses_inventory_and_pep639():
     assert "THIRD_PARTY_LICENSES.md" in files, "THIRD_PARTY_LICENSES.md must be included in package.json files list"
 
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]' in pyproject_text
+    assert 'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]' in pyproject_text
 
     content = licenses_md.read_text(encoding="utf-8")
     assert "Third-Party Licenses / Drittanbieter-Lizenzen" in content
@@ -430,8 +432,10 @@ def test_third_party_licenses_inventory():
     assert "THIRD_PARTY_LICENSES.md" in files, "THIRD_PARTY_LICENSES.md must be in package.json files"
 
     content = licenses_path.read_text(encoding="utf-8")
-    assert "Third-Party Licenses / Drittanbieter-Lizenzen" in content
-    assert "Stand: 2026-09-11" in content
+    assert "Third-Party Licenses" in content
+    assert "Level 1 SBOM" in content
+    assert "Stand: 2026-09-20" in content
+    assert "NOTICE" in content
     for comp in ["mcp", "update-notifier", "paramiko", "pytest", "pytest-asyncio", "ruff", "hatchling"]:
         assert comp in content, f"Component '{comp}' missing in THIRD_PARTY_LICENSES.md"
 
@@ -450,11 +454,11 @@ def test_marketing_log_contract():
 
     content = log_path.read_text(encoding="utf-8")
     assert "Maintenance Path: Pfad" in content
-    assert "Last Updated: 2026-09-13" in content
+    assert "Last Updated: 2026-09-20" in content
     assert "[POSITIONING & VALUE PROPOSITION]" in content
     assert "[TARGET PERSONAS]" in content
     assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
-    assert "[5-WAY COMPETITIVE / LANDSCAPE MATRIX]" in content
+    assert "COMPETITIVE / LANDSCAPE MATRIX]" in content
     assert "[GOVERNANCE & RUNTIME INVARIANTS]" in content
     assert "[SIBLING ECOSYSTEM SYNERGIES]" in content
     assert "[RECOMMENDED DISTRIBUTION & REGISTRY CHANNELS]" in content
@@ -510,6 +514,69 @@ def test_changelog_recent_pfad_a_release():
     assert "permissions: contents: read" in changelog_text
 
 
+def test_changelog_recent_pfad_b_release():
+    changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## 0.1.0-alpha.21 - 2026-09-20" in changelog_text
+    assert "Discoverability, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice (Pfad B)" in changelog_text
+    assert "18-Point Bilingual Navigation Parity" in changelog_text
+    assert "10-Dimension Comparative Matrix" in changelog_text
+
+
+def test_notice_file_and_packaging_compliance():
+    notice_path = REPO_ROOT / "NOTICE"
+    assert notice_path.exists(), "NOTICE file must exist in repository root"
+    assert not _git_check_ignore("NOTICE"), "NOTICE must be trackable in git"
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    assert "NOTICE" in package["files"], "NOTICE must be listed in package.json files"
+
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert '"NOTICE"' in pyproject_text, "NOTICE must be listed in pyproject.toml license-files"
+
+    content = notice_path.read_text(encoding="utf-8")
+    assert "ellmos-ai" in content
+    assert "open-bricks" in content
+    assert "Level 1 SBOM" in content
+
+
+def test_personas_and_high_intent_queries_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+    llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+
+    personas = ["[PERSONA-01]", "[PERSONA-02]", "[PERSONA-03]", "[PERSONA-04]"]
+    for p in personas:
+        assert p in readme_en, f"Persona '{p}' missing in README.md"
+        assert p in readme_de, f"Persona '{p}' missing in README_de.md"
+        assert p in marketing_log, f"Persona '{p}' missing in MARKETING-LOG.txt"
+        assert p in llms_txt, f"Persona '{p}' missing in llms.txt"
+
+
+def test_ten_dimension_comparative_matrix_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+
+    for doc, name in [(readme_en, "README.md"), (readme_de, "README_de.md"), (marketing_log, "MARKETING-LOG.txt")]:
+        assert "SSH / Raw Bash Scripts" in doc or "SSH / Rohe Bash-Skripte" in doc, f"Bash column missing in {name}"
+        assert "cPanel" in doc, f"cPanel missing in {name}"
+        assert "Datadog" in doc, f"Datadog missing in {name}"
+        assert "Generic Terminal MCP" in doc or "Generisches Terminal MCP" in doc, f"Terminal MCP missing in {name}"
+
+
+def test_statutory_notice_and_bgb_521_disclaimer_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for doc, name in [(readme_en, "README.md"), (readme_de, "README_de.md")]:
+        assert "§ 521 BGB" in doc, f"§ 521 BGB missing in {name}"
+        assert "Gefälligkeitsrecht" in doc, f"Gefälligkeitsrecht missing in {name}"
+        assert "Vorsatz und grobe Fahrlässigkeit" in doc, f"Liability phrase missing in {name}"
+        assert "unentgeltliche Schenkung" in doc, f"Donation phrase missing in {name}"
+        assert "intentional misconduct and gross negligence" in doc, f"English liability phrase missing in {name}"
+
+
 def test_node_wrapper_version_smoke():
     result = subprocess.run(
         ["node", "bin/ellmos-servercommander.js", "--version"],
@@ -519,4 +586,4 @@ def test_node_wrapper_version_smoke():
         cwd=REPO_ROOT,
     )
     assert result.returncode == 0
-    assert "0.1.0-alpha.20" in result.stdout.strip()
+    assert "0.1.0-alpha.21" in result.stdout.strip()

@@ -6,17 +6,17 @@ Canonical repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
 Package: https://www.npmjs.com/package/ellmos-servercommander-mcp
 MCP registry name: io.github.ellmos-ai/ellmos-servercommander-mcp
 License: MIT
-Version: 0.1.0-alpha.20 (Python 0.1.0a20)
+Version: 0.1.0-alpha.21 (Python 0.1.0a21)
 Runtime: Node.js wrapper plus Python 3.10+ MCP server (FastMCP stdio)
 Architecture: 5-Tier System (Host Layer, Node Gateway Layer, Python Core Server Layer, Operations Engines, Local Storage & Audit Sink)
-Navigation: 15-point standardized quick navigation with 100% bilingual parity across README.md and README_de.md
+Navigation: 18-point standardized quick navigation with 100% bilingual parity across README.md and README_de.md
 
 ## Audience & Target Personas
 
-- Autonomous AI Agent Engineers & Tooling Architects: MCP tool-calling agents (Claude Code, Cursor, Codex, Antigravity) requiring safe server diagnostics.
-- DevOps & Site Reliability Engineers (SREs): Preflight deployment verification with recursive SHA-256 tree manifests.
-- Security-Conscious System Administrators: Forensic access log analysis, unprivileged RunAsInvoker execution, and strict secret isolation.
-- Solo Developers & Maintainers: Fast, zero-configuration HTTP endpoint health probing directly from IDE.
+- [PERSONA-01] Autonomous AI Agent Engineers & Tooling Architects: MCP tool-calling agents (Claude Code, Cursor, Codex, Antigravity) requiring safe server diagnostics.
+- [PERSONA-02] DevOps & Site Reliability Engineers (SREs): Preflight deployment verification with recursive SHA-256 tree manifests.
+- [PERSONA-03] Security-Conscious System Administrators & SecOps: Forensic access log analysis, unprivileged RunAsInvoker execution, and strict secret isolation.
+- [PERSONA-04] Solo Developers & Full-Stack Maintainers: Fast, zero-configuration HTTP endpoint health probing directly from IDE.
 
 ## Current Tools
 
@@ -49,10 +49,10 @@ MCP http health check tool
 local-first server management MCP
 Claude Code server operations MCP
 safe SFTP deployment planning MCP
-AI assistant server preflight checks
-Apache Nginx log analysis MCP
-resilient HTTP health check MCP
-SQLite deploy history MCP
+ai assistant server preflight checks
+apache nginx log analysis mcp
+resilient http health check mcp
+sqlite deploy history mcp
 ```
 
 ## Disambiguation
@@ -66,7 +66,8 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - Glama Directory Manifest: [glama.json](glama.json)
 - Smithery Manifest: [smithery.yaml](smithery.yaml)
 - Security Policy: [SECURITY.md](SECURITY.md) (Bilingual, 48h SLA)
-- Third-Party License Audit: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) (100% Permissive Open Source)
+- Third-Party License Audit: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) (Level 1 SBOM, 100% Permissive Open Source)
+- Formal Attribution Notice: [NOTICE](NOTICE)
 - Marketing & Personas Log: [MARKETING-LOG.txt](MARKETING-LOG.txt)
 - CI Matrix: [.github/workflows/ci.yml](.github/workflows/ci.yml) (Ubuntu, Windows, macOS / Python 3.10-3.13 / Node 18-22)
 - AI / LLM Index: [llms.txt](llms.txt)
@@ -86,4 +87,4 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - system-explorer: local-first system composition, module introspection, and fleet verification.
 - companion-for-agy: developer companion and telemetry bridge for Antigravity workflows.
 
-## Last-checked: 2026-09-13
+## Last-checked: 2026-09-20

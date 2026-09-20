@@ -6,9 +6,9 @@
 # Remote: https://github.com/ellmos-ai/ellmos-servercommander-mcp.git
 # Ecosystem: ellmos-ai (AI Infrastructure & MCP Control Plane)
 # Umbrella: open-bricks (AI-Native Desktop & Developer Tools)
-# Current Version: 0.1.0-alpha.20
-# Maintenance Path: Pfad A (Repository Hygiene, CI Hardening & Multi-Host Sync Defense)
-# Last Updated: 2026-09-13
+# Current Version: 0.1.0-alpha.21
+# Maintenance Path: Pfad B (Discoverability, Design, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice)
+# Last Updated: 2026-09-20
 # ==============================================================================
 
 [POSITIONING & VALUE PROPOSITION]
@@ -32,16 +32,16 @@ Key Differentiators:
    all MCP tool declarations, parameter schemas, and diagnostic outputs.
 
 [TARGET PERSONAS]
-1. Autonomous AI Agent Engineers & Tooling Architects:
+1. [PERSONA-01] Autonomous AI Agent Engineers & Tooling Architects:
    - Need reliable server diagnostics and deployment preflight checks without exposing raw bash shells.
    - Require standardized JSON-RPC schemas and structured outputs for tool-calling agents.
-2. DevOps Engineers & Site Reliability Engineers (SREs):
+2. [PERSONA-02] DevOps Engineers & Site Reliability Engineers (SREs):
    - Seek deterministic release verification, SHA-256 tree hashing, and local deployment histories.
    - Demand safe dry-run manifests and symlink traversal safeguards before remote sync.
-3. Security-Conscious System Administrators:
+3. [PERSONA-03] Security-Conscious System Administrators & SecOps:
    - Require unprivileged (RunAsInvoker) execution, zero sudo/root requirements, and strict secret isolation.
    - Want instant local forensic analysis of web server access logs during incident triage.
-4. Solo Developers & Full-Stack Maintainers:
+4. [PERSONA-04] Solo Developers & Full-Stack Maintainers:
    - Need a lightweight, zero-configuration MCP server to monitor API health and server configurations
      directly from their IDE or AI chat interface.
 
@@ -68,15 +68,22 @@ German:
 - "claude code server operationen"
 - "sichere deployment planung mcp"
 - "ki assistent server vorabpruefung"
+- "apache nginx log analyse mcp"
+- "sqlite deploy historie mcp"
 
-[5-WAY COMPETITIVE / LANDSCAPE MATRIX]
-| Dimension | ServerCommander MCP | SSH / Raw Bash Scripts | Heavy Web Panels (cPanel) | Cloud SaaS APM (Datadog) | Generic Terminal MCP |
-|---|---|---|---|---|---|
-| **AI Native Integration** | Direct MCP stdio / JSON-RPC | Requires prompt glue | None / Browser UI | Custom API Webhooks | Unstructured text |
-| **Execution Safety** | Dry-run first / non-destructive | High risk of destructive typo | Opaque web abstraction | Read-only agent metrics | Arbitrary shell danger |
-| **Local-First / Egress** | 100% Local / Zero-Egress | Local / Direct remote | Server-side web portal | Constant cloud telemetry | Local shell execution |
-| **Privilege Requirements**| Unprivileged RunAsInvoker | Often requires sudo/root | Full root server daemon | Root daemon / system agent| Host shell privileges |
-| **i18n Multilingual** | 6 Languages built-in | English only | Web UI localized | English predominantly | Unlocalized raw output |
+[10-DIMENSION COMPETITIVE / LANDSCAPE MATRIX]
+| Dimension | Invariant | ServerCommander MCP | SSH / Raw Bash Scripts | Heavy Web Panels (cPanel) | Cloud SaaS APM (Datadog) | Generic Terminal MCP |
+|:---|:---:|---|---|---|---|---|
+| **1. AI-Native Tool Calling** | `INV-I18N-08` | Direct stdio / JSON-RPC schemas | Requires fragile prompt glue | None / Web browser only | Custom API webhooks | Raw unstructured text |
+| **2. Safe Staging & Dry-Run** | `INV-DRY-02` | Default `dry_run=True` + SHA-256 tree | High risk of destructive typo | Opaque web mutation | Read-only agent metrics | Arbitrary command danger |
+| **3. Local-First & Zero-Egress** | `INV-LOCAL-01` | 100% Local / Zero telemetry | Local / Direct remote | Remote host web portal | Constant outbound telemetry | Local shell execution |
+| **4. Privilege Requirements** | `INV-PRIV-06` | Unprivileged `RunAsInvoker` | Often requires sudo / root | Full root system daemon | Root daemon / system agent | Inherits host shell rights |
+| **5. Forensic Log Analysis** | `INV-LOG-03` | Regex token parsing + bot audit | Manual grep / awk / sed | Basic UI log viewer | Heavy proprietary agent | Raw grep output |
+| **6. Resilient HTTP Probes** | `INV-PROBE-04` | Non-blocking thread + batch safe | curl loop (fails on 1st error) | Periodic polling check | Centralized external probe | curl CLI subprocess |
+| **7. Mail Safety Staging** | `INV-MAIL-05` | Readiness check without send | Direct mail command risk | Webmail interface | Email alert service | Blind mailx invocation |
+| **8. Process & CWD Isolation** | `INV-SEC-07` | `PYTHONSAFEPATH=1` defense | Shell inherits rogue CWD | Fixed daemon user | Sandboxed system service | Inherits caller environment |
+| **9. Cloud-Sync Conflict Defense** | `INV-SYNC-09` | Built-in gitignore & lock guards | None (git-only) | Database state only | Cloud-hosted dashboard | None |
+| **10. Security SLA & Governance** | `INV-SLA-10` | 48h SLA via security@ellmos.ai | Community / self-supported | Vendor commercial support | Enterprise commercial SLA | Unmaintained community |
 
 [GOVERNANCE & RUNTIME INVARIANTS]
 - INV-LOCAL-01: 100% Local-First & Zero-Egress (Local diagnostic and dry-run execution; zero unverified outbound telemetry)
@@ -132,3 +139,12 @@ German:
   - Configured 9 Ruff lint rulesets (E, F, W, I, UP, B, SIM, C4, RUF) and cleaned all imports/syntax.
   - Bumped version to 0.1.0-alpha.20 / 0.1.0a20 across all manifests and synchronized llms.txt (2026-09-13).
   - Expanded contract test suite in tests/test_repository_hygiene.py to 59+ tests (100% green).
+2026-09-20: Pfad B Discoverability, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice (v0.1.0-alpha.21):
+  - Upgraded README.md and README_de.md to standardized 18-point Quick Navigation with reciprocal dual anchors.
+  - Formalized target personas [PERSONA-01] to [PERSONA-04] with high-intent bilingual SEO search queries.
+  - Expanded competitive matrix to full 10 dimensions mapped strictly to invariants INV-LOCAL-01 through INV-SLA-10.
+  - Created formal root NOTICE attribution file under open-bricks umbrella and updated package.json/pyproject.toml packaging.
+  - Upgraded THIRD_PARTY_LICENSES.md to Level 1 SBOM with Invariant Cross-Reference Matrix and RunAsInvoker certification.
+  - Added Section 18 German statutory disclaimer (§ 521 BGB Gefälligkeitsrecht) with English translation to both READMEs.
+  - Bumped version to 0.1.0-alpha.21 / 0.1.0a21 across all manifests (package.json, pyproject.toml, server.json, glama.json, llms.txt).
+  - Expanded automated repository hygiene contract test suite in tests/test_repository_hygiene.py.

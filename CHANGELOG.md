@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-alpha.21 - 2026-09-20
+
+### Discoverability, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice (Pfad B)
+- **18-Point Bilingual Navigation Parity**: Restructured `README.md` and `README_de.md` to feature 18 standardized navigation anchors with reciprocal dual HTML anchor links (`<a id="..."></a>`), ensuring comprehensive jump compatibility across documentation.
+- **Formal Target Personas & High-Intent SEO Queries**: Formalized target personas `[PERSONA-01]` through `[PERSONA-04]` (Autonomous Agent Engineers, DevOps/SREs, System Administrators, Solo Developers) and paired them with high-intent bilingual discoverability search queries.
+- **10-Dimension Comparative Matrix**: Expanded competitive positioning table to 10 distinct architectural and operational dimensions mapped directly to runtime invariants `INV-LOCAL-01` through `INV-SLA-10` against raw SSH/bash, heavy web panels (cPanel), SaaS APM (Datadog), and generic terminal MCP servers.
+- **Formal Attribution Notice (`NOTICE`)**: Created root attribution notice under the open-bricks open-source umbrella; updated `package.json` and `pyproject.toml` distribution file sets.
+- **Level 1 SBOM & Transparency Audit (`THIRD_PARTY_LICENSES.md`)**: Upgraded license audit to full Level 1 SBOM specification with an Invariant Cross-Reference Matrix, Zero-Copyleft Isolation Guarantee, and unprivileged `RunAsInvoker` non-elevation certification.
+- **Section 18 Statutory Disclaimer (§ 521 BGB Gefälligkeitsrecht)**: Added German statutory liability disclaimer (§ 521 BGB: Haftung beschränkt auf Vorsatz und grobe Fahrlässigkeit; unentgeltliche Schenkung) alongside an English summary and MIT licensing terms in both `README.md` and `README_de.md`.
+- **Metadata & AI Index Synchronization**: Bumped version to `0.1.0-alpha.21` (Python `0.1.0a21`) across `package.json`, `pyproject.toml`, `src/servercommander/__init__.py`, `server.json`, `glama.json`, `llms.txt`, and `MARKETING-LOG.txt`; refreshed LLM verification timestamp to `2026-09-20`.
+- **Contract Test Suite Expansion**: Expanded automated contract tests in `tests/test_repository_hygiene.py` covering 18-point navigation parity, `[PERSONA-01]`..`[PERSONA-04]` coverage, 10-dimension comparative matrix, NOTICE file packaging, Level 1 SBOM compliance, and § 521 BGB statutory notice assertions.
+
 ## 0.1.0-alpha.20 - 2026-09-13
 
 ### Repository Hygiene, CI Hardening & Multi-Host Sync Defense (Pfad A)

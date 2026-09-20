@@ -1,20 +1,42 @@
-# Third-Party Licenses / Drittanbieter-Lizenzen
+# Third-Party Licenses / Drittanbieter-Lizenzen (Level 1 SBOM)
 
-This document lists the third-party open-source software libraries, packages, and components utilized by **ellmos-servercommander-mcp**, along with their respective license types, copyright notices, and local-first governance guarantees.
-
-Dieses Dokument führt die von **ellmos-servercommander-mcp** verwendeten quelloffenen Bibliotheken, Pakete und Komponenten von Drittanbietern inklusive Lizenztyp, Urheberrechtshinweisen und Local-First-Sicherheitsgarantien auf.
-
-Stand: 2026-09-11
+> **Project:** `ellmos-ai/ellmos-servercommander-mcp`<br>
+> Stand: 2026-09-20<br>
+> **Repository License:** [MIT License](LICENSE)<br>
+> **Repository Attribution Notice:** [NOTICE](NOTICE)<br>
+> **Architecture & Privacy:** 100% Local-First, Zero-Egress by default, Unprivileged User-Mode (`RunAsInvoker`)
 
 ---
 
-## License Overview & Compliance Guarantees
+## Executive Summary & Compliance Assurance
 
-- **Primary Repository License:** MIT License (c) 2026 Lukas Geiger / ellmos-ai
-- **License Permissiveness:** 100% Permissive Open Source (MIT, BSD-2-Clause, Apache-2.0, PSFL-2.0) and LGPL-2.1 dynamic library linking.
-- **Copyleft Stance:** No strong viral copyleft (GPL / AGPL) dependencies in core runtime or distribution packages.
-- **Local-First & Zero-Egress:** All operations execute locally in diagnostic or dry-run mode. Zero telemetry, zero unverified outbound network requests.
-- **Non-Elevation / RunAsInvoker:** Server operations operate entirely within standard unprivileged user space; zero administrative or root/sudo elevation required.
+**ellmos-servercommander-mcp** is engineered under strict architectural and governance invariants: **100% Local-First, Zero-Egress by default, and unprivileged user-mode execution (`RunAsInvoker`)**. All server diagnostics, Apache/Nginx access log analysis, SHA-256 deployment tree hashing, and health probe verifications execute within local process boundaries without requiring elevated administrative privileges.
+
+All direct, optional, and development dependencies utilized across `ellmos-servercommander-mcp` are distributed under strictly **permissive open-source licenses** (MIT, BSD-2-Clause, Apache-2.0, PSFL) or dynamically linked optional modules (LGPL-2.1). There are **zero viral copyleft (GPL / AGPL) dependencies in core runtime or distribution packages**, ensuring maximum safety and portability for enterprise adoption, AI agent tool dispatching, and automated CI/CD environments.
+
+### Invariant Cross-Reference Matrix
+
+| Invariant ID | Security & Operational Mandate | Technical Enforcement Mechanism | License & Isolation Scope |
+|:---|:---|:---|:---|
+| `INV-LOCAL-01` | **100% Local-First & Zero-Egress** | Diagnosen and dry-runs run locally; zero unverified outbound telemetry | [PSFL-2.0](https://docs.python.org/3/license.html) |
+| `INV-DRY-02` | **Fail-Safe Deployment Staging** | Default `dry_run=True`; SHA-256 tree hashing & profile checks before remote sync | [MIT](LICENSE) |
+| `INV-LOG-03` | **Sanitized Access-Log Analysis** | Read-only regex token parsing; bot/error detection without secret leaks | [PSFL-2.0](https://docs.python.org/3/license.html) |
+| `INV-PROBE-04` | **Non-Blocking Resilient Health Probes** | Dedicated worker thread HTTP GET; resilient timeout & batch error handling | [PSFL-2.0](https://docs.python.org/3/license.html) |
+| `INV-MAIL-05` | **Dry-Run Mail Configuration Status** | Readiness checks report gaps without sending emails; protocol verification only | [PSFL-2.0](https://docs.python.org/3/license.html) |
+| `INV-PRIV-06` | **Non-Elevation (`RunAsInvoker`)** | Unprivileged user-mode execution; zero sudo/root/UAC requirements | [MIT](LICENSE) |
+| `INV-SEC-07` | **Safe Process & CWD Isolation** | `PYTHONSAFEPATH=1`; hardened launcher against rogue working directory packages | [BSD-2-Clause](https://opensource.org/licenses/BSD-2-Clause) |
+| `INV-I18N-08` | **Native Multi-Language i18n Engine** | 6 locales (en, de, es, zh, ja, ru) with automated English fallback | [MIT](LICENSE) |
+| `INV-SYNC-09` | **Cloud-Sync Conflict & Lock Defense** | `.gitignore` hardened against sync conflicts (`*-conflict-*`) & multi-agent locks (`LOCK*`) | [MIT](LICENSE) |
+| `INV-SLA-10` | **Bilingual Security SLA (48h)** | 48h initial response, 5-day triage SLA via security@ellmos.ai & security@open-bricks.org | [SECURITY.md](SECURITY.md) |
+
+---
+
+## Zero-Copyleft Isolation Guarantee & RunAsInvoker Certification
+
+1. **Zero-Copyleft Guarantee:** No core component of `ellmos-servercommander-mcp` links against, vendors, or invokes any code under GPLv2, GPLv3, AGPLv3, SSPL, or CC-BY-SA licenses. Core runtime dependencies are strictly permissive (MIT, BSD-2-Clause, PSFL-2.0).
+2. **Dynamic Linking of Optional Extras:** The optional `[sftp]` extension relies on `paramiko` (LGPL-2.1-or-later). In accordance with LGPL compliance, `paramiko` is dynamically imported at runtime only when explicitly installed; core functionality operates completely without it.
+3. **Unprivileged Execution (`RunAsInvoker`):** `ellmos-servercommander-mcp` requires no administrative privileges, no daemon background services, and no root credentials. It operates entirely in unprivileged user space.
+4. **Zero-Egress Perimeter:** By default, no network traffic is emitted by `ellmos-servercommander-mcp`. Health checks (`sc_health_check`) execute outbound HTTP GET requests strictly to user-supplied URLs on explicit invocation.
 
 ---
 
@@ -150,17 +172,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-## Verification & Audit Summary
+## Verification & Audit Summary (Level 1 SBOM)
 
-| Component | Category | License Type | SPDX ID | Permissive / Safe |
-|---|---|---|---|:---:|
-| `mcp` | Direct Runtime | MIT License | `MIT` | Yes |
-| Python stdlib | Direct Runtime | Python Software Foundation | `PSF-2.0` | Yes |
-| `update-notifier` | CLI Wrapper | BSD 2-Clause | `BSD-2-Clause` | Yes |
-| `paramiko` | Optional Extra | GNU LGPL v2.1 | `LGPL-2.1-or-later` | Yes (Dynamic link) |
-| `pytest` | Dev / Test | MIT License | `MIT` | Yes |
-| `pytest-asyncio` | Dev / Test | Apache 2.0 | `Apache-2.0` | Yes |
-| `ruff` | Dev / Lint | MIT OR Apache-2.0 | `MIT OR Apache-2.0` | Yes |
-| `hatchling` | Build System | MIT License | `MIT` | Yes |
+| Component | Category | License Type | SPDX ID | Permissive / Safe | RunAsInvoker Safe |
+|---|---|---|---|:---:|:---:|
+| `mcp` | Direct Runtime | MIT License | `MIT` | Yes | Yes |
+| Python stdlib | Direct Runtime | Python Software Foundation | `PSF-2.0` | Yes | Yes |
+| `update-notifier` | CLI Wrapper | BSD 2-Clause | `BSD-2-Clause` | Yes | Yes |
+| `paramiko` | Optional Extra | GNU LGPL v2.1 | `LGPL-2.1-or-later` | Yes (Dynamic link) | Yes |
+| `pytest` | Dev / Test | MIT License | `MIT` | Yes | Yes |
+| `pytest-asyncio` | Dev / Test | Apache 2.0 | `Apache-2.0` | Yes | Yes |
+| `ruff` | Dev / Lint | MIT OR Apache-2.0 | `MIT OR Apache-2.0` | Yes | Yes |
+| `hatchling` | Build System | MIT License | `MIT` | Yes | Yes |
 
 All packaged distribution artifacts are fully compliant with open-source licensing standards, free of unverified binary blobs, and completely transparent for enterprise and individual adoption.
