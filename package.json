@@ -53,7 +53,7 @@
     "ellmos"
   ],
   "scripts": {
-    "test": "python -m pytest -ra -v",
+    "test": "python -m pytest -ra -v --basetemp=.pytest_tmp",
     "smoke": "node bin/ellmos-servercommander.js --version"
   },
   "engines": {

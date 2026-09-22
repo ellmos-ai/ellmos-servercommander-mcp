@@ -78,7 +78,7 @@ packages = ["src/servercommander"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "-ra -v --strict-markers"
+addopts = "-ra -v --strict-markers --basetemp=.pytest_tmp"
 
 [tool.ruff]
 line-length = 120
