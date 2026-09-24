@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Repository Hygiene, CI Lifecycle Hardening & Multi-Host Lock Defense (Pfad A)
+- **CI Workflow Concurrency & Welcome Lifecycle Automation**: Added `.github/workflows/welcome.yml` with `actions/first-interaction@v3`, `timeout-minutes: 5`, least-privilege permissions (`issues: write`, `pull-requests: write`), and `concurrency: { group: welcome-${{ github.ref }}, cancel-in-progress: true }`; hardened `.github/workflows/stale.yml` with `concurrency: { group: stale-${{ github.ref }}, cancel-in-progress: true }`.
+- **Multi-Host Cloud-Sync & Lock Defense in `.gitignore`**: Hardened `.gitignore` with multi-host device tokens (`*-ASUS*`, `*-Mac Studio*`, `*-MacBook*`, `*-WORKSTATION.*`), multi-agent lock patterns (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`), and test runner cache patterns (`.pytest_temp/`, `.pytest_tmp*/`).
+- **PEP 621 Standard Manifest & Pytest Hardening in `pyproject.toml`**: Added canonical `Notice` URL under `[project.urls]`, configured `minversion = "7.0"` and `norecursedirs` under `[tool.pytest.ini_options]`, and saturated keywords to 20 topics; version `0.1.0-alpha.21` / `0.1.0a21` strictly frozen per rule T-20260920-167562623.
+- **Level 1 SBOM & Transparency Re-Audit (`THIRD_PARTY_LICENSES.md`)**: Re-audited Level 1 SBOM (Stand 2026-09-24) verifying unprivileged `RunAsInvoker` non-elevation certification (INV-PRIV-06), zero-copyleft isolation guarantee, and invariant cross-reference matrix `INV-LOCAL-01`..`INV-SLA-10`.
+- **Governance & Register Synchronization**: Updated `MARKETING-LOG.txt` (Stand 2026-09-24 Pfad A Technical Hygiene & Governance Audit entry), refreshed `llms.txt` verification timestamp to `2026-09-24`, and updated documentation badges across `README.md` and `README_de.md`.
+- **Contract Test Suite Expansion**: Expanded automated contract tests in `tests/test_repository_hygiene.py` covering `welcome.yml` lifecycle automation, `stale.yml` concurrency, extended multi-host lock defenses, PEP 621 Notice URL, pytest `norecursedirs`, and `CHANGELOG.md` `## [Unreleased]` verification.
+
 ## 0.1.0-alpha.21 - 2026-09-20
 
 ### Discoverability, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice (Pfad B)

@@ -134,7 +134,7 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-20" in llms_text
+    assert "Last-checked: 2026-09-24" in llms_text
     assert "0.1.0-alpha.21" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
@@ -317,6 +317,7 @@ def test_pyproject_pep621_classifiers_and_urls():
     assert "Bug Tracker" in pyproject_text
     assert "Changelog = " in pyproject_text
     assert "Security = " in pyproject_text
+    assert "Notice = " in pyproject_text
     assert "Parent Organization" in pyproject_text
     assert "Umbrella Ecosystem" in pyproject_text
 
@@ -369,6 +370,17 @@ def test_gitignore_conflict_and_lock_hygiene():
         ".turbo/cache.json",
         ".nyc_output/coverage.json",
         ".hypothesis/examples.json",
+        "file-ASUS.txt",
+        "file-Mac Studio.txt",
+        "file-MacBook.txt",
+        "file-WORKSTATION.log",
+        "file-WORKSTATION-LG.log",
+        "LOCK.user.agent",
+        "LOCK.until.20261010",
+        "LOCK.condition.fleet",
+        ".automation-lock",
+        ".pytest_temp/cache.txt",
+        ".pytest_tmp_extra/cache.txt",
     ]
 
     for item in ignored_conflicts_and_locks:
@@ -386,16 +398,34 @@ def test_stale_workflow_present_and_configured():
     assert "cron: '30 1 * * *'" in content
     assert "actions/stale@v9" in content
     assert "timeout-minutes: 10" in content
+    assert "concurrency:" in content
+    assert "cancel-in-progress: true" in content
     assert "days-before-stale: 30" in content
     assert "days-before-close: 7" in content
     assert "stale-issue-label: 'stale'" in content
 
 
+def test_welcome_workflow_present_and_configured():
+    welcome_path = REPO_ROOT / ".github" / "workflows" / "welcome.yml"
+    assert welcome_path.exists(), ".github/workflows/welcome.yml must exist"
+
+    content = welcome_path.read_text(encoding="utf-8")
+    assert "name: 'Welcome New Contributors'" in content
+    assert "actions/first-interaction@v3" in content
+    assert "timeout-minutes: 5" in content
+    assert "concurrency:" in content
+    assert "cancel-in-progress: true" in content
+    assert "issues: write" in content
+    assert "pull-requests: write" in content
+
+
 def test_pytest_configuration_integrity():
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert "[tool.pytest.ini_options]" in pyproject_text
+    assert 'minversion = "7.0"' in pyproject_text
     assert 'pythonpath = ["src"]' in pyproject_text
     assert 'testpaths = ["tests"]' in pyproject_text
+    assert "norecursedirs = " in pyproject_text
     assert "addopts = " in pyproject_text
 
 
@@ -434,7 +464,7 @@ def test_third_party_licenses_inventory():
     content = licenses_path.read_text(encoding="utf-8")
     assert "Third-Party Licenses" in content
     assert "Level 1 SBOM" in content
-    assert "Stand: 2026-09-20" in content
+    assert "Stand: 2026-09-24" in content
     assert "NOTICE" in content
     for comp in ["mcp", "update-notifier", "paramiko", "pytest", "pytest-asyncio", "ruff", "hatchling"]:
         assert comp in content, f"Component '{comp}' missing in THIRD_PARTY_LICENSES.md"
@@ -454,7 +484,7 @@ def test_marketing_log_contract():
 
     content = log_path.read_text(encoding="utf-8")
     assert "Maintenance Path: Pfad" in content
-    assert "Last Updated: 2026-09-20" in content
+    assert "Last Updated: 2026-09-24" in content
     assert "[POSITIONING & VALUE PROPOSITION]" in content
     assert "[TARGET PERSONAS]" in content
     assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
@@ -512,6 +542,14 @@ def test_changelog_recent_pfad_a_release():
     assert "Repository Hygiene, CI Hardening & Multi-Host Sync Defense (Pfad A)" in changelog_text
     assert "timeout-minutes: 15" in changelog_text
     assert "permissions: contents: read" in changelog_text
+
+
+def test_changelog_unreleased_pfad_a_entry():
+    changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [Unreleased]" in changelog_text
+    assert "Repository Hygiene, CI Lifecycle Hardening & Multi-Host Lock Defense (Pfad A)" in changelog_text
+    assert "welcome.yml" in changelog_text
+    assert "cancel-in-progress: true" in changelog_text
 
 
 def test_changelog_recent_pfad_b_release():

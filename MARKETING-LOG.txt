@@ -7,8 +7,8 @@
 # Ecosystem: ellmos-ai (AI Infrastructure & MCP Control Plane)
 # Umbrella: open-bricks (AI-Native Desktop & Developer Tools)
 # Current Version: 0.1.0-alpha.21
-# Maintenance Path: Pfad B (Discoverability, Design, Level 1 SBOM, NOTICE & § 521 BGB Statutory Notice)
-# Last Updated: 2026-09-20
+# Maintenance Path: Pfad A (Repository Hygiene, CI Lifecycle Workflows, Lock Defense & Level 1 SBOM Re-Audit)
+# Last Updated: 2026-09-24
 # ==============================================================================
 
 [POSITIONING & VALUE PROPOSITION]
@@ -148,3 +148,12 @@ German:
   - Added Section 18 German statutory disclaimer (§ 521 BGB Gefälligkeitsrecht) with English translation to both READMEs.
   - Bumped version to 0.1.0-alpha.21 / 0.1.0a21 across all manifests (package.json, pyproject.toml, server.json, glama.json, llms.txt).
   - Expanded automated repository hygiene contract test suite in tests/test_repository_hygiene.py.
+2026-09-24: Pfad A Repository Hygiene, CI Lifecycle Workflows, Lock Defense & Level 1 SBOM Re-Audit:
+  - Added .github/workflows/welcome.yml with actions/first-interaction@v3, timeout-minutes: 5, least-privilege permissions, and concurrency cancel-in-progress: true.
+  - Hardened .github/workflows/stale.yml with concurrency cancel-in-progress: true.
+  - Hardened .gitignore with multi-host device tokens (*-ASUS*, *-Mac Studio*, *-MacBook*, *-WORKSTATION.*), lock patterns (LOCK.user.*, LOCK.until.*, LOCK.condition.*, .automation-lock), and pytest temp directories (.pytest_temp/, .pytest_tmp*/).
+  - Standardized pyproject.toml with canonical Notice URL under [project.urls], pytest norecursedirs and minversion = "7.0", and 20 saturated keywords.
+  - Preserved version 0.1.0-alpha.21 / 0.1.0a21 strictly frozen per rule T-20260920-167562623; added [Unreleased] notes in CHANGELOG.md.
+  - Re-audited Level 1 SBOM in THIRD_PARTY_LICENSES.md Stand 2026-09-24 with RunAsInvoker non-elevation and zero-copyleft guarantees.
+  - Synchronized llms.txt context index with 2026-09-24 timestamp and updated test baseline badges across READMEs.
+  - Expanded automated contract test suite in tests/test_repository_hygiene.py.

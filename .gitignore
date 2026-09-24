@@ -74,10 +74,15 @@ node_modules/
 *.conflict
 *-CONFLIT-*
 *.sync-temp-*
+*-ASUS*
 *-ASUS-GEI*
-*-WORKSTATION-LG*
 *-WORKSTATION*
+*-WORKSTATION.*
+*-WORKSTATION-LG*
+*-WORKSTATION-LG.*
 *-LAPTOP*
+*-Mac Studio*
+*-MacBook*
 *.orig
 *.rej
 * (kopie)*
@@ -88,10 +93,16 @@ node_modules/
 LOCK
 LOCK.*
 LOCK*
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
+.automation-lock
 *.lock
 !package-lock.json
 LOCK.permissions.json
 uv.lock
+.pytest_temp/
+.pytest_tmp*/
 
 # Test and coverage caches
 .coverage.*

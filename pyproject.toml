@@ -26,6 +26,12 @@ keywords = [
     "i18n",
     "ellmos",
     "open-bricks",
+    "claude-code",
+    "apache-logs",
+    "nginx-logs",
+    "zero-egress",
+    "fail-closed",
+    "audit-trail",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -59,6 +65,7 @@ Repository = "https://github.com/ellmos-ai/ellmos-servercommander-mcp.git"
 "Bug Tracker" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/issues"
 Changelog = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/CHANGELOG.md"
 Security = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/SECURITY.md"
+Notice = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/NOTICE"
 "Third-Party Licenses" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/THIRD_PARTY_LICENSES.md"
 "Marketing Log" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/MARKETING-LOG.txt"
 "LLM Ready" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/llms.txt"
@@ -76,8 +83,10 @@ ellmos-servercommander = "servercommander.server:main"
 packages = ["src/servercommander"]
 
 [tool.pytest.ini_options]
+minversion = "7.0"
 pythonpath = ["src"]
 testpaths = ["tests"]
+norecursedirs = [".git", ".pytest_cache", ".pytest_tmp*", ".ruff_cache", "build", "dist", "node_modules", ".venv"]
 addopts = "-ra -v --strict-markers --basetemp=.pytest_tmp"
 
 [tool.ruff]
