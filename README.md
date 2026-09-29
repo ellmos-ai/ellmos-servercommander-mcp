@@ -21,7 +21,8 @@ German README: [README_de.md](README_de.md)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![Privacy: Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First%20%7C%20Dry--Run-success.svg)](SECURITY.md)
 [![RunAsInvoker](https://img.shields.io/badge/Privilege-RunAsInvoker-success.svg)](THIRD_PARTY_LICENSES.md)
-[![Third-Party: Level 1 SBOM](https://img.shields.io/badge/Level%201%20SBOM-Audited-blue.svg)](THIRD_PARTY_LICENSES.md)
+[![Third-Party: Level 1 SBOM](https://img.shields.io/badge/Level%201%20SBOM-Audited%20%7C%20Plain%20Text-blue.svg)](THIRD_PARTY_LICENSES.txt)
+[![Verified: 2026-09-29](https://img.shields.io/badge/Verified-2026--09--29-brightgreen.svg)](MARKETING-LOG.txt)
 [![Marketing: Log](https://img.shields.io/badge/Marketing--Log-active-blue.svg)](MARKETING-LOG.txt)
 [![Security: Bilingual Policy](https://img.shields.io/badge/security-Bilingual%20Policy%20(48h%20SLA)-blue.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
@@ -56,7 +57,7 @@ German README: [README_de.md](README_de.md)
 
 ---
 
-<a id="core-identity"></a><a id="executive-summary--core-identity"></a>
+<a id="core-identity"></a><a id="executive-summary--core-identity"></a><a id="sec-01"></a>
 ## 1. Executive Summary & Core Identity
 
 `ellmos-servercommander-mcp` is an authoritative, local-first Model Context Protocol (MCP) server engineered specifically for AI coding assistants and autonomous agent platforms (Claude Code, Cursor, Codex, Antigravity, Gemini). It enables agents to safely diagnose server health, analyze web server access logs, inspect mail readiness, and build dry-run deployment plans without exposing production infrastructure to unverified, destructive mutations or arbitrary shell execution.
@@ -68,7 +69,7 @@ Every operation is governed by strict local-first and zero-elevation guarantees:
 
 ---
 
-<a id="architecture-visualized"></a><a id="visual-architecture--system-topology"></a>
+<a id="sec-02"></a><a id="architecture-visualized"></a><a id="visual-architecture--system-topology"></a><a id="sec-02"></a>
 ## 2. Visual Architecture & System Topology
 
 The following diagram illustrates the decoupled layers of ServerCommander, from MCP host transport and Node.js process supervision to Python dispatching, operational engines, and local persistence sinks:
@@ -116,9 +117,66 @@ flowchart TD
     MailDiagnostics -.-> AuditSink
 ```
 
+### ASCII Architectural Topology (Four-View Projection)
+
+```text
+========================================================================================
+             ellmos-servercommander-mcp: Four-View Architectural Topology
+========================================================================================
+
+[VIEW 1: COMPONENT STRUCTURE & TRANSPORT BOUNDARIES]
+  +----------------------------------------------------------------------------------+
+  | 1. MCP Host & AI Client (Claude Desktop / Claude Code / Cursor / Codex)          |
+  |    - Stdio JSON-RPC transport protocol                                           |
+  +----------------------------------------------------------------------------------+
+                                           |
+                                           | (JSON-RPC via stdio stream)
+                                           v
+  +----------------------------------------------------------------------------------+
+  | 2. Gateway & Process Supervision (bin/ellmos-servercommander.js)                 |
+  |    - Node.js CLI launcher & process supervisor (update-notifier checks)          |
+  |    - Working directory isolation: PYTHONSAFEPATH=1 prevents rogue import hijack  |
+  +----------------------------------------------------------------------------------+
+                                           |
+                                           | (Supervised child process stdio)
+                                           v
+  +----------------------------------------------------------------------------------+
+  | 3. FastMCP Dispatcher & i18n Localization Engine (src/servercommander/)          |
+  |    - FastMCP server lifecycle, tool schema generation & parameter validation     |
+  |    - Multi-language localization engine (6 locales: en, de, es, zh, ja, ru)      |
+  +----------------------------------------------------------------------------------+
+
+[VIEW 2: OPERATIONAL ENGINES & DRY-RUN EXECUTION]
+  +----------------------------------------------------------------------------------+
+  | 4. Tool Handlers & Diagnostic Engines                                            |
+  |    - sc_health_check: Non-blocking HTTP/HTTPS probe with timeout & batch error   |
+  |    - sc_logs_analyze: Sanitized Apache/Nginx access-log parser & threat detector|
+  |    - sc_deploy / sc_deploy_status: Fail-safe SHA-256 tree hashing & dry-run plan|
+  |    - sc_mail_list / sc_mail_read / sc_mail_send: Dry-run IMAP/SMTP diagnostics  |
+  +----------------------------------------------------------------------------------+
+
+[VIEW 3: LOCAL PERSISTENCE & CONCURRENCY MODEL]
+  +----------------------------------------------------------------------------------+
+  | 5. Local Storage & Audit Sinks                                                   |
+  |    - Local SQLite Deploy History (deploy-history.db) with explicit lease release |
+  |    - Sanitized JSON diagnostic reports (optional persist_report)                 |
+  |    - Thread-isolated HTTP GET workers preventing event-loop stalling             |
+  +----------------------------------------------------------------------------------+
+
+[VIEW 4: SECURITY BOUNDARY & ZERO-EGRESS PERIMETER]
+  +----------------------------------------------------------------------------------+
+  | 6. Governance & Defense Invariants (INV-LOCAL-01 through INV-SLA-10)             |
+  |    - RunAsInvoker: 100% unprivileged user mode; zero root/sudo/UAC requirement   |
+  |    - Zero-Egress by default: zero telemetry, zero unverified background outbound |
+  |    - Safe Process Isolation: cwd package exclusion, sanitized error messages     |
+  |    - 48h Response SLA & statutory liability limitation (§ 521 BGB)               |
+  +----------------------------------------------------------------------------------+
+========================================================================================
+```
+
 ---
 
-<a id="end-to-end-operations-lifecycle"></a><a id="operations-lifecycle--execution-sequence-flow"></a>
+<a id="end-to-end-operations-lifecycle"></a><a id="operations-lifecycle--execution-sequence-flow"></a><a id="sec-03"></a>
 ## 3. Operations Lifecycle & Execution Sequence Flow
 
 The following sequence diagram demonstrates the lifecycle of operations dispatched by an AI agent through ServerCommander, showing concurrent HTTP probing, log parsing, and dry-run manifest calculation:
@@ -164,7 +222,7 @@ sequenceDiagram
 
 ---
 
-<a id="marketing--target-personas"></a><a id="target-personas--high-intent-seo-queries"></a>
+<a id="marketing--target-personas"></a><a id="target-personas--high-intent-seo-queries"></a><a id="sec-04"></a>
 ## 4. Target Personas & High-Intent SEO Queries
 
 ServerCommander MCP bridges the critical gap between hazardous raw shell execution and opaque hosting control panels. It equips AI agents with safe, structured diagnostic capabilities for system administration.
@@ -194,7 +252,7 @@ ServerCommander MCP bridges the critical gap between hazardous raw shell executi
 
 ---
 
-<a id="comparative-matrix--alternatives"></a><a id="comparative-matrix-vs-alternatives"></a>
+<a id="comparative-matrix--alternatives"></a><a id="comparative-matrix-vs-alternatives"></a><a id="sec-05"></a>
 ## 5. Comparative Matrix vs. Alternatives
 
 The 10-dimension matrix below contrasts ServerCommander against common server administration approaches, mapped directly to its runtime and governance invariants (`INV-LOCAL-01` through `INV-SLA-10`):
@@ -214,7 +272,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 
 ---
 
-<a id="key-capabilities--safety-invariants"></a><a id="governance--safety-invariants"></a>
+<a id="key-capabilities--safety-invariants"></a><a id="governance--safety-invariants"></a><a id="sec-06"></a>
 ## 6. Key Capabilities & Safety Invariants
 
 | Invariant | Capability / Rule | Implementation Guarantee | Technical Details |
@@ -232,7 +290,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 
 ---
 
-<a id="start-here"></a><a id="quick-guidance"></a>
+<a id="start-here"></a><a id="quick-guidance"></a><a id="sec-07"></a>
 ## 7. Start Here & Quick Guidance
 
 | Goal | Start with | Key Features |
@@ -245,7 +303,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 
 ---
 
-<a id="status--protocol-support"></a>
+<a id="status--protocol-support"></a><a id="sec-08"></a>
 ## 8. Status & Protocol Support
 
 - **Transport**: Standard I/O (`stdio`) via the Python MCP SDK and Node.js process wrapper.
@@ -256,7 +314,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 
 ---
 
-<a id="installation"></a><a id="installation--prerequisites"></a>
+<a id="installation"></a><a id="installation--prerequisites"></a><a id="sec-09"></a>
 ## 9. Installation & Prerequisites
 
 The npm package contains a Node wrapper that starts the Python server. You still need Python 3.10+ and the Python package `mcp>=1.0.0`.
@@ -282,7 +340,7 @@ Avoid creating a `.venv` inside cloud-synced folders if your sync client locks f
 
 ---
 
-<a id="mcp-client-configuration"></a><a id="mcp-client-deployment-modes"></a>
+<a id="mcp-client-configuration"></a><a id="mcp-client-deployment-modes"></a><a id="sec-10"></a>
 ## 10. MCP Client Configuration & Deployment Modes
 
 ### Global npm Install
@@ -329,7 +387,7 @@ Avoid creating a `.venv` inside cloud-synced folders if your sync client locks f
 
 ---
 
-<a id="configuration--profiles"></a><a id="configuration--profiles-specification"></a>
+<a id="configuration--profiles"></a><a id="configuration--profiles-specification"></a><a id="sec-11"></a>
 ## 11. Configuration & Profiles Specification
 
 ServerCommander searches for configuration files in this hierarchical order:
@@ -366,7 +424,7 @@ Secrets should always be referenced through environment variables, for example `
 
 ---
 
-<a id="tools--handlers"></a><a id="tool-handlers-reference"></a>
+<a id="tools--handlers"></a><a id="tool-handlers-reference"></a><a id="sec-12"></a>
 ## 12. Tools & Handlers Reference
 
 - `sc_health_check`: Checks HTTP/HTTPS endpoints and reports status codes, response headers, and latency. Malformed endpoint URLs are captured gracefully as failed checks rather than aborting the batch.
@@ -377,7 +435,7 @@ Secrets should always be referenced through environment variables, for example `
 
 ---
 
-<a id="search-and-disambiguation"></a><a id="search-disambiguation--discovery-keywords"></a>
+<a id="search-and-disambiguation"></a><a id="search-disambiguation--discovery-keywords"></a><a id="sec-13"></a>
 ## 13. Search, Disambiguation & Discovery Keywords
 
 ServerCommander is the ellmos operations MCP server for local-first server administration workflows. Use this repository when searching for:
@@ -398,7 +456,7 @@ It is **not** the GitHub MCP server, **not** a generic arbitrary shell-execution
 
 ---
 
-<a id="sibling-ecosystem"></a><a id="sibling-ecosystem-matrix"></a>
+<a id="sibling-ecosystem"></a><a id="sibling-ecosystem-matrix"></a><a id="sec-14"></a>
 ## 14. Sibling Ecosystem Matrix
 
 This MCP server is an integral component of the **[ellmos-ai](https://github.com/ellmos-ai)** ecosystem and the **[open-bricks](https://github.com/open-bricks)** open-source software family.
@@ -439,7 +497,7 @@ Our partner organization **[open-bricks](https://github.com/open-bricks)** provi
 
 ---
 
-<a id="third-party-licenses--transparency"></a><a id="third-party-licenses--level-1-sbom"></a>
+<a id="third-party-licenses--transparency"></a><a id="third-party-licenses--level-1-sbom"></a><a id="sec-15"></a>
 ## 15. Third-Party Licenses & Level 1 SBOM
 
 ellmos ServerCommander MCP is strictly built upon permissive open-source foundations. We maintain zero hidden telemetry, zero proprietary binary blobs, and zero unverified dynamic dependencies.
@@ -448,11 +506,11 @@ ellmos ServerCommander MCP is strictly built upon permissive open-source foundat
 - **Node CLI Wrapper**: `update-notifier` (BSD-2-Clause, Sindre Sorhus) for non-intrusive CLI update checks.
 - **Optional Extensions**: `paramiko` (LGPL-2.1) dynamically imported only when the optional `[sftp]` extra is explicitly installed.
 - **Developer Tooling**: `pytest` (MIT), `pytest-asyncio` (Apache-2.0), `ruff` (MIT/Apache-2.0), `hatchling` (MIT).
-- **Audit Ledger & Level 1 SBOM**: Comprehensive license disclosures, full copyright notices, and local-first compliance assurances are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md). Formal repository attribution is preserved in [NOTICE](NOTICE).
+- **Audit Ledger & Level 1 SBOM**: Comprehensive license disclosures, full copyright notices, and local-first compliance assurances are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and plain-text companion [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt). Formal repository attribution is preserved in [NOTICE](NOTICE).
 
 ---
 
-<a id="security--governance"></a><a id="security-policy--operational-limits"></a>
+<a id="security--governance"></a><a id="security-policy--operational-limits"></a><a id="sec-16"></a>
 ## 16. Security Policy & Operational Limits (48h SLA)
 
 For vulnerability reporting, response SLAs, and local-first security invariant details, see our bilingual [SECURITY.md](SECURITY.md).
@@ -462,7 +520,7 @@ For vulnerability reporting, response SLAs, and local-first security invariant d
 
 ---
 
-<a id="development--verification"></a><a id="development-verification--ci-matrix"></a>
+<a id="development--verification"></a><a id="development-verification--ci-matrix"></a><a id="sec-17"></a>
 ## 17. Development, Verification & CI Matrix
 
 ```powershell
@@ -484,7 +542,7 @@ npm pack --dry-run
 
 ---
 
-<a id="statutory-notice--liability-limitation"></a><a id="license"></a>
+<a id="statutory-notice--liability-limitation"></a><a id="license"></a><a id="sec-18"></a>
 ## 18. Statutory Notice, Liability Limitation & License (§ 521 BGB)
 
 ### Statutory Disclaimer (§ 521 BGB Gefälligkeitsrecht)

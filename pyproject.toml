@@ -8,30 +8,30 @@ version = "0.1.0a21"
 description = "MCP server for server operations: deploy, mail, log analysis, health checks."
 readme = "README.md"
 license = "MIT"
-license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"]
 requires-python = ">=3.10"
 authors = [{ name = "Lukas Geiger" }]
 keywords = [
-    "mcp",
-    "model-context-protocol",
-    "server-operations",
-    "server-management",
-    "deploy",
-    "deployment-dry-run",
-    "access-log-analysis",
-    "health-check",
+    "ai-agents",
+    "apache-logs",
+    "claude-code",
+    "deployment",
     "devops",
     "dry-run",
+    "ellmos-ai",
+    "fastmcp",
+    "health-check",
     "local-first",
-    "i18n",
-    "ellmos",
-    "open-bricks",
-    "claude-code",
-    "apache-logs",
+    "log-analysis",
+    "mcp-server",
+    "model-context-protocol",
     "nginx-logs",
+    "open-bricks",
+    "python",
+    "server-management",
+    "server-operations",
+    "sysadmin",
     "zero-egress",
-    "fail-closed",
-    "audit-trail",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -67,6 +67,9 @@ Changelog = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/C
 Security = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/SECURITY.md"
 Notice = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/NOTICE"
 "Third-Party Licenses" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/THIRD_PARTY_LICENSES.md"
+"Third-Party Licenses (Text)" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/THIRD_PARTY_LICENSES.txt"
+"Level 1 SBOM" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/THIRD_PARTY_LICENSES.md"
+"Plain-Text License" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/LICENSE"
 "Marketing Log" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/MARKETING-LOG.txt"
 "LLM Ready" = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/llms.txt"
 "Parent Organization" = "https://github.com/ellmos-ai"

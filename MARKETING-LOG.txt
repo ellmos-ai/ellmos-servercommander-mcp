@@ -7,8 +7,8 @@
 # Ecosystem: ellmos-ai (AI Infrastructure & MCP Control Plane)
 # Umbrella: open-bricks (AI-Native Desktop & Developer Tools)
 # Current Version: 0.1.0-alpha.21
-# Maintenance Path: Pfad A (Repository Hygiene, CI Lifecycle Workflows, Lock Defense & Level 1 SBOM Re-Audit)
-# Last Updated: 2026-09-24
+# Maintenance Path: Pfad B (Discoverability, Dual HTML Anchors, ASCII Vier-Sichten Topology, Level 1 SBOM Text Companion & GitHub Topics Saturation)
+# Last Updated: 2026-09-29
 # ==============================================================================
 
 [POSITIONING & VALUE PROPOSITION]
@@ -157,3 +157,11 @@ German:
   - Re-audited Level 1 SBOM in THIRD_PARTY_LICENSES.md Stand 2026-09-24 with RunAsInvoker non-elevation and zero-copyleft guarantees.
   - Synchronized llms.txt context index with 2026-09-24 timestamp and updated test baseline badges across READMEs.
   - Expanded automated contract test suite in tests/test_repository_hygiene.py.
+2026-09-29: Pfad B Discoverability, Dual HTML Anchors, ASCII Vier-Sichten Topology & Level 1 SBOM Text Companion:
+  - Saturated GitHub repository topics to full 20/20 platform capacity (added ai-agents, fastmcp, devops, dry-run, zero-egress, ellmos-ai, open-bricks, python, sysadmin).
+  - Aligned PEP 621 pyproject.toml keywords with all 20 GitHub topics and expanded [project.urls] with Level 1 SBOM, Third-Party Licenses (Text), and Plain-Text License.
+  - Implemented 18-point dual HTML anchors (<a id="sec-01"></a>..<a id="sec-18"></a>) across README.md and README_de.md preserving full semantic jump-link compatibility.
+  - Introduced Section 02 ASCII Architectural Topology (Four-View Projection: Component Structure, Operational Engines, Local Persistence, Security Boundary) in both READMEs.
+  - Created canonical Level 1 SBOM plain-text companion file THIRD_PARTY_LICENSES.txt, packaged in package.json and pyproject.toml license-files, referenced in NOTICE and THIRD_PARTY_LICENSES.md.
+  - Updated documentation badges to Level 1 SBOM Plain Text and verified timestamp 2026-09-29.
+  - Expanded automated repository hygiene contract test suite in tests/test_repository_hygiene.py with dual anchor, ASCII architecture, topic saturation, and SBOM plain text tests.

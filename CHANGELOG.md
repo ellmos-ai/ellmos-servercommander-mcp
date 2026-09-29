@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Discoverability, Dual HTML Anchors, ASCII Vier-Sichten Topology & Level 1 SBOM Text Companion (Pfad B)
+- **GitHub Topics & PEP 621 Keywords Saturation**: Saturated GitHub repository topics to full 20/20 capacity (`ai-agents`, `fastmcp`, `devops`, `dry-run`, `zero-egress`, `ellmos-ai`, `open-bricks`, `python`, `sysadmin`) and aligned `pyproject.toml` keywords 1:1; expanded `[project.urls]` with `Level 1 SBOM`, `Third-Party Licenses (Text)`, and `Plain-Text License`.
+- **18-Point Dual HTML Navigation Parity**: Implemented standardized `<a id="sec-01"></a>` through `<a id="sec-18"></a>` dual anchors in both `README.md` and `README_de.md`, ensuring full reciprocal link and jump compatibility across all documentation tools.
+- **Section 02 ASCII Vier-Sichten Topology**: Added comprehensive ASCII Architectural Topology (View 1 Component Structure, View 2 Operational Engines, View 3 Local Persistence & Concurrency, View 4 Security Boundary & Zero-Egress) to both `README.md` and `README_de.md` alongside Mermaid diagrams.
+- **Level 1 SBOM Plain-Text Companion (`THIRD_PARTY_LICENSES.txt`)**: Generated canonical plain-text companion file `THIRD_PARTY_LICENSES.txt` mirroring dependency licenses, 0% copyleft guarantee, RunAsInvoker non-elevation certification, and invariant matrix `INV-LOCAL-01`..`INV-SLA-10`; packaged in `package.json` and `pyproject.toml` license-files, referenced in `NOTICE` and `THIRD_PARTY_LICENSES.md`.
+- **Documentation Badges & Verification Timestamps**: Updated badges to Level 1 SBOM Plain Text and Verified `2026-09-29`; refreshed `llms.txt` verification timestamp to `2026-09-29`.
+- **Contract Test Suite Expansion**: Added contract tests in `tests/test_repository_hygiene.py` for dual HTML anchors parity, ASCII four-view topology parity, PEP 621 topic saturation and SBOM URLs, and Level 1 SBOM text companion invariants.
+
 ### Repository Hygiene, CI Lifecycle Hardening & Multi-Host Lock Defense (Pfad A)
 - **CI Workflow Concurrency & Welcome Lifecycle Automation**: Added `.github/workflows/welcome.yml` with `actions/first-interaction@v3`, `timeout-minutes: 5`, least-privilege permissions (`issues: write`, `pull-requests: write`), and `concurrency: { group: welcome-${{ github.ref }}, cancel-in-progress: true }`; hardened `.github/workflows/stale.yml` with `concurrency: { group: stale-${{ github.ref }}, cancel-in-progress: true }`.
 - **Multi-Host Cloud-Sync & Lock Defense in `.gitignore`**: Hardened `.gitignore` with multi-host device tokens (`*-ASUS*`, `*-Mac Studio*`, `*-MacBook*`, `*-WORKSTATION.*`), multi-agent lock patterns (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`), and test runner cache patterns (`.pytest_temp/`, `.pytest_tmp*/`).

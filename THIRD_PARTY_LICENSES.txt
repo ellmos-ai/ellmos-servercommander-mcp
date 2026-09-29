@@ -1,0 +1,198 @@
+================================================================================
+THIRD-PARTY SOFTWARE LICENSES & LEVEL 1 SBOM AUDIT TRAIL
+================================================================================
+
+Project:               ellmos-ai/ellmos-servercommander-mcp
+Version:               0.1.0-alpha.21 (0.1.0a21, frozen per T-20260920-167562623)
+Stand:                 2026-09-29
+Repository License:    MIT License (see LICENSE)
+Attribution Notice:    see NOTICE
+Markdown Companion:    see THIRD_PARTY_LICENSES.md
+Security Policy:       see SECURITY.md (48-hour SLA)
+Governance Standards:  INV-LOCAL-01 through INV-SLA-10
+Execution Mode:        100% Local-First, Zero-Egress by default, Unprivileged User-Mode (RunAsInvoker)
+
+--------------------------------------------------------------------------------
+1. EXECUTIVE COMPLIANCE & ZERO-COPYLEFT GUARANTEE
+--------------------------------------------------------------------------------
+
+ellmos-servercommander-mcp is engineered under strict architectural and governance
+invariants: 100% Local-First, Zero-Egress by default, and unprivileged user-mode
+execution (RunAsInvoker). All server diagnostics, Apache/Nginx access log analysis,
+SHA-256 deployment tree hashing, and health probe verifications execute within
+local process boundaries without requiring elevated administrative privileges.
+
+All direct, optional, and development dependencies utilized across
+ellmos-servercommander-mcp are distributed under strictly permissive open-source
+licenses (MIT, BSD-2-Clause, Apache-2.0, PSFL) or dynamically linked optional
+modules (LGPL-2.1).
+
+There are zero viral copyleft (GPL / AGPL) dependencies in core runtime or
+distribution packages (Zero-Copyleft isolation guarantee), ensuring maximum
+safety and portability for enterprise adoption, AI agent tool dispatching, and
+automated CI/CD environments.
+
+RunAsInvoker Non-Elevation Certification:
+ellmos-servercommander-mcp operates strictly in standard unprivileged user space.
+It requires zero administrative elevation, zero sudo/root privileges, and zero
+system daemon registrations.
+
+Zero-Egress Perimeter:
+Diagnostic operations, deployment manifest building, and access-log parsing emit
+zero outbound network telemetry. HTTP health probes (sc_health_check) only execute
+outbound HTTP GET requests to target endpoints explicitly provided by the caller.
+
+--------------------------------------------------------------------------------
+2. INVARIANT CROSS-REFERENCE MATRIX
+--------------------------------------------------------------------------------
+
+Invariant ID  | Security & Operational Mandate           | Enforcement & License Scope
+--------------+------------------------------------------+------------------------------
+INV-LOCAL-01  | 100% Local-First & Zero-Egress by default| PSFL-2.0 / stdio MCP transport
+INV-DRY-02    | Fail-Safe Deployment Staging (dry_run)   | MIT (SHA-256 tree hashing)
+INV-LOG-03    | Sanitized Access-Log Analysis            | PSFL-2.0 (read-only regex parsing)
+INV-PROBE-04  | Non-Blocking Resilient Health Probes     | PSFL-2.0 (threaded HTTP GET)
+INV-MAIL-05   | Dry-Run Mail Configuration Status        | PSFL-2.0 (readiness without sending)
+INV-PRIV-06   | Non-Elevation (RunAsInvoker mode)        | MIT (unprivileged user space)
+INV-SEC-07    | Safe Process & Working Directory Isolation| BSD-2-Clause (PYTHONSAFEPATH=1)
+INV-I18N-08   | Native 6-Language i18n Localization      | MIT (en, de, es, zh, ja, ru)
+INV-SYNC-09   | Cloud-Sync Conflict & Lock Defense       | MIT (.gitignore multi-host guards)
+INV-SLA-10    | Bilingual Security SLA (48h response)    | SECURITY.md (security@ellmos.ai)
+
+--------------------------------------------------------------------------------
+3. DIRECT RUNTIME DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Component:      mcp (Python SDK)
+Purpose:        Official Model Context Protocol Python SDK for FastMCP stdio server
+                and JSON-RPC protocol handling.
+License:        MIT License
+SPDX-ID:        MIT
+Copyright:      (c) 2024-2026 Anthropic, PBC
+Repository:     https://github.com/modelcontextprotocol/python-sdk
+
+License Text:
+MIT License
+
+Copyright (c) 2024 Anthropic, PBC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Component:      Python Standard Library
+Purpose:        Built-in standard library components (asyncio, pathlib, json,
+                hashlib, urllib, sqlite3, re, logging, dataclasses).
+License:        Python Software Foundation License Version 2 (PSFL-2.0)
+SPDX-ID:        PSF-2.0
+Copyright:      (c) 2001-2026 Python Software Foundation
+Repository:     https://github.com/python/cpython
+
+--------------------------------------------------------------------------------
+4. NODE.JS CLI & LAUNCHER DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Component:      update-notifier
+Purpose:        Non-intrusive update notification checks for the global npm CLI
+                launcher wrapper (bin/ellmos-servercommander.js).
+License:        BSD 2-Clause "Simplified" License
+SPDX-ID:        BSD-2-Clause
+Copyright:      (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+Repository:     https://github.com/yeoman/update-notifier
+
+License Text:
+BSD 2-Clause License
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--------------------------------------------------------------------------------
+5. OPTIONAL DEPENDENCIES (EXTRAS: [sftp])
+--------------------------------------------------------------------------------
+
+Component:      paramiko
+Purpose:        Optional SFTP/SSH staging and remote connection support.
+License:        GNU Lesser General Public License Version 2.1 or later (LGPL-2.1-or-later)
+SPDX-ID:        LGPL-2.1-or-later
+Copyright:      (c) 2003-2026 Robey Pointer and Paramiko contributors
+Repository:     https://github.com/paramiko/paramiko
+Isolation Note: Dynamically imported only when user installs extra 'sftp'. Core
+                server operations function 100% independently without paramiko.
+
+--------------------------------------------------------------------------------
+6. DEVELOPMENT & TEST SUITE DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Component:      pytest
+Purpose:        Testing framework for automated contract and integration testing.
+License:        MIT License
+SPDX-ID:        MIT
+Copyright:      (c) 2004-2026 Holger Krekel and pytest-dev team
+Repository:     https://github.com/pytest-dev/pytest
+
+---
+
+Component:      pytest-asyncio
+Purpose:        AsyncIO test support plugin for pytest.
+License:        Apache License 2.0
+SPDX-ID:        Apache-2.0
+Copyright:      (c) 2012-2026 Tin Tvrtkovic and contributors
+Repository:     https://github.com/pytest-dev/pytest-asyncio
+
+---
+
+Component:      ruff
+Purpose:        High-performance Python linter and code formatter.
+License:        MIT License / Apache License 2.0
+SPDX-ID:        MIT OR Apache-2.0
+Copyright:      (c) 2023-2026 Astral Software Inc.
+Repository:     https://github.com/astral-sh/ruff
+
+---
+
+Component:      hatchling
+Purpose:        Build backend for PEP 517/621 packaging.
+License:        MIT License
+SPDX-ID:        MIT
+Copyright:      (c) 2022-2026 Ofek Lev
+Repository:     https://github.com/pypa/hatch
+
+================================================================================
+END OF THIRD-PARTY LICENSES & LEVEL 1 SBOM AUDIT TRAIL
+================================================================================

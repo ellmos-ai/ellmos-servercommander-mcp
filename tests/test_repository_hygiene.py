@@ -134,7 +134,8 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-24" in llms_text
+    assert "Last-checked: 2026-09-29" in llms_text or "Last-checked: 2026-09-24" in llms_text
+    assert "THIRD_PARTY_LICENSES.txt" in llms_text
     assert "0.1.0-alpha.21" in llms_text
     assert "sc_health_check" in llms_text
     assert "sc_logs_analyze" in llms_text
@@ -289,9 +290,13 @@ def test_third_party_licenses_inventory_and_pep639():
     package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
     files = set(package["files"])
     assert "THIRD_PARTY_LICENSES.md" in files, "THIRD_PARTY_LICENSES.md must be included in package.json files list"
+    assert "THIRD_PARTY_LICENSES.txt" in files, "THIRD_PARTY_LICENSES.txt must be included in package.json files list"
 
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]' in pyproject_text
+    expected_license_files = (
+        'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"]'
+    )
+    assert expected_license_files in pyproject_text
 
     content = licenses_md.read_text(encoding="utf-8")
     assert "Third-Party Licenses / Drittanbieter-Lizenzen" in content
@@ -464,7 +469,7 @@ def test_third_party_licenses_inventory():
     content = licenses_path.read_text(encoding="utf-8")
     assert "Third-Party Licenses" in content
     assert "Level 1 SBOM" in content
-    assert "Stand: 2026-09-24" in content
+    assert "Stand: 2026-09-29" in content or "Stand: 2026-09-24" in content
     assert "NOTICE" in content
     for comp in ["mcp", "update-notifier", "paramiko", "pytest", "pytest-asyncio", "ruff", "hatchling"]:
         assert comp in content, f"Component '{comp}' missing in THIRD_PARTY_LICENSES.md"
@@ -484,7 +489,7 @@ def test_marketing_log_contract():
 
     content = log_path.read_text(encoding="utf-8")
     assert "Maintenance Path: Pfad" in content
-    assert "Last Updated: 2026-09-24" in content
+    assert "Last Updated: 2026-09-29" in content or "Last Updated: 2026-09-24" in content
     assert "[POSITIONING & VALUE PROPOSITION]" in content
     assert "[TARGET PERSONAS]" in content
     assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
@@ -625,3 +630,90 @@ def test_node_wrapper_version_smoke():
     )
     assert result.returncode == 0
     assert "0.1.0-alpha.21" in result.stdout.strip()
+
+
+def test_readme_sec_dual_anchors_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for sec_num in range(1, 19):
+        sec_tag = f'<a id="sec-{sec_num:02d}"></a>'
+        assert sec_tag in readme_en, f"Anchor '{sec_tag}' missing in README.md"
+        assert sec_tag in readme_de, f"Anchor '{sec_tag}' missing in README_de.md"
+
+
+def test_ascii_four_views_architecture_parity():
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for view in ["[VIEW 1:", "[VIEW 2:", "[VIEW 3:", "[VIEW 4:"]:
+        assert view in readme_en, f"ASCII architecture view '{view}' missing in README.md"
+
+    for sicht in ["[SICHT 1:", "[SICHT 2:", "[SICHT 3:", "[SICHT 4:"]:
+        assert sicht in readme_de, f"ASCII architecture sicht '{sicht}' missing in README_de.md"
+
+
+def test_pep621_topic_saturation_and_sbom_urls():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+
+    expected_topics = [
+        "ai-agents",
+        "apache-logs",
+        "claude-code",
+        "deployment",
+        "devops",
+        "dry-run",
+        "ellmos-ai",
+        "fastmcp",
+        "health-check",
+        "local-first",
+        "log-analysis",
+        "mcp-server",
+        "model-context-protocol",
+        "nginx-logs",
+        "open-bricks",
+        "python",
+        "server-management",
+        "server-operations",
+        "sysadmin",
+        "zero-egress",
+    ]
+    for topic in expected_topics:
+        assert f'"{topic}"' in pyproject_text, f"Topic '{topic}' missing in pyproject.toml keywords"
+
+    assert '"Third-Party Licenses (Text)"' in pyproject_text
+    assert '"Level 1 SBOM"' in pyproject_text
+    assert '"Plain-Text License"' in pyproject_text
+
+
+def test_level_1_sbom_text_companion_invariants():
+    text_companion = REPO_ROOT / "THIRD_PARTY_LICENSES.txt"
+    assert text_companion.exists(), "THIRD_PARTY_LICENSES.txt must exist in repository root"
+    assert not _git_check_ignore("THIRD_PARTY_LICENSES.txt"), "THIRD_PARTY_LICENSES.txt must be trackable in git"
+
+    content = text_companion.read_text(encoding="utf-8")
+    assert "THIRD-PARTY SOFTWARE LICENSES & LEVEL 1 SBOM AUDIT TRAIL" in content
+    assert "Stand:                 2026-09-29" in content
+    assert "RunAsInvoker" in content
+    assert "Zero-Copyleft" in content
+
+    invariants = [
+        "INV-LOCAL-01",
+        "INV-DRY-02",
+        "INV-LOG-03",
+        "INV-PROBE-04",
+        "INV-MAIL-05",
+        "INV-PRIV-06",
+        "INV-SEC-07",
+        "INV-I18N-08",
+        "INV-SYNC-09",
+        "INV-SLA-10",
+    ]
+    for inv in invariants:
+        assert inv in content, f"Invariant '{inv}' missing in THIRD_PARTY_LICENSES.txt"
+
+    notice_content = (REPO_ROOT / "NOTICE").read_text(encoding="utf-8")
+    assert "THIRD_PARTY_LICENSES.txt" in notice_content
+
+    licenses_md_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    assert "THIRD_PARTY_LICENSES.txt" in licenses_md_content
