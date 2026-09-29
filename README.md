@@ -268,7 +268,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 | **7. Mail Safety Staging** | `INV-MAIL-05` | Readiness check without send | Direct mail command risk | Webmail interface | Email alert service | Blind mailx invocation |
 | **8. Process & CWD Isolation** | `INV-SEC-07` | `PYTHONSAFEPATH=1` defense | Shell inherits rogue CWD | Fixed daemon user | Sandboxed system service | Inherits caller environment |
 | **9. Cloud-Sync Conflict Defense** | `INV-SYNC-09` | Built-in gitignore & lock guards | None (git-only) | Database state only | Cloud-hosted dashboard | None |
-| **10. Security SLA & Governance** | `INV-SLA-10` | 48h SLA via security@ellmos.ai | Community / self-supported | Vendor commercial support | Enterprise commercial SLA | Unmaintained community |
+| **10. Security SLA & Governance** | `INV-SLA-10` | 48h/5d/30d SLA via security@ellmos.ai | Community / self-supported | Vendor commercial support | Enterprise commercial SLA | Unmaintained community |
 
 ---
 
@@ -286,7 +286,7 @@ The 10-dimension matrix below contrasts ServerCommander against common server ad
 | **INV-SEC-07** | **Safe Process & Package Isolation** | Rogue package defense | Launcher enforces `PYTHONSAFEPATH=1` to prevent cwd package hijacking. |
 | **INV-I18N-08** | **Native 6-Language i18n Engine** | Comprehensive multilingual parity | Localized tool descriptions, schema arguments, and errors for `en`, `de`, `es`, `zh`, `ja`, `ru`. |
 | **INV-SYNC-09** | **Cloud-Sync Conflict Hardening** | Multi-host gitignore defense | Hardened against OneDrive/Dropbox sync copies (`*-conflict-*`) and multi-agent locks (`LOCK*`). |
-| **INV-SLA-10** | **Bilingual Security SLA** | 48h triage guarantee | Vulnerability response within 48 hours via `security@ellmos.ai` and `security@open-bricks.org`. |
+| **INV-SLA-10** | **Bilingual Security SLA** | 48h/5d/30d guarantee | Vulnerability response within 48 hours, 5-day triage, and 30-day remediation commitment via `security@ellmos.ai` and `security@open-bricks.org`. |
 
 ---
 

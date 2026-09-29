@@ -41,10 +41,14 @@ deploy_status.json
 *.p12
 *.pfx
 *.kdbx
-id_rsa
-id_ed25519
-id_ecdsa
-id_dsa
+*.crt
+*.cert
+*.csr
+id_rsa*
+id_ed25519*
+id_ecdsa*
+id_dsa*
+*.secret
 
 # Python build and test artifacts
 __pycache__/
@@ -69,6 +73,7 @@ node_modules/
 .mcpregistry_*
 
 # Sync conflicts and locks
+CONFLICT_REVIEW_LOG*
 *-conflict-*
 *.sync-conflict-*
 *.conflict

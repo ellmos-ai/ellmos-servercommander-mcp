@@ -8,7 +8,7 @@ Stand:                 2026-09-29
 Repository License:    MIT License (see LICENSE)
 Attribution Notice:    see NOTICE
 Markdown Companion:    see THIRD_PARTY_LICENSES.md
-Security Policy:       see SECURITY.md (48-hour SLA)
+Security Policy:       see SECURITY.md (48h response, 5d triage, 30d remediation SLA)
 Governance Standards:  INV-LOCAL-01 through INV-SLA-10
 Execution Mode:        100% Local-First, Zero-Egress by default, Unprivileged User-Mode (RunAsInvoker)
 
@@ -57,7 +57,7 @@ INV-PRIV-06   | Non-Elevation (RunAsInvoker mode)        | MIT (unprivileged use
 INV-SEC-07    | Safe Process & Working Directory Isolation| BSD-2-Clause (PYTHONSAFEPATH=1)
 INV-I18N-08   | Native 6-Language i18n Localization      | MIT (en, de, es, zh, ja, ru)
 INV-SYNC-09   | Cloud-Sync Conflict & Lock Defense       | MIT (.gitignore multi-host guards)
-INV-SLA-10    | Bilingual Security SLA (48h response)    | SECURITY.md (security@ellmos.ai)
+INV-SLA-10    | Bilingual Security SLA (48h/5d/30d SLA)  | SECURITY.md (security@ellmos.ai)
 
 --------------------------------------------------------------------------------
 3. DIRECT RUNTIME DEPENDENCIES

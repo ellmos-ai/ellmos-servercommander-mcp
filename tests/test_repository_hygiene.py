@@ -42,9 +42,21 @@ def test_local_secret_and_credential_files_are_ignored():
         "deploy-history.sqlite3-wal",
         "deploy-history.sqlite3-shm",
         "id_rsa",
+        "id_rsa.pub",
         "id_ed25519",
+        "id_ed25519.pub",
+        "id_ecdsa",
+        "id_ecdsa.pub",
+        "id_dsa",
+        "id_dsa.pub",
         "private.pem",
         "client.key",
+        "server.crt",
+        "ca.cert",
+        "request.csr",
+        "api.secret",
+        "production.secret",
+        "CONFLICT_REVIEW_LOG.md",
     ]
 
     for path in ignored:
@@ -81,10 +93,19 @@ def test_npm_package_excludes_local_config_and_secret_artifacts():
         "*.p12",
         "*.pfx",
         "*.kdbx",
+        "*.crt",
+        "*.cert",
+        "*.csr",
         "id_rsa",
+        "id_rsa*",
         "id_ed25519",
+        "id_ed25519*",
         "id_ecdsa",
+        "id_ecdsa*",
         "id_dsa",
+        "id_dsa*",
+        "*.secret",
+        "CONFLICT_REVIEW_LOG*",
     }
 
     assert required_patterns <= _npmignore_patterns()
@@ -279,6 +300,9 @@ def test_security_policy_bilingual_sla_and_contacts():
     assert "security@ellmos.ai" in content
     assert "security@open-bricks.org" in content
     assert "48 hours" in content or "48 Stunden" in content
+    assert "30 calendar days" in content, "30-day remediation SLA must be in English SECURITY.md"
+    assert "30 Kalendertagen" in content, "30-Tage-Remediation-Zusage must be in German SECURITY.md"
+    assert "INV-SLA-10" in content, "INV-SLA-10 must be referenced in SECURITY.md"
     assert "github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories" in content
 
 
@@ -305,6 +329,7 @@ def test_third_party_licenses_inventory_and_pep639():
     assert "paramiko" in content
     assert "pytest" in content
     assert "ruff" in content
+    assert "30-day" in content, "INV-SLA-10 30-day remediation SLA must be in THIRD_PARTY_LICENSES.md"
 
 
 def test_pyproject_pep621_classifiers_and_urls():
@@ -386,6 +411,8 @@ def test_gitignore_conflict_and_lock_hygiene():
         ".automation-lock",
         ".pytest_temp/cache.txt",
         ".pytest_tmp_extra/cache.txt",
+        "CONFLICT_REVIEW_LOG.md",
+        "CONFLICT_REVIEW_LOG-WORKSTATION-LG.txt",
     ]
 
     for item in ignored_conflicts_and_locks:
@@ -717,3 +744,25 @@ def test_level_1_sbom_text_companion_invariants():
 
     licenses_md_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
     assert "THIRD_PARTY_LICENSES.txt" in licenses_md_content
+
+
+def test_security_and_dependency_audit_contracts():
+    gitignore_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert "id_rsa*" in gitignore_text
+    assert "*.crt" in gitignore_text
+    assert "*.cert" in gitignore_text
+    assert "*.csr" in gitignore_text
+    assert "*.secret" in gitignore_text
+    assert "CONFLICT_REVIEW_LOG*" in gitignore_text
+
+    npmignore_text = (REPO_ROOT / ".npmignore").read_text(encoding="utf-8")
+    assert "id_rsa*" in npmignore_text
+    assert "*.crt" in npmignore_text
+    assert "*.cert" in npmignore_text
+    assert "*.csr" in npmignore_text
+    assert "*.secret" in npmignore_text
+    assert "CONFLICT_REVIEW_LOG*" in npmignore_text
+
+    changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "AI Security & Dependency Audit, Gitignore & SLA Hardening" in changelog_text
+    assert "30-day remediation SLA" in changelog_text

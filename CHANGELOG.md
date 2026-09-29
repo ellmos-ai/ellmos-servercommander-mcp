@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### AI Security & Dependency Audit, Gitignore & SLA Hardening (2026-09-29)
+- **Defensive Gitignore & Npmignore Hardening**: Expanded SSH key exclusions to comprehensive wildcards (`id_rsa*`, `id_ed25519*`, `id_ecdsa*`, `id_dsa*`), added certificate and CSR patterns (`*.crt`, `*.cert`, `*.csr`), generic secrets (`*.secret`), and multi-host review logs (`CONFLICT_REVIEW_LOG*`) across `.gitignore` and `.npmignore`.
+- **Security Policy SLA Harmonization (`SECURITY.md`)**: Formalized bilingual 30-day remediation SLA commitment (`INV-SLA-10`) in English (acknowledgement within 48h, triage within 5 business days, mitigation within 30 calendar days) and German (Bestätigung 48h, Triage 5 Werktage, Behebungszusage 30 Kalendertage).
+- **Level 1 SBOM & Invariant Matrix Parity (`THIRD_PARTY_LICENSES.md`, `THIRD_PARTY_LICENSES.txt`)**: Updated `INV-SLA-10` in Level 1 SBOM invariant cross-reference tables and text companion to explicit 48h/5d/30d SLA; confirmed zero copyleft and 100% permissive runtime dependencies.
+- **Documentation & Matrix Parity**: Harmonized `README.md` and `README_de.md` comparative matrices and invariant summaries to reflect 48h/5d/30d SLA.
+- **Contract Test Suite Expansion**: Extended `tests/test_repository_hygiene.py` with automated contract assertions for SSH key wildcards, certificates, CSRs, secrets, multi-host conflict review logs, and bilingual 30-day remediation SLA guarantees.
+
 ### Discoverability, Dual HTML Anchors, ASCII Vier-Sichten Topology & Level 1 SBOM Text Companion (Pfad B)
 - **GitHub Topics & PEP 621 Keywords Saturation**: Saturated GitHub repository topics to full 20/20 capacity (`ai-agents`, `fastmcp`, `devops`, `dry-run`, `zero-egress`, `ellmos-ai`, `open-bricks`, `python`, `sysadmin`) and aligned `pyproject.toml` keywords 1:1; expanded `[project.urls]` with `Level 1 SBOM`, `Third-Party Licenses (Text)`, and `Plain-Text License`.
 - **18-Point Dual HTML Navigation Parity**: Implemented standardized `<a id="sec-01"></a>` through `<a id="sec-18"></a>` dual anchors in both `README.md` and `README_de.md`, ensuring full reciprocal link and jump compatibility across all documentation tools.

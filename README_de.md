@@ -267,7 +267,7 @@ Die nachfolgende 10-Dimensionen-Matrix vergleicht ServerCommander mit gängigen 
 | **7. Sicheres Mail-Staging** | `INV-MAIL-05` | Bereitschaftsprüfung ohne Senden | Direktes Mail-Versandrisiko | Webmail-Oberfläche | E-Mail-Alarmdienst | Blinde mailx-Ausführung |
 | **8. Prozess- & CWD-Schutz** | `INV-SEC-07` | `PYTHONSAFEPATH=1`-Härtung | Shell erbt unsicheres CWD | Fester Daemon-Benutzer | Isolierter Systemdienst | Erbt Aufruferumgebung |
 | **9. Cloud-Sync-Konfliktschutz**| `INV-SYNC-09`| Integrierte Ignore- & Lock-Regeln | Keine (rein Git) | Nur Datenbankzustand | Cloud-Dashboard | Keine |
-| **10. Sicherheits-SLA & Support**| `INV-SLA-10`| 48h SLA via security@ellmos.ai | Community / Eigenregie | Kommerzieller Support | Enterprise SLA | Ungepflegte Community |
+| **10. Sicherheits-SLA & Support**| `INV-SLA-10`| 48h/5d/30d SLA via security@ellmos.ai | Community / Eigenregie | Kommerzieller Support | Enterprise SLA | Ungepflegte Community |
 
 ---
 
@@ -285,7 +285,7 @@ Die nachfolgende 10-Dimensionen-Matrix vergleicht ServerCommander mit gängigen 
 | **INV-SEC-07** | **Sichere Prozess- & Paketisolation** | Schutz vor Fremdpaketen im CWD | Launcher erzwingt `PYTHONSAFEPATH=1`, um Hijacking durch Arbeitsverzeichnispakete zu verhindern. |
 | **INV-I18N-08** | **Native 6-Sprachen i18n Engine** | Vollständige mehrsprachige Parität | Lokalisierte Toolbeschreibungen, Schema-Argumente und Fehler für `en`, `de`, `es`, `zh`, `ja`, `ru`. |
 | **INV-SYNC-09** | **Cloud-Sync-Konflikthärtung** | Multi-Host .gitignore-Abwehr | Gehärtet gegen OneDrive-/Dropbox-Konfliktkopien (`*-conflict-*`) und Multi-Agent-Locks (`LOCK*`). |
-| **INV-SLA-10** | **Zweisprachige Sicherheits-SLA** | 48h Reaktionsgarantie | Schwachstellenmeldung mit 48h-Triage via `security@ellmos.ai` und `security@open-bricks.org`. |
+| **INV-SLA-10** | **Zweisprachige Sicherheits-SLA** | 48h/5d/30d Garantie | 48h Reaktionsgarantie, 5 Tage Triage und 30 Tage Behebungszusage via `security@ellmos.ai` und `security@open-bricks.org`. |
 
 ---
 

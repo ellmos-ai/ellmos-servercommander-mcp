@@ -43,7 +43,7 @@ We take the security of our tools seriously. If you discover a security issue or
   - `lukas@open-bricks.org`
   - `support@lukasgeiger.com`
 
-**Response SLA**: We commit to acknowledging receipt of vulnerability reports within **48 hours** and providing an assessment with target mitigation timelines within **5 business days**.
+**Response SLA**: We commit to acknowledging receipt of vulnerability reports within **48 hours**, providing an initial triage assessment with target mitigation timelines within **5 business days**, and delivering a fix or mitigation within **30 calendar days** for confirmed vulnerabilities (`INV-SLA-10`) prior to public disclosure.
 
 ---
 
@@ -59,6 +59,6 @@ We take the security of our tools seriously. If you discover a security issue or
 4. **Schutz von Zugangsdaten & Secrets**: Echte Anmeldedaten (`.env`, `.npmrc`, `.pypirc`, Private Keys `id_rsa`, `id_ed25519`, `*.pem`, `*.key`) und Token-Dateien (`*.token.json`) sind strikt ignoriert und über `.npmignore` von npm-Paketen ausgeschlossen.
 5. **Rechtefreie Ausführung (Non-Elevation)**: Läuft vollständig im unprivilegierten Benutzerkontext und benötigt keinerlei Administrator- oder Root-Rechte.
 
-### Sicherheitskontakt & 48h SLA
+### Sicherheitskontakt & Reaktions-SLA (INV-SLA-10)
 
-Sicherheitsrelevante Befunde können vertraulich über [GitHub Security Advisories](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories) oder per E-Mail an `security@ellmos.ai` / `security@open-bricks.org` gemeldet werden. Wir garantieren eine Erstreaktion innerhalb von **48 Stunden**.
+Sicherheitsrelevante Befunde können vertraulich über [GitHub Security Advisories](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories) oder per E-Mail an `security@ellmos.ai` / `security@open-bricks.org` gemeldet werden. Wir bestätigen den Eingang von Meldungen innerhalb von **48 Stunden**, liefern innerhalb von **5 Werktagen** eine vorläufige Triage-Einschätzung und verpflichten uns, innerhalb von **30 Kalendertagen** eine Behebung oder Schutzmaßnahme für bestätigte Sicherheitslücken bereitzustellen (`INV-SLA-10`), bevor eine Veröffentlichung erfolgt.

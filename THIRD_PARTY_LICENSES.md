@@ -28,7 +28,7 @@ All direct, optional, and development dependencies utilized across `ellmos-serve
 | `INV-SEC-07` | **Safe Process & CWD Isolation** | `PYTHONSAFEPATH=1`; hardened launcher against rogue working directory packages | [BSD-2-Clause](https://opensource.org/licenses/BSD-2-Clause) |
 | `INV-I18N-08` | **Native Multi-Language i18n Engine** | 6 locales (en, de, es, zh, ja, ru) with automated English fallback | [MIT](LICENSE) |
 | `INV-SYNC-09` | **Cloud-Sync Conflict & Lock Defense** | `.gitignore` hardened against sync conflicts (`*-conflict-*`) & multi-agent locks (`LOCK*`) | [MIT](LICENSE) |
-| `INV-SLA-10` | **Bilingual Security SLA (48h)** | 48h initial response, 5-day triage SLA via security@ellmos.ai & security@open-bricks.org | [SECURITY.md](SECURITY.md) |
+| `INV-SLA-10` | **Bilingual Security SLA (48h/5d/30d)** | 48h initial response, 5-day triage assessment, and 30-day remediation SLA via security@ellmos.ai & security@open-bricks.org | [SECURITY.md](SECURITY.md) |
 
 ---
 
