@@ -444,7 +444,7 @@ def test_pyproject_dependencies_and_build_system():
     assert 'requires = ["hatchling"]' in pyproject_text
     assert 'build-backend = "hatchling.build"' in pyproject_text
     assert "dependencies = [" in pyproject_text
-    assert '"mcp>=1.0.0"' in pyproject_text
+    assert '"mcp>=1.0.0,<2.0.0"' in pyproject_text
     assert "[project.optional-dependencies]" in pyproject_text
     assert "sftp = " in pyproject_text
     assert "dev = " in pyproject_text
