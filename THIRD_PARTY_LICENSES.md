@@ -1,8 +1,9 @@
 # Third-Party Licenses / Drittanbieter-Lizenzen (Level 1 SBOM)
 
 > **Project:** `ellmos-ai/ellmos-servercommander-mcp`<br>
-> Stand: 2026-09-29<br>
+> Stand: 2026-10-02<br>
 > **Plain-Text Companion:** [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)<br>
+> **Contributing Guide:** [CONTRIBUTING.md](CONTRIBUTING.md)<br>
 > **Repository License:** [MIT License](LICENSE)<br>
 > **Repository Attribution Notice:** [NOTICE](NOTICE)<br>
 > **Architecture & Privacy:** 100% Local-First, Zero-Egress by default, Unprivileged User-Mode (`RunAsInvoker`)

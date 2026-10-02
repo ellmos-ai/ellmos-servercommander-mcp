@@ -155,7 +155,11 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-09-29" in llms_text or "Last-checked: 2026-09-24" in llms_text
+    assert (
+        "Last-checked: 2026-10-02" in llms_text
+        or "Last-checked: 2026-09-29" in llms_text
+        or "Last-checked: 2026-09-24" in llms_text
+    )
     assert "THIRD_PARTY_LICENSES.txt" in llms_text
     assert "0.1.0-alpha.21" in llms_text
     assert "sc_health_check" in llms_text
@@ -496,7 +500,11 @@ def test_third_party_licenses_inventory():
     content = licenses_path.read_text(encoding="utf-8")
     assert "Third-Party Licenses" in content
     assert "Level 1 SBOM" in content
-    assert "Stand: 2026-09-29" in content or "Stand: 2026-09-24" in content
+    assert (
+        "Stand: 2026-10-02" in content
+        or "Stand: 2026-09-29" in content
+        or "Stand: 2026-09-24" in content
+    )
     assert "NOTICE" in content
     for comp in ["mcp", "update-notifier", "paramiko", "pytest", "pytest-asyncio", "ruff", "hatchling"]:
         assert comp in content, f"Component '{comp}' missing in THIRD_PARTY_LICENSES.md"
@@ -516,7 +524,11 @@ def test_marketing_log_contract():
 
     content = log_path.read_text(encoding="utf-8")
     assert "Maintenance Path: Pfad" in content
-    assert "Last Updated: 2026-09-29" in content or "Last Updated: 2026-09-24" in content
+    assert (
+        "Last Updated: 2026-10-02" in content
+        or "Last Updated: 2026-09-29" in content
+        or "Last Updated: 2026-09-24" in content
+    )
     assert "[POSITIONING & VALUE PROPOSITION]" in content
     assert "[TARGET PERSONAS]" in content
     assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
@@ -720,7 +732,10 @@ def test_level_1_sbom_text_companion_invariants():
 
     content = text_companion.read_text(encoding="utf-8")
     assert "THIRD-PARTY SOFTWARE LICENSES & LEVEL 1 SBOM AUDIT TRAIL" in content
-    assert "Stand:                 2026-09-29" in content
+    assert (
+        "Stand:                 2026-10-02" in content
+        or "Stand:                 2026-09-29" in content
+    )
     assert "RunAsInvoker" in content
     assert "Zero-Copyleft" in content
 
@@ -766,3 +781,137 @@ def test_security_and_dependency_audit_contracts():
     changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "AI Security & Dependency Audit, Gitignore & SLA Hardening" in changelog_text
     assert "30-day remediation SLA" in changelog_text
+
+
+def test_contributing_guide_present_and_bilingual():
+    guide_path = REPO_ROOT / "CONTRIBUTING.md"
+    assert guide_path.exists(), "CONTRIBUTING.md must exist in repository root"
+    assert not _git_check_ignore("CONTRIBUTING.md"), "CONTRIBUTING.md must be trackable in git"
+
+    content = guide_path.read_text(encoding="utf-8")
+    assert "#english" in content
+    assert "#deutsch" in content
+
+    invariants = [
+        "INV-LOCAL-01",
+        "INV-DRY-02",
+        "INV-LOG-03",
+        "INV-PROBE-04",
+        "INV-MAIL-05",
+        "INV-PRIV-06",
+        "INV-SEC-07",
+        "INV-I18N-08",
+        "INV-SYNC-09",
+        "INV-SLA-10",
+    ]
+    for inv in invariants:
+        assert inv in content, f"Invariant '{inv}' missing in CONTRIBUTING.md"
+
+    assert "RunAsInvoker" in content
+    assert r"C:\_Local_DEV\repos\ellmos-servercommander-mcp" in content
+    assert "T-20260920-167562623" in content
+    assert "§ 521 BGB" in content
+    assert "security@ellmos.ai" in content
+    assert "security@open-bricks.org" in content
+
+
+def test_ci_lifecycle_auto_assign_and_label_sync_workflows():
+    auto_assign = REPO_ROOT / ".github" / "workflows" / "auto-assign.yml"
+    assert auto_assign.exists(), "auto-assign.yml workflow must exist"
+    assert not _git_check_ignore(".github/workflows/auto-assign.yml")
+    aa_text = auto_assign.read_text(encoding="utf-8")
+    assert "actions/github-script@v7" in aa_text
+    assert "timeout-minutes: 5" in aa_text
+    assert "cancel-in-progress: true" in aa_text
+    assert "issues: write" in aa_text
+    assert "pull-requests: write" in aa_text
+
+    label_sync = REPO_ROOT / ".github" / "workflows" / "label-sync.yml"
+    assert label_sync.exists(), "label-sync.yml workflow must exist"
+    assert not _git_check_ignore(".github/workflows/label-sync.yml")
+    ls_text = label_sync.read_text(encoding="utf-8")
+    assert "EndBug/label-sync@v2" in ls_text
+    assert "timeout-minutes: 5" in ls_text
+    assert "cancel-in-progress: true" in ls_text
+    assert ".github/labels.yml" in ls_text
+
+
+def test_canonical_github_labels_configuration():
+    labels_file = REPO_ROOT / ".github" / "labels.yml"
+    assert labels_file.exists(), ".github/labels.yml must exist"
+    assert not _git_check_ignore(".github/labels.yml")
+
+    content = labels_file.read_text(encoding="utf-8")
+    expected_labels = [
+        "bug",
+        "enhancement",
+        "good first issue",
+        "help wanted",
+        "documentation",
+        "duplicate",
+        "wontfix",
+        "priority: high",
+        "priority: low",
+        "needs-triage",
+        "stale",
+    ]
+    for lbl in expected_labels:
+        assert f"name: {lbl}" in content or f"name: '{lbl}'" in content, f"Label '{lbl}' missing in labels.yml"
+
+
+def test_pyproject_contributing_url_registered():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert (
+        'Contributing = "https://github.com/ellmos-ai/ellmos-servercommander-mcp/blob/main/CONTRIBUTING.md"'
+        in pyproject_text
+    )
+
+
+def test_gitignore_multi_host_extended_lock_defense():
+    gitignore_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    required_patterns = [
+        "*-IDEAPAD*",
+        "*-IDEAPAD-GEI*",
+        "*-IDEAPAD-GEI.*",
+        "Desktop.ini",
+        "ehthumbs.db",
+        "TASKPLAN_*.md",
+        "*-TASKPLAN*",
+        "LOCK.dev.*",
+        "LOCK.antigravity.*",
+        "LOCK.bugsearch.*",
+    ]
+    for pattern in required_patterns:
+        assert pattern in gitignore_text, f"Pattern '{pattern}' missing in .gitignore"
+
+
+def test_level_1_sbom_re_audit_stand_20261002():
+    licenses_md = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    assert "Stand: 2026-10-02" in licenses_md
+    assert "CONTRIBUTING.md" in licenses_md
+
+    licenses_txt = (REPO_ROOT / "THIRD_PARTY_LICENSES.txt").read_text(encoding="utf-8")
+    assert "Stand:                 2026-10-02" in licenses_txt
+    assert "CONTRIBUTING.md" in licenses_txt
+
+
+def test_changelog_unreleased_pfad_a_currency_20261002():
+    changelog_text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "(Pfad A: 2026-10-02)" in changelog_text
+    assert "auto-assign.yml" in changelog_text
+    assert "label-sync.yml" in changelog_text
+    assert "CONTRIBUTING.md" in changelog_text
+
+
+def test_version_freeze_discipline():
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'version = "0.1.0a21"' in pyproject_text
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    assert package["version"] == "0.1.0-alpha.21"
+
+    server = json.loads((REPO_ROOT / "server.json").read_text(encoding="utf-8"))
+    assert server["version"] == "0.1.0-alpha.21"
+
+    init_text = (REPO_ROOT / "src" / "servercommander" / "__init__.py").read_text(encoding="utf-8")
+    assert '__version__ = "0.1.0a21"' in init_text

@@ -4,8 +4,9 @@ THIRD-PARTY SOFTWARE LICENSES & LEVEL 1 SBOM AUDIT TRAIL
 
 Project:               ellmos-ai/ellmos-servercommander-mcp
 Version:               0.1.0-alpha.21 (0.1.0a21, frozen per T-20260920-167562623)
-Stand:                 2026-09-29
+Stand:                 2026-10-02
 Repository License:    MIT License (see LICENSE)
+Contributing Guide:    see CONTRIBUTING.md (Quality Gates & Plan D Workflow)
 Attribution Notice:    see NOTICE
 Markdown Companion:    see THIRD_PARTY_LICENSES.md
 Security Policy:       see SECURITY.md (48h response, 5d triage, 30d remediation SLA)
