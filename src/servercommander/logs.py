@@ -16,7 +16,8 @@ LOG_PATTERN = re.compile(
     r'(?P<host>\S+)\s+\S+\s+\S+\s+\[(?P<time>[^\]]+)\]\s+'
     r'"(?P<method>[A-Z]+)\s+(?P<path>\S+)(?:\s+HTTP/[0-9.]+)?"\s+'
     r'(?P<status>\d{3})\s+(?P<size>\S+)'
-    r'(?:\s+"(?P<referer>[^"]*)"\s+"(?P<agent>[^"]*)")?'
+    r'(?:\s+"(?P<referer>(?:\\.|[^"\\])*)"\s+'
+    r'"(?P<agent>(?:\\.|[^"\\])*)")?'
 )
 
 BOT_MARKERS = ("bot", "crawler", "spider", "slurp", "bingpreview")
