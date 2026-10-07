@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ### Test Hygiene: Pytest Base Temp Guard (2026-11-07)
 - **`tests/conftest.py`**: `--basetemp=.pytest_tmp` in `pyproject.toml` is relative, and pytest resolves it against the current working directory, so a run started inside a OneDrive tree wrote `.pytest_tmp` into that tree (observed 2026-11-01 in the `.AI` control folder). The new `pytest_configure` hook anchors a relative base temp at the rootdir (the repository) and refuses, with a `UsageError`, a base temp that lies inside OneDrive (folder `OneDrive` / `OneDrive - <account>` or below the `OneDrive*` environment roots). Covered by `tests/test_basetemp_guard.py` (T-20261107-245040014).
 
+### Access-log URL privacy (2026-10-07)
+- Remove query strings, fragments and authority userinfo from request targets and Referer URLs before aggregation in tool responses and new persisted JSON reports.
+- Keep bot counts, byte/status totals and suspicious-query detection intact; retain percent-encoded path characters and logged header escapes.
+- Add seven registry regressions covering response/report redaction, aggregation across token variants, absolute and scheme-relative URLs, encoded delimiters, path at-signs and query-only scanner markers. Existing reports and other log fields are outside this URL-redaction scope.
+
 ### Combined access-log header parsing (2026-10-03)
 - Preserve escaped quotes and backslashes in Referer and User-Agent fields instead of dropping or truncating them; bot counts now include markers after escaped quotes. Header values remain in their logged, escaped form.
 - Add four MCP registry regression cases for escaped quotes, backslashes, hexadecimal escapes and whitespace escapes, plus a Common Log Format compatibility case without headers.
