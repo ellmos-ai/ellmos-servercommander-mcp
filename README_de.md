@@ -338,6 +338,18 @@ python -m pytest -q
 
 Vermeiden Sie `.venv`-Ordner innerhalb cloud-synchronisierter Verzeichnisse, falls der Sync-Client Dateien sperrt.
 
+### Mit deinem LLM installieren
+
+Kopiere diesen Prompt in deinen Coding-Agenten (Claude Code, Codex, Gemini CLI, Cursor), um `ellmos-servercommander-mcp` lokal installieren und prüfen zu lassen:
+
+```text
+Lies https://github.com/ellmos-ai/ellmos-servercommander-mcp (README_de.md und llms.txt)
+und installiere ellmos-servercommander-mcp auf meinem System.
+1. Prüfe zuerst die Voraussetzungen (Node.js >= 18, Python >= 3.10, mcp >= 1.0.0) und erkläre kurz, was installiert wird.
+2. Klone das Repo bzw. führe die empfohlene Installation (`python -m pip install -e .`) in einer isolierten Umgebung (.venv) aus, ohne fremde Projekte oder bestehende MCP-Client-Konfigurationen ungefragt zu überschreiben.
+3. Führe danach einen kurzen Smoke-/Verifikationstest (`python -c "import servercommander; print(servercommander.__file__)"`) aus und zeige mir den Konfigurationsblock (`mcpServers.servercommander`).
+```
+
 ---
 
 <a id="mcp-client-konfiguration"></a><a id="mcp-client-configuration"></a><a id="sec-10"></a>

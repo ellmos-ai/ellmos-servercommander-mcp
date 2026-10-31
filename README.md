@@ -339,6 +339,18 @@ python -m pytest -q
 
 Avoid creating a `.venv` inside cloud-synced folders if your sync client locks files. If you need an isolated environment, create it outside that folder.
 
+### Install with your LLM
+
+Copy the following prompt into your coding agent (Claude Code, Codex, Gemini CLI, Cursor) to install and configure `ellmos-servercommander-mcp` locally:
+
+```text
+Read https://github.com/ellmos-ai/ellmos-servercommander-mcp (README.md and llms.txt)
+and install ellmos-servercommander-mcp on my system.
+1. Check prerequisites (Node.js >= 18, Python >= 3.10, mcp >= 1.0.0) and explain what will be installed before running commands.
+2. Install or clone the repository in an isolated environment (`python -m pip install -e .`), without modifying unrelated projects or overwriting existing MCP client settings without confirmation.
+3. Run a non-destructive smoke/verification check (`python -c "import servercommander; print(servercommander.__file__)"`) and show me the MCP client configuration snippet (`mcpServers.servercommander`).
+```
+
 ---
 
 <a id="mcp-client-configuration"></a><a id="mcp-client-deployment-modes"></a><a id="sec-10"></a>

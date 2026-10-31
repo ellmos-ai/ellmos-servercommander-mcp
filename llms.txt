@@ -94,4 +94,11 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - system-explorer: local-first system composition, module introspection, and fleet verification.
 - companion-for-agy: developer companion and telemetry bridge for Antigravity workflows.
 
+## Installation & Quickstart for LLMs
+
+- Prerequisites: Node.js >= 18, Python >= 3.10, `mcp >= 1.0.0`
+- Install command: `git clone https://github.com/ellmos-ai/ellmos-servercommander-mcp.git && cd ellmos-servercommander-mcp && python -m venv .venv && .venv/bin/pip install -e .` (or via npm wrapper: `npm install -g ellmos-servercommander-mcp@alpha`)
+- Verification command: `python -c "import servercommander; print(servercommander.__file__)"`
+- Minimal example: Configure MCP client with `{"mcpServers": {"servercommander": {"command": "npx", "args": ["-y", "ellmos-servercommander-mcp@alpha"]}}}` and invoke `sc_health_check`.
+
 ## Last-checked: 2026-10-02
