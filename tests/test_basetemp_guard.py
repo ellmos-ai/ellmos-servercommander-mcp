@@ -90,3 +90,25 @@ def test_a_folder_that_merely_starts_with_onedrive_is_not_refused(tmp_path):
     config = _configure(tmp_path / "repo", str(target))
 
     assert Path(config.option.basetemp) == target.resolve()
+
+
+def test_refuses_macos_cloudstorage_onedrive_personal(tmp_path):
+    inside = tmp_path / "Library" / "CloudStorage" / "OneDrive-Personal" / "scratch"
+
+    with pytest.raises(pytest.UsageError, match="OneDrive"):
+        _configure(tmp_path / "repo", str(inside))
+
+
+def test_refuses_macos_cloudstorage_onedrive_business_and_shared(tmp_path):
+    for folder_name in ("OneDrive-AcmeCorp", "OneDrive-SharedLibraries-Org"):
+        inside = tmp_path / "CloudStorage" / folder_name / "scratch"
+        with pytest.raises(pytest.UsageError, match="OneDrive"):
+            _configure(tmp_path / "repo", str(inside))
+
+
+def test_onedrive_prefix_outside_cloudstorage_is_not_refused(tmp_path):
+    for folder_name in ("OneDrive-Tools", "OneDriveBackup"):
+        target = tmp_path / "projects" / folder_name / "scratch"
+        config = _configure(tmp_path / "repo", str(target))
+        assert Path(config.option.basetemp) == target.resolve()
+
