@@ -7,6 +7,7 @@ repository) and refuses a base temp that ends up inside OneDrive, so a sync tree
 """
 
 import os
+from itertools import pairwise
 from pathlib import Path
 
 import pytest
@@ -17,11 +18,16 @@ _ONEDRIVE_ENV = ("OneDrive", "OneDriveConsumer", "OneDriveCommercial")
 def _in_onedrive(path: Path) -> bool:
     """True for a path inside a OneDrive folder.
 
-    Matches a folder named ``OneDrive`` or ``OneDrive - <account>`` and anything below the roots the OneDrive client
-    exports as environment variables. Deliberately not a prefix match: ``onedrive-tools`` is an ordinary folder.
+    Matches a folder named ``OneDrive`` or ``OneDrive - <account>``, macOS ``CloudStorage/OneDrive-*`` folders,
+    and anything below the roots the OneDrive client exports as environment variables. Deliberately not a general
+    prefix match: ``onedrive-tools`` is an ordinary folder outside CloudStorage.
     """
-    if any(part.casefold() == "onedrive" or part.casefold().startswith("onedrive - ") for part in path.parts):
+    folded = [part.casefold() for part in path.parts]
+    if any(part == "onedrive" or part.startswith("onedrive - ") for part in folded):
         return True
+    for prev, curr in pairwise(folded):
+        if prev == "cloudstorage" and (curr == "onedrive" or curr.startswith("onedrive-")):
+            return True
     roots = (Path(value).resolve() for name in _ONEDRIVE_ENV if (value := os.environ.get(name)))
     return any(path.is_relative_to(root) for root in roots)
 
