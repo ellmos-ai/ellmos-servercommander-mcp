@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ### Test Hygiene: Pytest Base Temp Guard (2026-11-07)
 - **`tests/conftest.py`**: `--basetemp=.pytest_tmp` in `pyproject.toml` is relative, and pytest resolves it against the current working directory, so a run started inside a OneDrive tree wrote `.pytest_tmp` into that tree (observed 2026-11-01 in the `.AI` control folder). The new `pytest_configure` hook anchors a relative base temp at the rootdir (the repository) and refuses, with a `UsageError`, a base temp that lies inside OneDrive (folder `OneDrive` / `OneDrive - <account>` or below the `OneDrive*` environment roots). Covered by `tests/test_basetemp_guard.py` (T-20261107-245040014).
 
+### Alpha concept boundary (2026-11-01)
+- Separate original deployment/mail goals from the implemented status of all eight tools in KONZEPT.md.
+- Document dry-run-only deployment, diagnostic mail defaults, opt-in connector-backed IMAP reachability, and read/search delegation notices without implying SMTP or SFTP execution.
+- Mark extraction notes and the early configuration example as historical; link the current configuration template. No runtime or version change.
+
 ### Access-log URL privacy (2026-10-07)
 - Remove query strings, fragments and authority userinfo from request targets and Referer URLs before aggregation in tool responses and new persisted JSON reports.
 - Keep bot counts, byte/status totals and suspicious-query detection intact; retain percent-encoded path characters and logged header escapes.
