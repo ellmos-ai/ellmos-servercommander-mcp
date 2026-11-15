@@ -16,7 +16,8 @@ LOG_PATTERN = re.compile(
     r'(?P<host>\S+)\s+\S+\s+\S+\s+\[(?P<time>[^\]]+)\]\s+'
     r'"(?P<method>[A-Z]+)\s+(?P<path>\S+)(?:\s+HTTP/[0-9.]+)?"\s+'
     r'(?P<status>\d{3})\s+(?P<size>\S+)'
-    r'(?:\s+"(?P<referer>[^"]*)"\s+"(?P<agent>[^"]*)")?'
+    r'(?:\s+"(?P<referer>(?:\\.|[^"\\])*)"\s+'
+    r'"(?P<agent>(?:\\.|[^"\\])*)")?'
 )
 
 BOT_MARKERS = ("bot", "crawler", "spider", "slurp", "bingpreview")
@@ -61,7 +62,8 @@ async def sc_logs_analyze(
         status_counts[status] += 1
         status_classes[f"{status[0]}xx"] += 1
         method_counts[match.group("method")] += 1
-        path = match.group("path")
+        raw_path = match.group("path")
+        path = _sanitize_log_url(raw_path)
         path_counts[path] += 1
         if int(status) >= 400:
             error_path_counts[path] += 1
@@ -70,13 +72,13 @@ async def sc_logs_analyze(
             total_bytes += int(size)
         referer = match.group("referer") or ""
         if referer and referer != "-":
-            referer_counts[referer] += 1
+            referer_counts[_sanitize_log_url(referer)] += 1
         agent = match.group("agent") or ""
         if agent:
             agent_counts[agent] += 1
         if any(marker in agent.lower() for marker in BOT_MARKERS):
             bot_requests += 1
-        if any(marker in path.lower() for marker in SUSPICIOUS_MARKERS):
+        if any(marker in raw_path.lower() for marker in SUSPICIOUS_MARKERS):
             suspicious_requests += 1
 
     error_count = sum(count for status, count in status_counts.items() if int(status) >= 400)
@@ -109,6 +111,14 @@ async def sc_logs_analyze(
         result["report"] = {"persisted": False}
 
     return result
+
+
+def _sanitize_log_url(value: str) -> str:
+    """Remove query, fragment and URL userinfo without decoding logged escapes."""
+    value = re.split(r"[?#]", value, maxsplit=1)[0]
+    # Keep logged spelling and malformed inputs intact; only authority userinfo
+    # is removed. An @ in a path is not a credential delimiter.
+    return re.sub(r"^((?:[A-Za-z][A-Za-z0-9+.-]*:)?//)[^/]*@", r"\1", value)
 
 
 def _load_log_text(log_text: str | None, log_path: str | None) -> str:

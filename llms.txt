@@ -21,7 +21,7 @@ Navigation: 18-point standardized quick navigation with 100% bilingual parity ac
 ## Current Tools
 
 - `sc_health_check`: checks HTTP endpoints and reports status code plus latency; non-blocking worker threads.
-- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path; supports optional JSON report persistence.
+- `sc_logs_analyze`: analyzes Apache/Nginx access logs from inline text or a local file path; removes query strings, fragments and authority userinfo from request targets and Referer URLs before response/report aggregation, retains other logged header escapes, and supports optional JSON report persistence. Suspicious markers are counted from the original target. Paths, User-Agent values and source filenames are not generally anonymized; existing reports remain unchanged.
 - `sc_deploy`: builds a safe dry-run deployment plan with a local SHA256 manifest and profile diagnostics; tracks skipped symlinks; can optionally persist the dry-run plan in local SQLite history.
 - `sc_deploy_status`: shows configured deployment profiles and recent dry-run deployment history from local SQLite.
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: mail configuration diagnostics without IMAP/SMTP execution by default.
