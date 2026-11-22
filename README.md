@@ -13,7 +13,7 @@ German README: [README_de.md](README_de.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/ellmos-servercommander-mcp.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![CI](https://img.shields.io/badge/CI-passing-brightgreen.svg)](.github/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-78%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-101%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey.svg)](.github/workflows/ci.yml)
@@ -441,7 +441,8 @@ Secrets should always be referenced through environment variables, for example `
 ## 12. Tools & Handlers Reference
 
 - `sc_health_check`: Checks HTTP/HTTPS endpoints and reports status codes, response headers, and latency. Malformed endpoint URLs are captured gracefully as failed checks rather than aborting the batch.
-- `sc_logs_analyze`: Analyzes Apache/Nginx access logs from inline text or local files, reporting HTTP status classes (2xx/3xx/4xx/5xx), total bytes transferred, top referrers, 404/500 error paths, suspicious bot markers, and optional JSON report persistence via `persist_report`.
+- `sc_logs_analyze`: Analyzes Apache/Nginx access logs from inline text or local files, reporting HTTP status classes (2xx/3xx/4xx/5xx), total bytes transferred, top referrers, 404/500 error paths, suspicious bot markers, and optional JSON report persistence via `persist_report`. Request targets and Referer URLs have query strings, fragments, and authority userinfo removed before aggregation in responses and new JSON reports. Suspicious-request detection still inspects the original target, including query markers. Other logged escapes in Combined-log headers remain intact and do not hide bot markers.
+  - This URL-field redaction is not general log anonymization: paths, User-Agent values, and source filenames may still contain sensitive data. Existing reports are not rewritten.
 - `sc_deploy`: Creates a dry-run deployment plan with a local SHA-256 manifest and profile diagnostics without performing remote mutations. Nested symbolic links are tracked as `skipped_symlinks` to prevent unexpected directory traversal.
 - `sc_deploy_status`: Displays configured deployment profiles, profile diagnostics, and recent dry-run deployment records retrieved from the local SQLite history database.
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: Safe alpha status responses with action-specific IMAP/SMTP readiness diagnostics. With `[mail].execution_enabled = true`, `sc_mail_list` executes a read-only IMAP reachability probe (connect + folder listing) by reusing the canonical `mail-connector` module without reimplementing an IMAP client.

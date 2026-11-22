@@ -13,7 +13,7 @@ Englische Standard-README: [README.md](README.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/ellmos-servercommander-mcp.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![CI](https://img.shields.io/badge/CI-passing-brightgreen.svg)](.github/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-78%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-101%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey.svg)](.github/workflows/ci.yml)
@@ -440,7 +440,8 @@ Zugangsdaten sollten stets über Umgebungsvariablen wie `$MAIL_PASSWORD` oder `$
 ## 12. Tools & Handler-Referenz
 
 - `sc_health_check`: Prüft HTTP/HTTPS-Endpunkte und liefert Statuscodes, Header und Latenzen. Ungültige URLs brechen Batches niemals ab, sondern werden sauber als Einzelfehler isoliert.
-- `sc_logs_analyze`: Analysiert Apache/Nginx-Access-Logs aus Rohtext oder lokalen Dateien (Statusklassen, Transfervolumen, Top-Referrer, 404/500-Pfade, Bot-Erkennung und optionaler JSON-Reportexport via `persist_report`).
+- `sc_logs_analyze`: Analysiert Apache/Nginx-Access-Logs aus Rohtext oder lokalen Dateien (Statusklassen, Transfervolumen, Top-Referrer, 404/500-Pfade, Bot-Erkennung und optionaler JSON-Reportexport via `persist_report`). Request-Ziele und Referer-URLs werden vor der Aggregation in Antworten und neuen JSON-Reports von Query, Fragment und Anmeldedaten im URL-Authority-Feld bereinigt. Die Erkennung verdächtiger Requests prüft weiterhin das ursprüngliche Ziel einschließlich Query-Markern. Sonstige protokollierte Maskierungen der Combined-Log-Header bleiben erhalten und verbergen keine Bot-Marker.
+  - Diese URL-Bereinigung ist keine allgemeine Log-Anonymisierung: Pfade, User-Agent-Werte und Quelldateinamen können weiterhin sensible Daten enthalten. Bestehende Reports werden nicht nachträglich geändert.
 - `sc_deploy`: Berechnet Dry-Run-Deployment-Pläne mit lokalem SHA-256-Dateibaummanifest und Profildiagnostik ohne Zielmutationen. Verschachtelte Symlinks werden als `skipped_symlinks` sicher isoliert.
 - `sc_deploy_status`: Zeigt konfigurierte Deployment-Profile, Profildiagnosen und die letzten Dry-Run-Einträge aus der lokalen SQLite-Historien-Datenbank an.
 - `sc_mail_list`, `sc_mail_read`, `sc_mail_send`, `sc_mail_search`: Sichere Alpha-Diagnoseantworten zur IMAP/SMTP-Bereitschaft. Bei `[mail].execution_enabled = true` führt `sc_mail_list` einen schreibgeschützten IMAP-Erreichbarkeitstest über das bewährte `mail-connector`-Modul aus.
