@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Discoverability, Policy P-022, Terminal Workflow SVG, Community Health & Untracking MARKETING-LOG.txt (Pfad B: 2026-11-24)
+- **Policy P-022 LLM Entry**: Added product-specific `SKILL.md` (`name: ellmos-servercommander-mcp`), `llm.txt` compatibility pointer, refreshed `llms.txt` (`Last-checked: 2026-11-24`), and updated copyable LLM install prompts in `README.md` and `README_de.md`.
+- **Visual Terminal Preview & Diagram Polish**: Added dark-mode SVG preview `assets/terminal-workflow.svg` (880x540) embedded in Section 2 of both READMEs; expanded Section 3 `sequenceDiagram` with `sc_mail_*` readiness branch; removed duplicate `sec-02` anchor tag; added concise AI-assistance disclosure (`Geiger`) in Section 18.
+- **Community Health & Policy Hygiene**: Added bilingual `CODE_OF_CONDUCT.md` (Contributor Covenant v2.1) and `.github/ISSUE_TEMPLATE/{bug_report.md,feature_request.md}`, clarified email security reporting fallback in `SECURITY.md`, untracked internal `MARKETING-LOG.txt` via `git rm --cached` + `.gitignore`/`.npmignore`, updated `package.json`/`pyproject.toml`, and aligned `tests/test_repository_hygiene.py` (version `0.1.0-alpha.21` strictly frozen).
+
 ### Test Hygiene: Pytest Base Temp Guard (2026-11-07)
 - **`tests/conftest.py`**: `--basetemp=.pytest_tmp` in `pyproject.toml` is relative, and pytest resolves it against the current working directory, so a run started inside a OneDrive tree wrote `.pytest_tmp` into that tree (observed 2026-11-01 in the `.AI` control folder). The new `pytest_configure` hook anchors a relative base temp at the rootdir (the repository) and refuses, with a `UsageError`, a base temp that lies inside OneDrive (folder `OneDrive` / `OneDrive - <account>` or below the `OneDrive*` environment roots). Covered by `tests/test_basetemp_guard.py` (T-20261107-245040014).
 

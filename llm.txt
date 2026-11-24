@@ -1,0 +1,9 @@
+# ellmos-servercommander-mcp
+
+Compatibility pointer for AI agents and crawlers.
+
+- Primary LLM Context Index: `llms.txt`
+- Product Skill Specification: `SKILL.md`
+- Repository: https://github.com/ellmos-ai/ellmos-servercommander-mcp
+- Version: 0.1.0-alpha.21
+- Last-checked: 2026-11-24

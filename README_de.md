@@ -13,7 +13,7 @@ Englische Standard-README: [README.md](README.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/ellmos-servercommander-mcp.svg)](https://www.npmjs.com/package/ellmos-servercommander-mcp)
 [![CI](https://img.shields.io/badge/CI-passing-brightgreen.svg)](.github/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-101%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-105%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey.svg)](.github/workflows/ci.yml)
@@ -23,15 +23,16 @@ Englische Standard-README: [README.md](README.md)
 [![RunAsInvoker](https://img.shields.io/badge/Privilege-RunAsInvoker-success.svg)](THIRD_PARTY_LICENSES.md)
 [![Third-Party: Level 1 SBOM](https://img.shields.io/badge/Level%201%20SBOM-Audited%20%7C%20Plain%20Text-blue.svg)](THIRD_PARTY_LICENSES.txt)
 [![Mitwirken: Leitfaden](https://img.shields.io/badge/Mitwirken-Leitfaden-blue.svg)](CONTRIBUTING.md)
-[![Geprüft: 2026-10-02](https://img.shields.io/badge/Gepr%C3%BCft-2026--10--02-brightgreen.svg)](MARKETING-LOG.txt)
-[![Marketing: Log](https://img.shields.io/badge/Marketing--Log-active-blue.svg)](MARKETING-LOG.txt)
+[![Verhaltenskodex](https://img.shields.io/badge/Verhaltenskodex-Contributor%20Covenant-blue.svg)](CODE_OF_CONDUCT.md)
+[![Geprüft: 2026-11-24](https://img.shields.io/badge/Gepr%C3%BCft-2026--11--24-brightgreen.svg)](.github/workflows/ci.yml)
 [![Security: Bilingual Policy](https://img.shields.io/badge/security-Bilingual%20Policy%20(48h%20SLA)-blue.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
 [![open-bricks](https://img.shields.io/badge/umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 [![LLM--Ready: llms.txt](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
+[![Produkt-Skill: SKILL.md](https://img.shields.io/badge/Produkt--Skill-SKILL.md-orange.svg)](SKILL.md)
 
 > [!NOTE]
-> **Auffindbarkeit & KI-Suche:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json), [`glama.json`](glama.json) und [`smithery.yaml`](smithery.yaml) beschrieben und für AI-Suche/Indexierung in [`llms.txt`](llms.txt) zusammengefasst.
+> **Auffindbarkeit & KI-Suche:** Veröffentlicht auf [npm](https://www.npmjs.com/package/ellmos-servercommander-mcp) als `ellmos-servercommander-mcp`, für MCP-Kataloge in [`server.json`](server.json), [`glama.json`](glama.json) und [`smithery.yaml`](smithery.yaml) beschrieben und für AI-Suche/Indexierung in [`SKILL.md`](SKILL.md), [`llms.txt`](llms.txt) und [`llm.txt`](llm.txt) zusammengefasst.
 
 ---
 
@@ -70,8 +71,12 @@ Alle Operationen folgen strikten Local-First- und Rechte-Garantien:
 
 ---
 
-<a id="sec-02"></a><a id="architektur-visualisiert"></a><a id="architecture-visualized"></a><a id="visuelle-architektur--systemtopologie"></a><a id="sec-02"></a>
+<a id="architektur-visualisiert"></a><a id="architecture-visualized"></a><a id="visuelle-architektur--systemtopologie"></a><a id="sec-02"></a>
 ## 2. Visuelle Architektur & Systemtopologie
+
+<p align="center">
+  <img src="assets/terminal-workflow.svg" alt="ellmos-servercommander-mcp Terminal-Workflow-Vorschau" width="820">
+</p>
 
 Das folgende Diagramm visualisiert die entkoppelten Schichten von ServerCommander, vom MCP-Host-Transport über Node.js-Prozessüberwachung bis zum Python-Dispatcher, den Diagnose-Engines und den lokalen Senken:
 
@@ -213,6 +218,9 @@ sequenceDiagram
         Handler->>Disk: Scan local_path & calculate SHA-256 tree
         Handler->>Disk: Optional insert record into deploy-history.db
         Handler-->>Server: Manifest digest & profile readiness
+    else Mail Readiness Check
+        Server->>Handler: Dispatch sc_mail_list / sc_mail_read / sc_mail_send / sc_mail_search
+        Handler-->>Server: IMAP/SMTP readiness status (no send by default)
     end
 
     Server->>Server: Localize response messages (i18n engine)
@@ -343,11 +351,11 @@ Vermeiden Sie `.venv`-Ordner innerhalb cloud-synchronisierter Verzeichnisse, fal
 Kopiere diesen Prompt in deinen Coding-Agenten (Claude Code, Codex, Gemini CLI, Cursor), um `ellmos-servercommander-mcp` lokal installieren und prüfen zu lassen:
 
 ```text
-Lies https://github.com/ellmos-ai/ellmos-servercommander-mcp (README_de.md und llms.txt)
-und installiere ellmos-servercommander-mcp auf meinem System.
+Lies https://github.com/ellmos-ai/ellmos-servercommander-mcp (llms.txt, SKILL.md und README_de.md)
+und installiere ellmos-servercommander-mcp in einer isolierten Umgebung (bevorzuge einen Release-Tag oder Commit-Pin; keine ungeprüften curl|sh-Pipes):
 1. Prüfe zuerst die Voraussetzungen (Node.js >= 18, Python >= 3.10, mcp >= 1.0.0) und erkläre kurz, was installiert wird.
-2. Klone das Repo bzw. führe die empfohlene Installation (`python -m pip install -e .`) in einer isolierten Umgebung (.venv) aus, ohne fremde Projekte oder bestehende MCP-Client-Konfigurationen ungefragt zu überschreiben.
-3. Führe danach einen kurzen Smoke-/Verifikationstest (`python -c "import servercommander; print(servercommander.__file__)"`) aus und zeige mir den Konfigurationsblock (`mcpServers.servercommander`).
+2. Klone das Repo und erstelle eine isolierte Umgebung (python -m venv .venv && .venv/bin/pip install -e .), ohne fremde Projekte oder bestehende MCP-Client-Konfigurationen ungefragt zu überschreiben.
+3. Führe danach sichere Verifikationstests (`node bin/ellmos-servercommander.js --version`, `python -c "import servercommander; print(servercommander.__file__)"` und `python -m pytest -q`) aus und zeige mir den Konfigurationsblock (`mcpServers.servercommander`).
 ```
 
 ---
@@ -527,7 +535,7 @@ ellmos ServerCommander MCP baut ausnahmslos auf permissiven Open-Source-Grundlag
 
 Details zu Schwachstellenmeldungen, Reaktions-SLAs und Local-First-Sicherheitsinvarianten finden sich in der zweisprachigen [SECURITY.md](SECURITY.md).
 
-- **Sicherheitsmeldungen**: [GitHub Security Advisories](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories) oder per E-Mail an `security@ellmos.ai` / `security@open-bricks.org`.
+- **Sicherheitsmeldungen**: Per E-Mail an `security@ellmos.ai` oder `security@open-bricks.org` (primärer vertraulicher Meldeweg, solange [GitHub Security Advisories](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories) deaktiviert ist).
 - **Reaktions-SLA**: Erstbewertung innerhalb von **48 Stunden**; Status-Updates innerhalb von 5 Werktagen.
 
 ---
@@ -575,4 +583,5 @@ Use entirely at your own risk. No maintenance commitments, no availability guara
 
 Lizenziert unter den Bedingungen der [MIT-Lizenz](LICENSE).<br>
 Copyright (c) 2026 Lukas Geiger. Siehe [LICENSE](LICENSE) und [NOTICE](NOTICE) für vollständige Angaben.<br>
-Drittanbieter-Lizenzen und Level 1 SBOM sind in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) auditiert.
+Drittanbieter-Lizenzen und Level 1 SBOM sind in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) auditiert.<br>
+Idee & Abnahme: Geiger · Textassistenz: LLM-gestützt · Grafik: SVG-generiert.
