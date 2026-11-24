@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" width="880" height="540" role="img" aria-label="ellmos-servercommander-mcp terminal workflow preview">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#131922"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#1f2630"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="880" height="540" rx="12" fill="url(#bgGrad)" stroke="#30363d" stroke-width="1.5"/>
+  <rect width="880" height="38" rx="12" fill="url(#headerGrad)"/>
+  <rect y="26" width="880" height="12" fill="url(#headerGrad)"/>
+  <line x1="0" y1="38" x2="880" y2="38" stroke="#30363d" stroke-width="1"/>
+
+  <circle cx="22" cy="19" r="6" fill="#ff5f56"/>
+  <circle cx="42" cy="19" r="6" fill="#ffbd2e"/>
+  <circle cx="62" cy="19" r="6" fill="#27c93f"/>
+  <text x="440" y="23" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600">
+    ellmos-servercommander-mcp v0.1.0-alpha.21 - Local-First MCP Operations
+  </text>
+
+  <rect x="664" y="9" width="198" height="20" rx="10" fill="#1f6feb" fill-opacity="0.18" stroke="#388bfd" stroke-opacity="0.45"/>
+  <text x="763" y="23" text-anchor="middle" fill="#79c0ff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">
+    stdio JSON-RPC | RunAsInvoker
+  </text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5">
+    <text x="26" y="70" fill="#7ee787">$</text>
+    <text x="42" y="70" fill="#e6edf3">node bin/ellmos-servercommander.js --version</text>
+    <text x="42" y="90" fill="#79c0ff">0.1.0-alpha.21</text>
+
+    <line x1="26" y1="106" x2="854" y2="106" stroke="#21262d" stroke-width="1"/>
+
+    <text x="26" y="130" fill="#d2a8ff">[1/4] sc_health_check</text>
+    <text x="210" y="130" fill="#8b949e">endpoints=["https://api.example.org/health"], timeout=2</text>
+    <rect x="26" y="140" width="828" height="44" rx="6" fill="#161b22" stroke="#262c36"/>
+    <text x="40" y="159" fill="#7ee787">ok: true</text>
+    <text x="122" y="159" fill="#8b949e">|</text>
+    <text x="138" y="159" fill="#e6edf3">status_code: 200</text>
+    <text x="280" y="159" fill="#8b949e">|</text>
+    <text x="296" y="159" fill="#a5d6ff">worker-thread async probe (non-blocking)</text>
+    <text x="40" y="177" fill="#8b949e">invalid URLs isolated per entry without aborting the batch (INV-PROBE-04)</text>
+
+    <text x="26" y="210" fill="#d2a8ff">[2/4] sc_logs_analyze</text>
+    <text x="210" y="210" fill="#8b949e">format="nginx", persist_report=true</text>
+    <rect x="26" y="220" width="828" height="62" rx="6" fill="#161b22" stroke="#262c36"/>
+    <text x="40" y="239" fill="#e6edf3">parsed_lines: 2</text>
+    <text x="176" y="239" fill="#8b949e">|</text>
+    <text x="192" y="239" fill="#7ee787">status_counts: {"200": 1, "404": 1}</text>
+    <text x="476" y="239" fill="#8b949e">|</text>
+    <text x="492" y="239" fill="#ffa657">bot_requests: 1</text>
+    <text x="630" y="239" fill="#8b949e">|</text>
+    <text x="646" y="239" fill="#a5d6ff">error_rate: 0.5</text>
+    <text x="40" y="257" fill="#79c0ff">top_error_paths: [["/robots.txt", 1]]</text>
+    <text x="348" y="257" fill="#8b949e">|</text>
+    <text x="364" y="257" fill="#e6edf3">report.raw_log_text_included: false</text>
+    <text x="40" y="274" fill="#8b949e">query strings, fragments and authority userinfo stripped before aggregation (INV-LOG-03)</text>
+
+    <text x="26" y="306" fill="#d2a8ff">[3/4] sc_deploy</text>
+    <text x="160" y="306" fill="#8b949e">profile="site", dry_run=true, record_history=false</text>
+    <rect x="26" y="316" width="828" height="62" rx="6" fill="#161b22" stroke="#262c36"/>
+    <text x="40" y="335" fill="#7ee787">status: "dry_run"</text>
+    <text x="182" y="335" fill="#8b949e">|</text>
+    <text x="198" y="335" fill="#7ee787">ready: true</text>
+    <text x="298" y="335" fill="#8b949e">|</text>
+    <text x="314" y="335" fill="#e6edf3">manifest.file_count: 2</text>
+    <text x="496" y="335" fill="#8b949e">|</text>
+    <text x="512" y="335" fill="#a5d6ff">skipped_symlinks: 0</text>
+    <text x="40" y="353" fill="#79c0ff">diagnostics.execution_enabled: false</text>
+    <text x="328" y="353" fill="#8b949e">|</text>
+    <text x="344" y="353" fill="#e6edf3">history.persisted: false</text>
+    <text x="40" y="370" fill="#8b949e">deterministic SHA-256 tree digest; zero remote mutations (INV-DRY-02)</text>
+
+    <text x="26" y="402" fill="#d2a8ff">[4/4] sc_mail_list</text>
+    <text x="184" y="402" fill="#8b949e">folder="INBOX" (default safe mode: execution_enabled=false)</text>
+    <rect x="26" y="412" width="828" height="44" rx="6" fill="#161b22" stroke="#262c36"/>
+    <text x="40" y="431" fill="#7ee787">readiness diagnostics reported</text>
+    <text x="278" y="431" fill="#8b949e">|</text>
+    <text x="294" y="431" fill="#a5d6ff">no IMAP/SMTP socket opened by default (INV-MAIL-05)</text>
+    <text x="40" y="449" fill="#8b949e">i18n locales: en, de, es, zh, ja, ru with automatic English fallback (INV-I18N-08)</text>
+
+    <line x1="26" y1="474" x2="854" y2="474" stroke="#21262d" stroke-width="1"/>
+
+    <text x="26" y="498" fill="#7ee787">$</text>
+    <text x="42" y="498" fill="#e6edf3">python -m pytest -ra -v &amp;&amp; ruff check .</text>
+    <text x="42" y="518" fill="#7ee787">PASS: 100% contract &amp; unit checks green</text>
+    <text x="360" y="518" fill="#8b949e">|</text>
+    <text x="376" y="518" fill="#79c0ff">PYTHONSAFEPATH=1</text>
+    <text x="514" y="518" fill="#8b949e">|</text>
+    <text x="530" y="518" fill="#ffa657">0 ruff errors</text>
+  </g>
+</svg>

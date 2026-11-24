@@ -36,12 +36,12 @@
 
 We take the security of our tools seriously. If you discover a security issue or unexpected network behavior within `ellmos-servercommander-mcp`, please report it through one of the following channels:
 
-- **GitHub Security Advisories (Preferred)**: [Open a Private Advisory](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories)
-- **Email Security Contacts**:
+- **Email Security Contacts (Primary Confidential Channel when GitHub Private Vulnerability Reporting is disabled)**:
   - `security@ellmos.ai`
   - `security@open-bricks.org`
   - `lukas@open-bricks.org`
   - `support@lukasgeiger.com`
+- **GitHub Security Advisories (when enabled)**: [Security Advisories](https://github.com/ellmos-ai/ellmos-servercommander-mcp/security/advisories)
 
 **Response SLA**: We commit to acknowledging receipt of vulnerability reports within **48 hours**, providing an initial triage assessment with target mitigation timelines within **5 business days**, and delivering a fix or mitigation within **30 calendar days** for confirmed vulnerabilities (`INV-SLA-10`) prior to public disclosure.
 

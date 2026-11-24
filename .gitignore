@@ -73,6 +73,9 @@ node_modules/
 .mcpregistry_*
 
 # Sync conflicts and locks
+*MARKETING-LOG*
+MARKETING-LOG.txt
+MARKETING-LOG.md
 CONFLICT_REVIEW_LOG*
 *-conflict-*
 *.sync-conflict-*

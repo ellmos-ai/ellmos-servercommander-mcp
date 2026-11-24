@@ -155,11 +155,7 @@ def test_glama_and_smithery_manifests_exist_and_match():
 
 def test_llms_txt_contains_required_discoverability_sections():
     llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert (
-        "Last-checked: 2026-10-02" in llms_text
-        or "Last-checked: 2026-09-29" in llms_text
-        or "Last-checked: 2026-09-24" in llms_text
-    )
+    assert "Last-checked: 2026-11-24" in llms_text
     assert "THIRD_PARTY_LICENSES.txt" in llms_text
     assert "0.1.0-alpha.21" in llms_text
     assert "sc_health_check" in llms_text
@@ -170,9 +166,12 @@ def test_llms_txt_contains_required_discoverability_sections():
     assert "server.json" in llms_text
     assert "glama.json" in llms_text
     assert "smithery.yaml" in llms_text
+    assert "SKILL.md" in llms_text
+    assert "llm.txt" in llms_text
+    assert "CODE_OF_CONDUCT.md" in llms_text
     assert "SECURITY.md" in llms_text
     assert "THIRD_PARTY_LICENSES.md" in llms_text
-    assert "MARKETING-LOG.txt" in llms_text
+    assert "MARKETING-LOG" not in llms_text
     assert "INV-LOCAL-01" in llms_text
     assert "5-Tier System" in llms_text
 
@@ -192,9 +191,11 @@ def test_readme_and_readme_de_have_badge_and_ecosystem_parity():
         "companion-for-agy",
         "open-bricks",
         "ellmos--ai",
+        "SKILL.md",
+        "CODE_OF_CONDUCT.md",
         "SECURITY.md",
         "THIRD_PARTY_LICENSES.md",
-        "MARKETING-LOG.txt",
+        "terminal-workflow.svg",
     ]:
         assert keyword in readme_en, f"'{keyword}' missing in README.md"
         assert keyword in readme_de, f"'{keyword}' missing in README_de.md"
@@ -513,35 +514,31 @@ def test_third_party_licenses_inventory():
         assert lic in content, f"License identifier '{lic}' missing in THIRD_PARTY_LICENSES.md"
 
 
-def test_marketing_log_contract():
-    log_path = REPO_ROOT / "MARKETING-LOG.txt"
-    assert log_path.exists(), "MARKETING-LOG.txt must exist in repository root"
-    assert not _git_check_ignore("MARKETING-LOG.txt"), "MARKETING-LOG.txt must be trackable"
+def test_marketing_log_is_untracked_and_ignored():
+    assert _git_check_ignore("MARKETING-LOG.txt")
+    assert _git_check_ignore("MARKETING-LOG.md")
+    assert "MARKETING-LOG.txt" in _npmignore_patterns()
+    assert "MARKETING-LOG.md" in _npmignore_patterns()
 
     package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
     files = set(package["files"])
-    assert "MARKETING-LOG.txt" in files, "MARKETING-LOG.txt must be in package.json files"
+    assert "MARKETING-LOG.txt" not in files
+    assert "MARKETING-LOG.md" not in files
 
-    content = log_path.read_text(encoding="utf-8")
-    assert "Maintenance Path: Pfad" in content
-    assert (
-        "Last Updated: 2026-10-02" in content
-        or "Last Updated: 2026-09-29" in content
-        or "Last Updated: 2026-09-24" in content
+    tracked = subprocess.run(
+        ["git", "ls-files", "MARKETING-LOG.txt", "MARKETING-LOG.md"],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=REPO_ROOT,
     )
-    assert "[POSITIONING & VALUE PROPOSITION]" in content
-    assert "[TARGET PERSONAS]" in content
-    assert "[CORE DISCOVERABILITY KEYWORDS & SEARCH PHRASES]" in content
-    assert "COMPETITIVE / LANDSCAPE MATRIX]" in content
-    assert "[GOVERNANCE & RUNTIME INVARIANTS]" in content
-    assert "[SIBLING ECOSYSTEM SYNERGIES]" in content
-    assert "[RECOMMENDED DISTRIBUTION & REGISTRY CHANNELS]" in content
+    assert tracked.returncode == 0
+    assert tracked.stdout.strip() == ""
 
 
 def test_governance_invariants_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
-    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
     llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
 
     invariants = [
@@ -560,15 +557,16 @@ def test_governance_invariants_parity():
     for inv in invariants:
         assert inv in readme_en, f"Invariant '{inv}' missing in README.md"
         assert inv in readme_de, f"Invariant '{inv}' missing in README_de.md"
-        assert inv in marketing_log, f"Invariant '{inv}' missing in MARKETING-LOG.txt"
         assert inv in llms_txt, f"Invariant '{inv}' missing in llms.txt"
 
 
 def test_pyproject_extended_urls():
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert '"Third-Party Licenses"' in pyproject_text
-    assert '"Marketing Log"' in pyproject_text
+    assert '"Product Skill"' in pyproject_text
+    assert '"Code of Conduct"' in pyproject_text
     assert '"LLM Ready"' in pyproject_text
+    assert "MARKETING-LOG" not in pyproject_text
 
 
 def test_ruff_lint_configuration_and_rulesets():
@@ -624,23 +622,20 @@ def test_notice_file_and_packaging_compliance():
 def test_personas_and_high_intent_queries_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
-    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
     llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
 
     personas = ["[PERSONA-01]", "[PERSONA-02]", "[PERSONA-03]", "[PERSONA-04]"]
     for p in personas:
         assert p in readme_en, f"Persona '{p}' missing in README.md"
         assert p in readme_de, f"Persona '{p}' missing in README_de.md"
-        assert p in marketing_log, f"Persona '{p}' missing in MARKETING-LOG.txt"
         assert p in llms_txt, f"Persona '{p}' missing in llms.txt"
 
 
 def test_ten_dimension_comparative_matrix_parity():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
-    marketing_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
 
-    for doc, name in [(readme_en, "README.md"), (readme_de, "README_de.md"), (marketing_log, "MARKETING-LOG.txt")]:
+    for doc, name in [(readme_en, "README.md"), (readme_de, "README_de.md")]:
         assert "SSH / Raw Bash Scripts" in doc or "SSH / Rohe Bash-Skripte" in doc, f"Bash column missing in {name}"
         assert "cPanel" in doc, f"cPanel missing in {name}"
         assert "Datadog" in doc, f"Datadog missing in {name}"
@@ -915,3 +910,72 @@ def test_version_freeze_discipline():
 
     init_text = (REPO_ROOT / "src" / "servercommander" / "__init__.py").read_text(encoding="utf-8")
     assert '__version__ = "0.1.0a21"' in init_text
+
+
+def test_p022_skill_md_and_llm_txt_pointer_exist():
+    skill_path = REPO_ROOT / "SKILL.md"
+    llm_path = REPO_ROOT / "llm.txt"
+    assert skill_path.exists()
+    assert llm_path.exists()
+    assert not _git_check_ignore("SKILL.md")
+    assert not _git_check_ignore("llm.txt")
+
+    skill_text = skill_path.read_text(encoding="utf-8")
+    assert "name: ellmos-servercommander-mcp" in skill_text
+    for tool_name in [
+        "sc_health_check",
+        "sc_logs_analyze",
+        "sc_deploy",
+        "sc_deploy_status",
+        "sc_mail_list",
+        "sc_mail_read",
+        "sc_mail_send",
+        "sc_mail_search",
+    ]:
+        assert tool_name in skill_text
+
+    llm_text = llm_path.read_text(encoding="utf-8")
+    assert "llms.txt" in llm_text
+    assert "SKILL.md" in llm_text
+
+    package = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))
+    files = set(package["files"])
+    assert {"SKILL.md", "llm.txt", "CODE_OF_CONDUCT.md"} <= files
+
+
+def test_code_of_conduct_and_issue_templates_exist():
+    coc = REPO_ROOT / "CODE_OF_CONDUCT.md"
+    bug = REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md"
+    feat = REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md"
+    config = REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml"
+
+    assert coc.exists()
+    assert bug.exists()
+    assert feat.exists()
+    assert not config.exists(), "Do not link /security/advisories/new while PVR is disabled"
+
+    coc_text = coc.read_text(encoding="utf-8")
+    assert "## English" in coc_text
+    assert "## Deutsch" in coc_text
+    assert "security@ellmos.ai" in coc_text
+
+
+def test_terminal_workflow_svg_asset_valid_and_embedded():
+    import xml.etree.ElementTree as ET
+
+    svg_path = REPO_ROOT / "assets" / "terminal-workflow.svg"
+    assert svg_path.exists()
+    root = ET.fromstring(svg_path.read_text(encoding="utf-8"))
+    assert root.tag.endswith("svg")
+
+    for readme_name in ("README.md", "README_de.md"):
+        text = (REPO_ROOT / readme_name).read_text(encoding="utf-8")
+        assert "assets/terminal-workflow.svg" in text
+        assert "MARKETING-LOG" not in text
+
+
+def test_ai_disclosure_and_no_duplicate_sec02_anchor():
+    for readme_name in ("README.md", "README_de.md"):
+        text = (REPO_ROOT / readme_name).read_text(encoding="utf-8")
+        assert "Idee & Abnahme: Geiger" in text
+        assert text.count('<a id="sec-02"></a>') == 1

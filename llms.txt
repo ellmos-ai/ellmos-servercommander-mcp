@@ -65,11 +65,14 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 - MCP Schema Manifest: [server.json](server.json) (`io.github.ellmos-ai/ellmos-servercommander-mcp`)
 - Glama Directory Manifest: [glama.json](glama.json)
 - Smithery Manifest: [smithery.yaml](smithery.yaml)
+- Product Skill (P-022): [SKILL.md](SKILL.md)
+- Compatibility Pointer: [llm.txt](llm.txt)
+- Terminal Workflow Preview: [assets/terminal-workflow.svg](assets/terminal-workflow.svg)
+- Code of Conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) (Bilingual EN/DE, Contributor Covenant v2.1)
 - Security Policy: [SECURITY.md](SECURITY.md) (Bilingual, 48h SLA)
 - Third-Party License Audit: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) (Level 1 SBOM, 100% Permissive Open Source)
 - Level 1 SBOM Plain-Text Companion: [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)
 - Formal Attribution Notice: [NOTICE](NOTICE)
-- Marketing & Personas Log: [MARKETING-LOG.txt](MARKETING-LOG.txt)
 - CI Matrix: [.github/workflows/ci.yml](.github/workflows/ci.yml) (Ubuntu, Windows, macOS / Python 3.10-3.13 / Node 18-22)
 - Contributor Lifecycle: [.github/workflows/welcome.yml](.github/workflows/welcome.yml) (First contributor welcome automation)
 - Issue & PR Lifecycle: [.github/workflows/stale.yml](.github/workflows/stale.yml) (Issue and PR stale triage)
@@ -82,12 +85,12 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 ## Related ellmos & Open-Bricks Ecosystem
 
 - ellmos-filecommander-mcp: filesystem operations, process management, OCR, archives, and exports.
-- ellmos-codecommander-mcp: code analysis, JSON repair, import management, diffs, regex, and format conversion.
+- ellmos-codecommander-mcp: code analysis, AST inspection, JSON repair, imports, diffs, regex, and format conversion.
 - ellmos-clatcher-mcp: repair, conversion, duplicate detection, batch operations, and document utilities.
 - n8n-manager-mcp: n8n workflow management through MCP.
 - ellmos-controlcenter-mcp: local MCP discovery, profile management, bundles, and control-plane checks.
 - ellmos-homebase-mcp: BACH integration hub, memory, knowledge base, state, swarm, and auto-chain orchestration.
-- ellmos-blender-use-mcp: headless Blender asset QA and FBX reimport verification.
+- ellmos-blender-use-mcp: headless Blender asset QA and automated FBX reimport verification.
 - open-compute-mcp: model-agnostic computer use, capture, and UI automation.
 - sqlite-transit-sync: encrypted SQLite database transit, synchronization, and read-replica engine.
 - workflowhooker: git-hook-driven workflow automation and execution safety boundaries.
@@ -98,7 +101,7 @@ This is not the GitHub MCP server, not a generic arbitrary shell-command MCP ser
 
 - Prerequisites: Node.js >= 18, Python >= 3.10, `mcp >= 1.0.0`
 - Install command: `git clone https://github.com/ellmos-ai/ellmos-servercommander-mcp.git && cd ellmos-servercommander-mcp && python -m venv .venv && .venv/bin/pip install -e .` (or via npm wrapper: `npm install -g ellmos-servercommander-mcp@alpha`)
-- Verification command: `python -c "import servercommander; print(servercommander.__file__)"`
+- Verification command: `node bin/ellmos-servercommander.js --version && python -c "import servercommander; print(servercommander.__file__)"`
 - Minimal example: Configure MCP client with `{"mcpServers": {"servercommander": {"command": "npx", "args": ["-y", "ellmos-servercommander-mcp@alpha"]}}}` and invoke `sc_health_check`.
 
-## Last-checked: 2026-10-02
+## Last-checked: 2026-11-24
